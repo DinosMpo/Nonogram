@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Nonogram</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<link rel="stylesheet" type="text/css" href="css/home.css">
+		<link rel="stylesheet" type="text/css" href="css/levels.css">
+		<link rel="stylesheet" type="text/css" href="css/tools.css">
+		<link rel="stylesheet" type="text/css" href="css/multiplayer.css">
+
+		<style type="text/css">
+
+
+		</style>
+	</head>
+
+	<body>
+		<div id="screen">
+			
+			<div id = "container">
+				
+				<!-- Canvas -->
+				<canvas id="canvas"></canvas>
+
+				<!-- Tools -->
+				<div id="container-tools">
+					<ul id="tools"></ul>
+				</div>
+				
+				<!-- Menu -->
+				<div id="menu">
+					<ul>
+						<li id="play">Play</li>
+						<li id="multiplayer">Multiplayer</li>
+						<li id="how-to-play">How to Play</li>
+					</ul>
+				</div>
+
+				<!-- Levels -->
+				<div id="levels">
+					<h3>Levels</h3>
+					<div class="level level5x5">5x5</div>
+					<div class="level level10x10">10x10</div>
+					<div class="level level15x15">15x15</div>
+					<div id="close-levels">Close</div>
+				</div>
+
+				<!-- Stages 5x5 -->
+				<div id="stages" class="levels5x5">
+					<h3>5x5</h3>
+					<div class="stage" onclick="createLevel(levels5x5['chess'], 'chess')">
+						<img src="img/green-button.png" class="correct-chess" />Chess
+					</div>
+					<div class="stage" onclick="createLevel(levels5x5['snake'], 'snake')">
+						<img src="img/green-button.png" class="correct-snake" />Snake</div>
+					<div class="stage" onclick="createLevel(levels5x5['airplane'], 'airplane')">
+						<img src="img/green-button.png" class="correct-airplane" />Airplane</div>
+					<div class="stage" onclick="createLevel(levels5x5['smile'], 'smile')">
+						<img src="img/green-button.png" class="correct-smile" />Smile</div>
+					<div class="close-levels5x5">Close</div>
+				</div>
+
+				<!-- Stages 10x10 -->
+				<div id="stages" class="levels10x10">
+					<h3>10x10</h3>
+					<div class="stage" onclick="createLevel(levels10x10['questionmark'], 'questionmark')">
+						<img src="img/green-button.png" class="correct-questionmark" />?</div>
+					<div class="stage" onclick="createLevel(levels10x10['leaf'], 'leaf')">
+						<img src="img/green-button.png" class="correct-leaf" />Leaf</div>
+					<div class="stage" onclick="createLevel(levels10x10['music'], 'music')">
+						<img src="img/green-button.png" class="correct-music" />Music</div>
+					<div class="stage" onclick="">
+						<img src="img/green-button.png" class="correct-2" />2</div>
+					<div class="close-levels10x10">Close</div>
+				</div>
+
+				<!-- Stages 15x15 -->
+				<div id="stages" class="levels15x15">
+					<h3>15x15</h3>
+					<div class="stage" onclick="">
+						<img src="img/green-button.png" class="correct-" />Chess</div>
+					<div class="stage" onclick="">
+						<img src="img/green-button.png" class="correct-" />Snake</div>
+					<div class="stage" onclick="">
+						<img src="img/green-button.png" class="correct-" />Airplane</div>
+					<div class="stage" onclick="">
+						<img src="img/green-button.png" class="correct-" />Smile</div>
+					<div class="close-levels15x15">Close</div>
+				</div>
+
+				<!-- Correct -->
+				<div id="correct">
+					<h2>Correct !</h2>
+					<img src="img/green-button.png" style="width:60px; height:60px; margin: 0 auto;">
+					<p id="continueGame">Continue?</p>
+				</div>
+
+				<!-- Game lobbie for multiplayer -->
+				<div id="game-lobbie">
+					<h3>Multiplayer</h3>
+					<span id="msg">Searching for player...</span>
+					<div id="exit">Exit</div>
+				</div>
+
+				<!-- How to play -->
+				<div id="instructions">
+					<div id="wrapper">
+						<h3>How to Play</h3>
+
+						<p>Nonograms, also known as Picross or Griddlers, are picture logic puzzles in which cells in a grid must be colored or left blank according to numbers at the side of the grid to reveal a hidden picture. In this puzzle type, the numbers are a form of discrete tomography that measures how many unbroken lines of filled-in squares there are in any given row or column. For example, a clue of "4 8 3" would mean there are sets of four, eight, and three filled squares, in that order, with at least one blank square between successive groups.</p>
+
+						<p>These puzzles are often black and white—describing a binary image—but they can also be colored. If colored, the number clues are also colored to indicate the color of the squares. Two differently colored numbers may or may not have a space in between them. For example, a black four followed by a red two could mean four black boxes, some empty spaces, and two red boxes, or it could simply mean four black boxes followed immediately by two red ones.</p>
+
+						<h3>Tools</h3>
+
+						<p><b>Default</b> <img src="img/default.png">: With this tool you can use a black cell, a x mark and a white cell. The x mark can help you to mark the cells that you know that they can't be black</p>
+
+						<p><b>Black cell</b> <img src="img/black.png">: With this tool you can use only a black cell.</p>
+
+						<p><b>X mark</b> <img src="img/x.png">: With this tool you can use only a x mark.</p>
+
+						<p><b>White cell</b> <img src="img/white.png">: With this tool you can use only a white cell.</p>
+
+						<p><b>Undo</b> <img src="img/undo.png">: With this tool you can undo your choice. it can store the last 10 choices you make.</p>
+
+						<p><b>Help</b> <img src="img/white.png">: With this tool you can find out a black cell that is correct. You can use 3 times in a stage</p>
+
+						<p><b>Home</b> <img src="img/home.png">: With this tool you can go back to the menu.</p>
+					</div>
+
+					<div id="close">X</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/jquery-3.1.1.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+
+		<script src="js/nonogram.js"></script>
+		<script src="js/nonogram.drawing.js"></script>
+		<script src="js/store.js"></script>
+		<script src="js/stages.js"></script>
+		<script src="js/main-menu.js"></script>
+		<script src="js/home.js"></script>
+		<script src="js/tools.js"></script>
+		<script src="js/controls.js"></script>
+		<script src="js/nonogram.multiplayer.js"></script>
+		<script src="js/init.js"></script>
+		
+	</body>
+</html>

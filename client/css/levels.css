@@ -1,0 +1,14 @@
+.stage img{
+	display: none;
+	width: 15px;
+	height: 15px;
+	padding: 0px;
+	padding-left: 10px;
+	margin: 0px;
+	position:absolute;
+	left: 0;
+}
+
+/*.correct-chess {
+	display: none;
+}*/
