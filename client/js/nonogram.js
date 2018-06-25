@@ -109,7 +109,7 @@ function Nonogram(correctGrid) {
 	let maxSize;
 
 	if(windowWidth > windowHeight) {
-		size = windowHeight - 50;
+		size = windowHeight - 30;
 	}else{
 		size = windowWidth;
 	}
