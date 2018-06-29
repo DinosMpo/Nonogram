@@ -309,10 +309,10 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
 					this.drawPreview(this.emptyGrid[i]);
 					ctx.beginPath();
-					ctx.moveTo(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2);
-					ctx.lineTo(this.emptyGrid[i].x + this.blockSize - 2, this.emptyGrid[i].y + this.blockSize - 2);
-					ctx.moveTo(this.emptyGrid[i].x + this.blockSize - 2, this.emptyGrid[i].y + 2);
-					ctx.lineTo(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + this.blockSize - 2);
+					ctx.moveTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + 4);
+					ctx.lineTo(this.emptyGrid[i].x + this.blockSize - 4, this.emptyGrid[i].y + this.blockSize - 4);
+					ctx.moveTo(this.emptyGrid[i].x + this.blockSize - 4, this.emptyGrid[i].y + 4);
+					ctx.lineTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + this.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
 				}else{
