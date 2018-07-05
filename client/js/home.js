@@ -131,7 +131,7 @@ img.src = "img/nono222.png";
 
 
 function animate() {
-	requestAnimationFrame(animate);
+	// requestAnimationFrame(animate);
 	if(state === "menu") {
 		ctx.clearRect(0, 0, innerWidth, innerHeight);
 		// ctx.drawImage(img, 0, 0, innerWidth, innerHeight);
@@ -148,4 +148,5 @@ function animate() {
 
 let intro = new introScreen();
 
-animate();
+// animate();
+setInterval(animate, 1000/50);

@@ -51,27 +51,30 @@ Nonogram.prototype.drawGrid = function() {
 Nonogram.prototype.fillCurrentChoice = function(cell) {
 	//for the current and previous choice
 	if(this.previousChoice.active) {
-		if(this.previousChoice.cell.value === 1) {
-			ctx.fillStyle = 'black';
-			ctx.fillRect(this.previousChoice.cell.x+2, this.previousChoice.cell.y+2, this.previousChoice.cell.w-3, this.previousChoice.cell.h-3);
-		}else if(this.previousChoice.cell.value === 2) {
-			ctx.fillStyle = "white";
-			ctx.fillRect(this.previousChoice.cell.x + 2, this.previousChoice.cell.y + 2, this.previousChoice.cell.w - 3, this.previousChoice.cell.h - 3);
-			ctx.beginPath();
-			ctx.moveTo(this.previousChoice.cell.x + 4, this.previousChoice.cell.y + 4);
-			ctx.lineTo(this.previousChoice.cell.x + this.blockSize - 4, this.previousChoice.cell.y + this.blockSize - 4);
-			ctx.moveTo(this.previousChoice.cell.x + this.blockSize - 4, this.previousChoice.cell.y + 4);
-			ctx.lineTo(this.previousChoice.cell.x + 4, this.previousChoice.cell.y + this.blockSize - 4);
-			ctx.stroke();
-			ctx.closePath();
-		}else{
-			ctx.fillStyle = "white";
-			ctx.fillRect(this.previousChoice.cell.x + 2, this.previousChoice.cell.y + 2, this.previousChoice.cell.w - 3, this.previousChoice.cell.h - 3);
+		for(let i=0; i<this.previousChoice.cell.length; i++) {
+			if(this.previousChoice.cell[i].value === 1) {
+				ctx.fillStyle = 'black';
+				ctx.fillRect(this.previousChoice.cell[i].x+2, this.previousChoice.cell[i].y+2, this.previousChoice.cell[i].w-3, this.previousChoice.cell[i].h-3);
+			}else if(this.previousChoice.cell[i].value === 2) {
+				ctx.fillStyle = "white";
+				ctx.fillRect(this.previousChoice.cell[i].x + 2, this.previousChoice.cell[i].y + 2, this.previousChoice.cell[i].w - 3, this.previousChoice.cell[i].h - 3);
+				ctx.beginPath();
+				ctx.moveTo(this.previousChoice.cell[i].x + 4, this.previousChoice.cell[i].y + 4);
+				ctx.lineTo(this.previousChoice.cell[i].x + this.blockSize - 4, this.previousChoice.cell[i].y + this.blockSize - 4);
+				ctx.moveTo(this.previousChoice.cell[i].x + this.blockSize - 4, this.previousChoice.cell[i].y + 4);
+				ctx.lineTo(this.previousChoice.cell[i].x + 4, this.previousChoice.cell[i].y + this.blockSize - 4);
+				ctx.stroke();
+				ctx.closePath();
+			}else{
+				ctx.fillStyle = "white";
+				ctx.fillRect(this.previousChoice.cell[i].x + 2, this.previousChoice.cell[i].y + 2, this.previousChoice.cell[i].w - 3, this.previousChoice.cell[i].h - 3);
+			}
 		}
+		this.previousChoice.cell = []; // gia na kanw clear ton pinaka
 	}
 
 	this.currentChoice.cell = cell;
-	this.previousChoice.cell = cell;
+	this.previousChoice.cell.push(cell);
 	this.previousChoice.active = true;
 
 	ctx.strokeStyle = "red";
@@ -244,11 +247,11 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 			startCellValue = this.emptyGrid[i].value;
 			x = this.emptyGrid[i].x;
 			y = this.emptyGrid[i].y;
-			this.currentChoice.cell = this.emptyGrid[i];
+			// this.currentChoice.cell = this.emptyGrid[i]; //χρεαζεται?
 		}
 	}
 
-	if(mouseX > x && (mouseX < x + this.blockSize)) {
+	if(mouseX > x && (mouseX < x + this.blockSize)) { //gia ka8e sthlh
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				this.emptyGrid[i].value = startCellValue;
@@ -260,12 +263,12 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					this.drawPreview(this.emptyGrid[i]);
 					
 					this.currentChoice.cell = this.emptyGrid[i];
-					this.previousChoice.cell = this.emptyGrid[i];
-					this.previousChoice.active = true;
+					this.previousChoice.cell.push(this.emptyGrid[i]);
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
-					ctx.strokeRect(this.emptyGrid[i].x+5, this.emptyGrid[i].y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
 					ctx.strokeStyle = "black";
+
 				}else if(startCellValue == 2) {
 					ctx.fillStyle = "white";
 					ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
@@ -277,16 +280,30 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.lineTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + this.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
+
+					this.currentChoice.cell = this.emptyGrid[i];
+					this.previousChoice.cell.push(this.emptyGrid[i]);
+					ctx.strokeStyle = "red";
+					ctx.lineWidth   = 4;
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeStyle = "black";
 				}else{
 					ctx.fillStyle = "white";
 					ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
 					this.drawPreview(this.emptyGrid[i]);
+
+					this.currentChoice.cell = this.emptyGrid[i];
+					this.previousChoice.cell.push(this.emptyGrid[i]);
+					ctx.strokeStyle = "red";
+					ctx.lineWidth   = 4;
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeStyle = "black";
 				}
 			}
 		}
 	}
 
-	if(mouseY > y && (mouseY < y + this.blockSize)) {
+	if(mouseY > y && (mouseY < y + this.blockSize)) { //gia ka8e grammh
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				this.emptyGrid[i].value = startCellValue;
@@ -296,12 +313,12 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.fillStyle = 'black';
 					ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
 					this.drawPreview(this.emptyGrid[i]);
+
 					this.currentChoice.cell = this.emptyGrid[i];
-					this.previousChoice.cell = this.emptyGrid[i];
-					this.previousChoice.active = true;
+					this.previousChoice.cell.push(this.emptyGrid[i]);
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
-					ctx.strokeRect(this.emptyGrid[i].x+5, this.emptyGrid[i].y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
 					ctx.strokeStyle = "black";
 					
 				}else if(startCellValue == 2) {
@@ -315,10 +332,24 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.lineTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + this.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
+
+					this.currentChoice.cell = this.emptyGrid[i];
+					this.previousChoice.cell.push(this.emptyGrid[i]);
+					ctx.strokeStyle = "red";
+					ctx.lineWidth   = 4;
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeStyle = "black";
 				}else{
 					ctx.fillStyle = "white";
 					ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
 					this.drawPreview(this.emptyGrid[i]);
+					
+					this.currentChoice.cell = this.emptyGrid[i];
+					this.previousChoice.cell.push(this.emptyGrid[i]);
+					ctx.strokeStyle = "red";
+					ctx.lineWidth   = 4;
+					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					ctx.strokeStyle = "black";
 				}
 			}
 		}

@@ -40,6 +40,9 @@ function Nonogram(correctGrid) {
 		active: false
 	};
 
+	this.currentChoice.cell = [];
+	this.previousChoice.cell = [];
+
 	//Apo edw pairnw tous ari8mous gia ka8e grammh
 	for(let i=0;i<this.correctGrid.length;i++) { //correctGrid.length = einai h ka8e grammh 0 ; 0 < 5 ; 0++
 		this.rowNumbers[i] = []; //enas pinakas gia ka8e grammh
