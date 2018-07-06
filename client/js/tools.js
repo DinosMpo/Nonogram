@@ -1,7 +1,7 @@
 function createSinglePlayerTools() {
 	//Tools creation
 	const singlePlayerTools = ['default', 'black', 'x', 'white'];
-	const singlePlayerExtraTools = ['undo', 'help', 'home'];
+	const singlePlayerExtraTools = ['undo', 'clear', 'help', 'home'];
 
 	const tools = document.getElementById("tools");
 
@@ -101,6 +101,30 @@ $("#white").parent().click(function(){
 		nonogram.fillCellChoice = "default";
 		// $("#white").parent().css({"background": "linear-gradient(to bottom right, #e0e0d1, #999966)"});
 	}
+});
+
+//For the clear tool
+$("#clear").click(function() {
+	for(let i=0; i<nonogram.emptyGrid.length; i++) {
+		nonogram.emptyGrid[i].value = 0;
+	}
+
+	for(let i=0; i<nonogram.rowNumbersGrid.length; i++) {
+		nonogram.rowNumbersGrid[i].value = 0;
+	}
+
+	for(let i=0; i<nonogram.columnNumbersGrid.length; i++) {
+		nonogram.columnNumbersGrid[i].value = 0;
+	}
+
+	ctx.clearRect(0,0,canvas.width, canvas.height);
+	nonogram.drawGrid();
+	nonogram.fillRowNumbers();
+	nonogram.fillColumnNumbers();
+	nonogram.findUserChoices();
+	store(currentStage, nonogram.userChoices);
+	store("correct-" + currentStage, 0);
+	$(".correct-" + currentStage).hide();
 });
 
 //Home button
