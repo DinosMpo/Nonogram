@@ -1,6 +1,7 @@
 //Draw the grid
 Nonogram.prototype.drawGrid = function() {
 	ctx.fillStyle = "white";
+	ctx.lineWidth = 1;
 	ctx.fillRect(0, 0, this.width, this.height);
 
 	ctx.beginPath();
@@ -15,6 +16,7 @@ Nonogram.prototype.drawGrid = function() {
 		ctx.moveTo(0,i);
 		ctx.lineTo(this.width,i);
 		ctx.stroke(); // Mporei na mhn xreiazetai
+		ctx.closePath();
 	}
 
 	for ( var y = (this.maxRowNumberSize ) * this.blockSize; y < this.width; y += this.blockSize ) { //100 ; 100 < 250 ; 100 += 50
@@ -22,6 +24,7 @@ Nonogram.prototype.drawGrid = function() {
 		ctx.moveTo(y,0);
 		ctx.lineTo(y, this.height);
 		ctx.stroke();
+		ctx.closePath();
 	}
 
 	for (var i = (this.maxColumnNumberSize ) * this.blockSize; i < this.height; i += this.blockSize ) { //100 ; 100 < 250 ; 100 += 50
