@@ -47,6 +47,8 @@ $(canvas).mousedown(function(event) {
 //------------ Under development gia na kanw ton xrhsth na epilegei polla koutakia
 $(canvas).mouseup(function(){
 	isDown = false;
+	nonogram.findUserChoices();
+	store(currentStage, nonogram.userChoices);
 });
 
 $(canvas).mousemove(function(event){

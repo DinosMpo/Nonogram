@@ -133,6 +133,8 @@ $("#help").click(function() {
 		for(let y=0; y<nonogram.correctGrid[i].length; y++) {
 			if(nonogram.correctGrid[i][y] === 1 && nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value === 2) { //ama exei balei x se shmeio pou 8a eprepe na uparxei mauro keli 
 				nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value = 1;
+				nonogram.findUserChoices();
+				store(currentStage, nonogram.userChoices);
 				ctx.strokeStyle = "green";
 				ctx.lineWidth   = 4;
 				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
@@ -184,12 +186,15 @@ $("#help").click(function() {
 					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					// ctx.strokeStyle = "black";
 				}, 3400 );
+				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y]);
 
 				ctx.strokeStyle = "black";
 
 				return;
 			}else if(nonogram.correctGrid[i][y] === 0 && nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value === 1) {
 				nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value = 2;
+				nonogram.findUserChoices();
+				store(currentStage, nonogram.userChoices);
 				ctx.strokeStyle = "green";
 				ctx.lineWidth   = 4;
 				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
@@ -252,6 +257,7 @@ $("#help").click(function() {
 					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					// ctx.strokeStyle = "black";
 				}, 3400 );
+				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y]);
 
 				ctx.strokeStyle = "black";
 

@@ -92,7 +92,13 @@ Nonogram.prototype.drawPreview = function(cell) {
 	let width = Math.floor((this.maxRowNumberSize * this.blockSize) / this.correctGrid[0].length);
 	let height = Math.floor((this.maxColumnNumberSize * this.blockSize) / this.correctGrid.length);
 
-	ctx.fillRect(x, y, width, height);
+	if(cell.value === 1) {
+		ctx.fillStyle = "black";
+		ctx.fillRect(x, y, width, height);
+	}else{
+		ctx.fillStyle = "white";
+		ctx.fillRect(x, y, width, height);
+	}
 }
 
 //Gemisma twn keliwn
