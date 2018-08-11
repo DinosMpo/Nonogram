@@ -187,6 +187,18 @@ function Nonogram(correctGrid) {
 		}
 	}
 
+	this.findProgress = function() {
+		let progress = 0;
+		for(let i=0; i<this.emptyGrid.length; i++) {
+			if(this.emptyGrid[i].value != 0) {
+				progress++;
+			}
+		}
+		progress = (progress * 100) / this.emptyGrid.length; //25/100 * 1/x = 25*x / 1*100 = 25*x / 100 = x = 100/25 = 4
+		// console.log(progress);
+		return progress;
+	}
+
 	this.findUserChoices = function() {
 		for(let i = 0; i < this.emptyGrid.length; i++) {
 			this.userChoices[i] = this.emptyGrid[i].value;
