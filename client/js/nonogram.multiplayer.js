@@ -1,3 +1,18 @@
+//Multiplayer
+sock.on('can play', () => {
+	turn = true;
+	$("#waiting-screen").hide();
+});
+
+sock.on('correct', () => {
+	$("#correct").show();
+});
+
+sock.on('wait', () => {
+	wait = true;
+	$("#waiting-screen").show();
+});
+
 sock.on('update', (data) => {
 	// console.log(data);
 	
@@ -97,14 +112,6 @@ sock.on('update', (data) => {
 		}
 	}
 });
-
-
-
-
-
-
-
-
 
 Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	ctx.lineWidth = 3;
@@ -337,3 +344,4 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 		}
 	}
 }
+

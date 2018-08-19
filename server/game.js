@@ -22,11 +22,14 @@ class NonogramMultiplayerGame {
 			player.on('empty grid', (value) => { //anti gia empty grid na to balw choice
 				// console.log(value);
 				this._updateNonogram(value);
+				
 			});
 
 			player.on('correct', ()=> {
 				this._checkProgress();
 			});
+
+
 		});
 
 		this._sendToPlayers("Opponent found!");

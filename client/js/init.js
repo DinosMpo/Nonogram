@@ -4,6 +4,7 @@ let mouseY;
 let isDown = false;
 let currentLevel = "none";
 let turn = false;
+let wait = false;
 
 function createLevel(level, stage) {
 	state = "level"; //to xrhsomopoiw gia na stamataw to animation
@@ -67,6 +68,9 @@ function createMultiplayerLevel() {
 		nonogram.drawGrid();
 		nonogram.fillRowNumbers();
 		nonogram.fillColumnNumbers();
+		if(!turn) {
+			$("#waiting-screen").show();
+		}
 
 	}, 3000);
 

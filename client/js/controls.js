@@ -20,21 +20,14 @@ $(canvas).mousedown(function(event) {
 		store(currentStage, nonogram.userChoices);
 		nonogram.findProgress();
 	}else if(state === "multiplayer") {
-		//Multiplayer
-		sock.on('can play', () => {
-			turn = true;
-		});
-
+		// $("#waiting-screen").show();
 		if(turn === true) {
+			// $("#waiting-screen").hide();
 			//otan einai o guros tou ka8e xrhsth
 			nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
-			console.log(nonogram.emptyGrid);// test
+			// console.log(nonogram.emptyGrid);// test
 			// sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
 			// sock.emit('turn');//allagh gurou
-			sock.on('correct', () => {
-				$("#correct").show();
-			});
-
 			if(nonogram.checkProgress()) {
 				// $("#correct").show();
 				sock.emit('correct');
