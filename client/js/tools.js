@@ -125,6 +125,8 @@ $("#clear").click(function() {
 	store(currentStage, nonogram.userChoices);
 	store("correct-" + currentStage, 0);
 	$(".correct-" + currentStage).hide();
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
 //For the help tool

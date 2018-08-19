@@ -39,6 +39,8 @@ function createLevel(level, stage) {
 		$("#info-current-stage").append(currentStage);
 	}
 
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
 	
 }
 

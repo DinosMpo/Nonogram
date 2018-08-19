@@ -196,7 +196,7 @@ function Nonogram(correctGrid) {
 		}
 		progress = (progress * 100) / this.emptyGrid.length; //25/100 * 1/x = 25*x / 1*100 = 25*x / 100 = x = 100/25 = 4
 		// console.log(progress);
-		return progress;
+		return Math.floor(progress);
 	}
 
 	this.findUserChoices = function() {
