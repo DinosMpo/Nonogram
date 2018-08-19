@@ -18,6 +18,7 @@ $(canvas).mousedown(function(event) {
 
 		nonogram.findUserChoices(); // gt to exw edw auto?
 		store(currentStage, nonogram.userChoices);
+		nonogram.findProgress();
 	}else if(state === "multiplayer") {
 		//Multiplayer
 		sock.on('can play', () => {
@@ -49,6 +50,8 @@ $(canvas).mouseup(function(){
 	isDown = false;
 	nonogram.findUserChoices();
 	store(currentStage, nonogram.userChoices);
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
 $(canvas).mousemove(function(event){

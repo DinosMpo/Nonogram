@@ -6,6 +6,7 @@
   /*height: 100%;*/
   text-align: center;
   margin: 0 auto;
+  background-color: #e0e0d1;
 }
 
 #tools {
@@ -61,4 +62,59 @@
   font-size: 15px;
   font-family: "Georgia";
   margin: 5px 5px 5px 5px;
+}
+
+
+
+
+
+#info-left {
+  /*border: 1px solid black;*/
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 5px;
+  height: 37px;
+  margin-left: 10px;
+  font-size: 16px;
+  /*left: 50%;*/
+  /*transform: translateX(-50%) translateY(-50%);*/
+  /*background-color: black;*/
+
+}
+
+#info-right {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 37px;
+  margin: 5px;
+  right: 0;
+  /*margin-left: 10px;*/
+  /*left: 50%;*/
+  /*transform: translateX(-50%) translateY(-50%);*/
+  /*background-color: black;*/
+}
+
+#info-stage {
+  font-family: 'Press Start 2P';
+  padding: 3px;
+  background-color: black;
+  color: #ffcc00;
+}
+
+#info-progress {
+  width: 65px;
+  font-family: 'Press Start 2P';
+  padding: 3px;
+  background-color: black;
+  color: #ffcc00;
+  text-align: right;
+}
+
+
+#info-current-progress {
+
 }

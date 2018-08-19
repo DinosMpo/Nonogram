@@ -32,6 +32,16 @@ function createLevel(level, stage) {
 	nonogram.fillColumnNumbers();
 
 	resetTools();
+	if($("#info-current-stage").text().length > 0) {
+		$("#info-current-stage").text("");
+		$("#info-current-stage").append(currentStage);
+	}else{
+		$("#info-current-stage").append(currentStage);
+	}
+
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	
 }
 
 function createMultiplayerLevel() {
