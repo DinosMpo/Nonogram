@@ -18,7 +18,7 @@ const io = socketio(server); // auto elegxei tis sundeseis pou ginontai ston ser
 let waitingPlayer = null;
 
 
-
+//otan kapoios mpainei sto site
 io.on('connection', (sock) => {
 	//when a user connects to the server
 	console.log('Someone connected');
@@ -38,12 +38,12 @@ io.on('connection', (sock) => {
 
 	sock.on('multiplayer', (data)=> {
 		//When someone joins the waiting lobby
-		// console.log(data);
-		if(waitingPlayer) {
+		if(waitingPlayer) { // if there is a player that waits to play
 			// start game when 2 users join
 			new NonogramMultiplayerGame(waitingPlayer, sock);
 			console.log("Ready to play");
 			waitingPlayer = null;
+			sock.emit('ready');
 		}else {
 			//When first user connects
 			waitingPlayer = sock;

@@ -57,7 +57,7 @@ function createMultiplayerLevel() {
 		container.style.transform = "translateX(-50%)"; // ksana kalumpraro to x coordinate
 		container.style.left = "50%";
 
-		nonogram = new Nonogram(multiplayerLevels['android']);
+		nonogram = new Nonogram(multiplayerLevels['android']); // h pista tou multi
 
 		canvas.width = nonogram.width;
 		canvas.height = nonogram.height;
@@ -68,7 +68,8 @@ function createMultiplayerLevel() {
 		nonogram.drawGrid();
 		nonogram.fillRowNumbers();
 		nonogram.fillColumnNumbers();
-		if(!turn) {
+
+		if(turn === false) {
 			$("#waiting-screen").show();
 		}
 
@@ -78,7 +79,5 @@ function createMultiplayerLevel() {
 		turn = true;
 		console.log(text);
 	});
-	
-
 };
 

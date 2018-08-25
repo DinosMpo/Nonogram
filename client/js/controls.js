@@ -33,6 +33,7 @@ $(canvas).mousedown(function(event) {
 				sock.emit('correct');
 			}else{
 				$("#correct").hide();
+				sock.emit('end-turn');
 			}
 		}
 	}
@@ -40,9 +41,11 @@ $(canvas).mousedown(function(event) {
 
 //------------ Under development gia na kanw ton xrhsth na epilegei polla koutakia
 $(canvas).mouseup(function(){
-	isDown = false;
-	nonogram.findUserChoices();
-	store(currentStage, nonogram.userChoices);
+	if(state === "level") {
+		isDown = false;
+		nonogram.findUserChoices();
+		store(currentStage, nonogram.userChoices);	
+	}
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
