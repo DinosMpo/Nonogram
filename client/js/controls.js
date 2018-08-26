@@ -20,26 +20,20 @@ $(canvas).mousedown(function(event) {
 		store(currentStage, nonogram.userChoices);
 		nonogram.findProgress();
 	}else if(state === "multiplayer") {
-		//Multiplayer
-		sock.on('can play', () => {
-			turn = true;
-		});
-
+		// $("#waiting-screen").show();
 		if(turn === true) {
+			// $("#waiting-screen").hide();
 			//otan einai o guros tou ka8e xrhsth
 			nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
-			console.log(nonogram.emptyGrid);// test
+			// console.log(nonogram.emptyGrid);// test
 			// sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
 			// sock.emit('turn');//allagh gurou
-			sock.on('correct', () => {
-				$("#correct").show();
-			});
-
 			if(nonogram.checkProgress()) {
 				// $("#correct").show();
 				sock.emit('correct');
 			}else{
 				$("#correct").hide();
+				sock.emit('end-turn');
 			}
 		}
 	}
@@ -47,9 +41,11 @@ $(canvas).mousedown(function(event) {
 
 //------------ Under development gia na kanw ton xrhsth na epilegei polla koutakia
 $(canvas).mouseup(function(){
-	isDown = false;
-	nonogram.findUserChoices();
-	store(currentStage, nonogram.userChoices);
+	if(state === "level") {
+		isDown = false;
+		nonogram.findUserChoices();
+		store(currentStage, nonogram.userChoices);	
+	}
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });

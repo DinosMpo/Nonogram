@@ -22,16 +22,43 @@ class NonogramMultiplayerGame {
 			player.on('empty grid', (value) => { //anti gia empty grid na to balw choice
 				// console.log(value);
 				this._updateNonogram(value);
+				
 			});
 
 			player.on('correct', ()=> {
 				this._checkProgress();
 			});
+
+			player.on('end-turn', () => {
+				if(this._turn === this._players[0]) {
+					//player 2 turn
+					// this._turn.emit('wait');
+					// this._turn = this._players[1];
+					// this._turn.emit('turn', 'Turn of player 2');
+					// this._turn.emit('can play');
+					// console.log("Turn of player 2 player 1 must wait");
+					console.log('Player 2 wait');
+					this._players[1].emit('end-turn');
+				}else{
+					//player 1 turn
+					// this._players[1].emit('wait');
+					// this._turn = this._players[0];
+					// this._turn.emit('turn', 'Turn of player 1');
+					// this._turn.emit('can play');
+					// console.log("Turn of player 1 player 2 must wait");
+					console.log('Player 1 wait');
+					this._players[0].emit('end-turn');
+				}
+			});
+
+
 		});
 
 		this._sendToPlayers("Opponent found!");
 		this._playerTurn();
 	}
+
+	//oi sunarthseis gia thn diaxeirish tou paixnidiou
 
 	_sendToPlayers(msg) {
 		this._players.forEach( (player) => {
@@ -42,11 +69,14 @@ class NonogramMultiplayerGame {
 	_playerTurn() {
 		if(this._turn === this._players[0]) {
 			//player 2 turn
+			this._turn.emit('wait');
 			this._turn = this._players[1];
 			this._turn.emit('turn', 'Turn of player 2');
 			this._turn.emit('can play');
+			console.log("Turn of player 2 player 1 must wait");
 		}else{
 			//player 1 turn
+			this._players[1].emit('wait');
 			this._turn = this._players[0];
 			this._turn.emit('turn', 'Turn of player 1');
 			this._turn.emit('can play');
@@ -81,6 +111,13 @@ class NonogramMultiplayerGame {
 		this._players.forEach( (player) => {
 			player.emit('correct');
 		});
+	}
+
+	_waitYourTurn() {
+		setTimeout(function(){ 
+			
+
+		}, 3000);
 	}
 
 }

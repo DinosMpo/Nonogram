@@ -1,3 +1,18 @@
+//Multiplayer
+sock.on('can play', () => {
+	turn = true;
+	wait = false;
+	$("#waiting-screen").hide();
+});
+
+sock.on('correct', () => {
+	$("#correct").show();
+});
+
+sock.on('end-turn', () => {
+	$('#waiting-screen').show();
+});
+
 sock.on('update', (data) => {
 	// console.log(data);
 	
@@ -98,18 +113,11 @@ sock.on('update', (data) => {
 	}
 });
 
-
-
-
-
-
-
-
-
 Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	ctx.lineWidth = 3;
 	for(var i=0; i<this.rowNumbersGrid.length; i++) {
 		if(mouseX >= this.rowNumbersGrid[i].x && mouseY >= this.rowNumbersGrid[i].y && mouseX <= (this.rowNumbersGrid[i].x + this.blockSize) && mouseY <= (this.rowNumbersGrid[i].y + this.blockSize)) {
+			
 			if(this.rowNumbersGrid[i].value === 0) {
 				ctx.beginPath();
 				ctx.strokeStyle = "red";
@@ -337,3 +345,4 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 		}
 	}
 }
+

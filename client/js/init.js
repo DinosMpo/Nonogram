@@ -4,6 +4,7 @@ let mouseY;
 let isDown = false;
 let currentLevel = "none";
 let turn = false;
+let wait = false;
 
 function createLevel(level, stage) {
 	state = "level"; //to xrhsomopoiw gia na stamataw to animation
@@ -56,7 +57,7 @@ function createMultiplayerLevel() {
 		container.style.transform = "translateX(-50%)"; // ksana kalumpraro to x coordinate
 		container.style.left = "50%";
 
-		nonogram = new Nonogram(multiplayerLevels['android']);
+		nonogram = new Nonogram(multiplayerLevels['android']); // h pista tou multi
 
 		canvas.width = nonogram.width;
 		canvas.height = nonogram.height;
@@ -68,13 +69,15 @@ function createMultiplayerLevel() {
 		nonogram.fillRowNumbers();
 		nonogram.fillColumnNumbers();
 
+		if(turn === false) {
+			$("#waiting-screen").show();
+		}
+
 	}, 3000);
 
 	sock.on('turn', (text) => {
 		turn = true;
 		console.log(text);
 	});
-	
-
 };
 
