@@ -6,15 +6,6 @@ $(canvas).mousedown(function(event) {
 		//Singleplayer
 		isDown = true;
 		nonogram.fillCels(startPointMouseX, startPointMouseY);
-		if(nonogram.checkProgress()) {
-			$("#correct").show();
-			store("correct-" + currentStage, 1);
-			$(".correct-" + currentStage).show();
-		}else{
-			$("#correct").hide();
-			store("correct-" + currentStage, 0);
-			$(".correct-" + currentStage).hide();
-		}
 
 		nonogram.findUserChoices(); // gt to exw edw auto?
 		store(currentStage, nonogram.userChoices);
@@ -43,6 +34,15 @@ $(canvas).mousedown(function(event) {
 $(canvas).mouseup(function(){
 	if(state === "level") {
 		isDown = false;
+		if(nonogram.checkProgress()) {
+			$("#correct").show();
+			store("correct-" + currentStage, 1);
+			$(".correct-" + currentStage).show();
+		}else{
+			$("#correct").hide();
+			store("correct-" + currentStage, 0);
+			$(".correct-" + currentStage).hide();
+		}
 		nonogram.findUserChoices();
 		store(currentStage, nonogram.userChoices);	
 	}
@@ -54,18 +54,7 @@ $(canvas).mousemove(function(event){
 	if(isDown){
 		var mouseX = event.offsetX ; //- c.canvas.offsetLeft
 		var mouseY = event.offsetY ; //- c.canvas.offsetTop
-
 		nonogram.fillMultiCells(mouseX, mouseY, startPointMouseX, startPointMouseY);
-
-		if(nonogram.checkProgress()) {
-			$("#correct").show();
-			store("correct-" + currentStage, 1);
-			$(".correct-" + currentStage).show();
-		}else{
-			$("#correct").hide();
-			store("correct-" + currentStage, 0);
-			$(".correct-" + currentStage).hide();
-		}
 	}
 });
 
