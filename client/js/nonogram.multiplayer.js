@@ -14,8 +14,6 @@ sock.on('end-turn', () => {
 });
 
 sock.on('update', (data) => {
-	// console.log(data);
-	
 	if(data.dataType === "fill cell") {
 		if(data.fillCellChoice === "default") {
 			nonogram.emptyGrid[data.cell].value = data.value;
@@ -111,6 +109,8 @@ sock.on('update', (data) => {
 						(nonogram.columnNumbersGrid[data.cell].y) + (nonogram.blockSize / 2)  + 5);
 		}
 	}
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
 Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
