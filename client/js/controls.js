@@ -16,11 +16,10 @@ $(canvas).mousedown(function(event) {
 			// $("#waiting-screen").hide();
 			//otan einai o guros tou ka8e xrhsth
 			nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
-			// console.log(nonogram.emptyGrid);// test
 			// sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-			// sock.emit('turn');//allagh gurou
+			$("#info-current-progress").text("");
+			$("#info-current-progress").text(nonogram.findProgress() + "%");
 			if(nonogram.checkProgress()) {
-				// $("#correct").show();
 				sock.emit('correct');
 			}else{
 				$("#correct").hide();
@@ -45,9 +44,9 @@ $(canvas).mouseup(function(){
 		}
 		nonogram.findUserChoices();
 		store(currentStage, nonogram.userChoices);	
+		$("#info-current-progress").text("");
+		$("#info-current-progress").text(nonogram.findProgress() + "%");
 	}
-	$("#info-current-progress").text("");
-	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
 $(canvas).mousemove(function(event){
