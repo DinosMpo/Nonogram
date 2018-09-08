@@ -17,6 +17,14 @@
   /*height: 100%;*/
 }
 
+#singleplayer-tools {
+  display: none;
+}
+
+#multiplayer-tools {
+  display: none;
+}
+
 .tool, .extra-tool{
   display: list-item;
   float: left;
@@ -50,13 +58,13 @@
   font-family: "Georgia";
 }
 
-#undo {
+.undo {
   width: 15px;
   height: 15px;
   margin: 5px 5px 5px 5px;
 }
 
-#help {
+.help {
   font-weight: bold;
   font-size: 15px;
   font-family: "Georgia";

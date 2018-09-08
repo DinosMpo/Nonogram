@@ -31,7 +31,8 @@ function createLevel(level, stage) {
 
 	nonogram.fillRowNumbers();
 	nonogram.fillColumnNumbers();
-
+	$("#multiplayer-tools").hide();
+	$("#singleplayer-tools").show();
 	resetTools();
 	if($("#info-current-stage").text().length > 0) {
 		$("#info-current-stage").text("");
@@ -47,11 +48,13 @@ function createLevel(level, stage) {
 
 function createMultiplayerLevel() {
 	$('#msg').text("Player found!");
+	$("#singleplayer-tools").hide();
 	
 	setTimeout(function(){ 
 		state = "multiplayer";
 		$('#game-lobbie').hide();
 		$("#container-tools").show();
+		$("#multiplayer-tools").show();
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		container.style.transform = "translateX(-50%)"; // ksana kalumpraro to x coordinate

@@ -2,8 +2,11 @@ function createSinglePlayerTools() {
 	//Tools creation
 	const singlePlayerTools = ['default', 'black', 'x', 'white'];
 	const singlePlayerExtraTools = ['undo', 'clear', 'help', 'home'];
-
 	const tools = document.getElementById("tools");
+
+	const singleplayer = document.createElement('div');
+	singleplayer.id = "singleplayer-tools";
+	tools.appendChild(singleplayer);
 
 	for(let i=0; i<singlePlayerTools.length; i++) {
 		var li = document.createElement('li');
@@ -14,31 +17,34 @@ function createSinglePlayerTools() {
 		img.src = "img/" + singlePlayerTools[i] + ".png";
 		div.appendChild(img);
 		li.appendChild(div);
-		tools.appendChild(li);
+		singleplayer.appendChild(li);
 	}
-
-	tools.firstElementChild.classList.add("active");
 
 	for(let i=0; i<singlePlayerExtraTools.length; i++) {
 		console.log(i);
 		var li = document.createElement('li');
 		li.classList.add("extra-tool");
 		var div = document.createElement('div');
-		div.id = singlePlayerExtraTools[i];
+		div.className = singlePlayerExtraTools[i];
 		var img = document.createElement('img');
 		img.src = "img/" + singlePlayerExtraTools[i] + ".png";
 		div.appendChild(img);
 		li.appendChild(div);
-		tools.appendChild(li);
-	}	
+		singleplayer.appendChild(li);
+	}
+
+	singleplayer.firstElementChild.classList.add("active");
 };
 
 function createMultiPlayerTools() {
 	//Tools creation
 	const multiPlayerTools = ['default', 'black', 'x', 'white'];
-	// const singlePlayerExtraTools = ['undo', 'help', 'home'];
-
+	const multiPlayerExtraTools = ['home'];
 	const tools = document.getElementById("tools");
+
+	const multiplayer = document.createElement('div');
+	multiplayer.id = "multiplayer-tools";
+	tools.appendChild(multiplayer);
 
 	for(let i=0; i<multiPlayerTools.length; i++) {
 		var li = document.createElement('li');
@@ -49,17 +55,29 @@ function createMultiPlayerTools() {
 		img.src = "img/" + multiPlayerTools[i] + ".png";
 		div.appendChild(img);
 		li.appendChild(div);
-		tools.appendChild(li);
+		multiplayer.appendChild(li);
 	}
 
-	tools.firstElementChild.classList.add("active");
+	for(let i=0; i<multiPlayerExtraTools.length; i++) {
+		var li = document.createElement('li');
+		li.classList.add("tool");
+		var div = document.createElement('div');
+		div.className = multiPlayerExtraTools[i];
+		var img = document.createElement('img');
+		img.src = "img/" + multiPlayerExtraTools[i] + ".png";
+		div.appendChild(img);
+		li.appendChild(div);
+		multiplayer.appendChild(li);
+	}	
+
+	multiplayer.firstElementChild.classList.add("active");
 };
 
 // Singleplayer tools
 createSinglePlayerTools();
 
 //Multiplayer tools
-// createMultiPlayerTools();
+createMultiPlayerTools();
 
 
 //For the default tool
@@ -104,7 +122,7 @@ $("#white").parent().click(function(){
 });
 
 //For the clear tool
-$("#clear").click(function() {
+$(".clear").click(function() {
 	for(let i=0; i<nonogram.emptyGrid.length; i++) {
 		nonogram.emptyGrid[i].value = 0;
 	}
@@ -130,7 +148,7 @@ $("#clear").click(function() {
 });
 
 //For the help tool
-$("#help").click(function() {
+$(".help").click(function() {
 	for(let i=0; i<nonogram.correctGrid.length; i++) {
 		for(let y=0; y<nonogram.correctGrid[i].length; y++) {
 			if(nonogram.correctGrid[i][y] === 1 && nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value === 2) { //ama exei balei x se shmeio pou 8a eprepe na uparxei mauro keli 
@@ -270,7 +288,7 @@ $("#help").click(function() {
 });
 
 //Home button
-$("#home").click(function(){
+$(".home").click(function(){
 	$("#container-tools").hide();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	container.style.transform = "none";
@@ -282,13 +300,28 @@ $("#home").click(function(){
 	$("#levels").show();	
 });
 
-let toolsContainer = document.getElementById("tools");
+let singleplayer = document.getElementById("singleplayer-tools");
+let singleplayerTools = singleplayer.getElementsByClassName("tool");
 
-let tools = toolsContainer.getElementsByClassName("tool");
+for (let i = 0; i < singleplayerTools.length; i++) {
+  singleplayerTools[i].addEventListener("click", function() {
+    let current = singleplayer.getElementsByClassName("active");
+    
+    if(typeof current[0] !== 'undefined') {
+    	current[0].className = current[0].className.replace(" active", "");
+    }
+    
+    this.className += " active";
+  });
+}
 
-for (let i = 0; i < tools.length; i++) {
-  tools[i].addEventListener("click", function() {
-    let current = document.getElementsByClassName("active");
+let multiplayer = document.getElementById("multiplayer-tools");
+let multiplayerTools = multiplayer.getElementsByClassName("tool");
+console.log(multiplayerTools);
+
+for (let i = 0; i < multiplayerTools.length; i++) {
+  multiplayerTools[i].addEventListener("click", function() {
+    let current = multiplayer.getElementsByClassName("active");
     
     if(typeof current[0] !== 'undefined') {
     	current[0].className = current[0].className.replace(" active", "");
