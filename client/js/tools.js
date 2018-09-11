@@ -12,7 +12,7 @@ function createSinglePlayerTools() {
 		var li = document.createElement('li');
 		li.classList.add("tool");
 		var div = document.createElement('div');
-		div.id = singlePlayerTools[i];
+		div.className = singlePlayerTools[i];
 		var img = document.createElement('img');
 		img.src = "img/" + singlePlayerTools[i] + ".png";
 		div.appendChild(img);
@@ -50,7 +50,7 @@ function createMultiPlayerTools() {
 		var li = document.createElement('li');
 		li.classList.add("tool");
 		var div = document.createElement('div');
-		div.id = multiPlayerTools[i];
+		div.className = multiPlayerTools[i];
 		var img = document.createElement('img');
 		img.src = "img/" + multiPlayerTools[i] + ".png";
 		div.appendChild(img);
@@ -81,7 +81,7 @@ createMultiPlayerTools();
 
 
 //For the default tool
-$("#default").parent().click(function(){
+$(".default").parent().click(function(){
 	if(nonogram.fillCellChoice !== "default") {
 		nonogram.fillCellChoice = "default";
 		// $("#black").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -89,7 +89,7 @@ $("#default").parent().click(function(){
 });
 
 //For the black tool
-$("#black").parent().click(function(){
+$(".black").parent().click(function(){
 	if(nonogram.fillCellChoice !== "black") {
 		nonogram.fillCellChoice = "black";
 		// $("#black").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -100,7 +100,7 @@ $("#black").parent().click(function(){
 });
 
 //For the x tool
-$("#x").parent().click(function(){
+$(".x").parent().click(function(){
 	if(nonogram.fillCellChoice !== "x") {
 		nonogram.fillCellChoice = "x";
 		// $("#x").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -111,7 +111,7 @@ $("#x").parent().click(function(){
 });
 
 //For the white tool
-$("#white").parent().click(function(){
+$(".white").parent().click(function(){
 	if(nonogram.fillCellChoice !== "white") {
 		nonogram.fillCellChoice = "white";
 		// $("#white").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -289,6 +289,10 @@ $(".help").click(function() {
 
 //Home button
 $(".home").click(function(){
+	if(state === "multiplayer" && turn === false) {
+		$("#waiting-screen").hide();
+	}
+
 	$("#container-tools").hide();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	container.style.transform = "none";

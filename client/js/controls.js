@@ -1,22 +1,15 @@
 $(canvas).mousedown(function(event) {
-	startPointMouseX = event.offsetX ; //- c.canvas.offsetLeft
-	startPointMouseY = event.offsetY ; //- c.canvas.offsetTop
-
+	startPointMouseX = event.offsetX ;
+	startPointMouseY = event.offsetY ;
 	if(state === "level") {
-		//Singleplayer
 		isDown = true;
 		nonogram.fillCels(startPointMouseX, startPointMouseY);
-
 		nonogram.findUserChoices(); // gt to exw edw auto?
 		store(currentStage, nonogram.userChoices);
 		nonogram.findProgress();
 	}else if(state === "multiplayer") {
-		// $("#waiting-screen").show();
 		if(turn === true) {
-			// $("#waiting-screen").hide();
-			//otan einai o guros tou ka8e xrhsth
 			nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
-			// sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
 			$("#info-current-progress").text("");
 			$("#info-current-progress").text(nonogram.findProgress() + "%");
 			if(nonogram.checkProgress()) {
@@ -56,23 +49,6 @@ $(canvas).mousemove(function(event){
 		nonogram.fillMultiCells(mouseX, mouseY, startPointMouseX, startPointMouseY);
 	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //---- for mobile events
 

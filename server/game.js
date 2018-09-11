@@ -14,7 +14,6 @@ class NonogramMultiplayerGame {
 
 			player.on('nonogram', (nonogram) => {
 				this._nonogram = nonogram;
-				console.log(this._nonogram);
 				// this._sendNonogramToPlayer();
 
 			});
