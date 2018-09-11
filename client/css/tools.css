@@ -48,11 +48,11 @@
     background: linear-gradient(to bottom right, red, grey);
 }
 
-#black, #white, #x {
+.black, .white, .x {
   margin: 5px 5px 5px 5px;
 }
 
-#x {
+.x {
   font-weight: bold;
   font-size: 15px;
   font-family: "Georgia";

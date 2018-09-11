@@ -13,6 +13,8 @@ sock.on('end-turn', () => {
 	$('#waiting-screen').show();
 });
 
+
+
 sock.on('update', (data) => {
 	if(data.dataType === "fill cell") {
 		if(data.fillCellChoice === "default") {
@@ -58,7 +60,33 @@ sock.on('update', (data) => {
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
 				nonogram.fillCurrentChoice(nonogram.emptyGrid[data.cell]);
-		    	}else{
+		    }else{
+				ctx.fillStyle = "white";
+				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
+				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
+				nonogram.fillCurrentChoice(nonogram.emptyGrid[data.cell]);
+			}
+
+		}else if(data.fillCellChoice === "x") {
+			nonogram.emptyGrid[data.cell].value = data.value;
+
+			if(nonogram.emptyGrid[data.cell].value === 2) {
+				ctx.fillStyle = "white";
+				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
+
+				ctx.fillRect( (( nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize )) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length)) - 2,
+										 (( nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize )) / nonogram.blockSize ) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length)) - 2, 
+										 Math.floor(( nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length), 
+										 Math.floor(( nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length));
+				
+				ctx.beginPath();
+				ctx.moveTo(nonogram.emptyGrid[data.cell].x + 4, nonogram.emptyGrid[data.cell].y + 4);
+				ctx.lineTo(nonogram.emptyGrid[data.cell].x + nonogram.blockSize - 4, nonogram.emptyGrid[data.cell].y + nonogram.blockSize - 4);
+				ctx.moveTo(nonogram.emptyGrid[data.cell].x + nonogram.blockSize - 4, nonogram.emptyGrid[data.cell].y + 4);
+				ctx.lineTo(nonogram.emptyGrid[data.cell].x + 4, nonogram.emptyGrid[data.cell].y + nonogram.blockSize - 4);
+				ctx.stroke();
+				ctx.closePath();
+		    }else{
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
@@ -332,6 +360,68 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					var data = {
 						dataType: 		"fill cell",
 						fillCellChoice: "black",
+						cell: 			i,
+						value: 			0
+					};
+					
+					sock.emit('empty grid', data);
+					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					sock.emit('turn');//allagh gurou
+					turn = false;
+				}
+			}
+		}
+	}else if(this.fillCellChoice == "x") {
+
+		var block = this.blockSize;
+		var columnSize = this.maxColumnNumberSize, columnLength = this.correctGrid.length;
+		var rowLength = this.correctGrid[0].length, rowSize = this.maxRowNumberSize;
+		
+		for(var i=0;i<this.emptyGrid.length;i++) { //psaxnw ola ta kelia sto grid gia na brw pio pathse o xrhsths
+			var value = this.emptyGrid[i].value;
+			var x = this.emptyGrid[i].x, y = this.emptyGrid[i].y;
+			var width = this.emptyGrid[i].w, height = this.emptyGrid[i].h;
+			var xPos = ((x - (rowSize * block)) / block) * Math.floor(((rowSize * block) / rowLength)) - 2;
+			var yPos = ((y - (columnSize * block)) / block) * Math.floor(((columnSize * block) / columnLength)) - 2;
+
+			if(mouseX >= x && mouseY >= y && mouseX <= (x + block) && mouseY <= (y + block)) {//elegxo an path8hke to sugkekrimeno keli.An path8hke ti value eixe?
+				if(this.emptyGrid[i].value !== 2) {
+					this.emptyGrid[i].value = 2;
+					//fil the cell x
+					//-----------------------------------------------------
+					ctx.fillStyle = "white";
+					// console.log("eee ooo");
+					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
+					this.drawPreview(this.emptyGrid[i]);
+					ctx.beginPath();
+					ctx.moveTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + 4);
+					ctx.lineTo(this.emptyGrid[i].x + this.blockSize - 4, this.emptyGrid[i].y + this.blockSize - 4);
+					ctx.moveTo(this.emptyGrid[i].x + this.blockSize - 4, this.emptyGrid[i].y + 4);
+					ctx.lineTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + this.blockSize - 4);
+					ctx.stroke();
+					ctx.closePath();
+					this.fillCurrentChoice(this.emptyGrid[i]);
+					// this.fillCurrentChoice(this.emptyGrid[i]);
+					var data = {
+						dataType: 		"fill cell",
+						fillCellChoice: "x",
+						cell: 			i,
+						value: 			2
+					};
+					
+					sock.emit('empty grid', data);
+					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					sock.emit('turn');//allagh gurou
+					turn = false;
+			    }else{
+					this.emptyGrid[i].value = 0;
+					ctx.fillStyle = "white";
+					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
+					this.drawPreview(this.emptyGrid[i]);
+					// this.fillCurrentChoice(this.emptyGrid[i]);
+					var data = {
+						dataType: 		"fill cell",
+						fillCellChoice: "x",
 						cell: 			i,
 						value: 			0
 					};
