@@ -117,7 +117,6 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	ctx.lineWidth = 3;
 	for(var i=0; i<this.rowNumbersGrid.length; i++) {
 		if(mouseX >= this.rowNumbersGrid[i].x && mouseY >= this.rowNumbersGrid[i].y && mouseX <= (this.rowNumbersGrid[i].x + this.blockSize) && mouseY <= (this.rowNumbersGrid[i].y + this.blockSize)) {
-			
 			if(this.rowNumbersGrid[i].value === 0) {
 				ctx.beginPath();
 				ctx.strokeStyle = "red";
@@ -211,18 +210,18 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	}
 
 	if(this.fillCellChoice == "default") {
+		var block = this.blockSize;
+		var rowSize = this.maxRowNumberSize;
+		var columnSize = this.maxColumnNumberSize;
+		var rowLength = this.correctGrid[0].length;
+		var columnLength = this.correctGrid.length;
+		
 		for(var i=0;i<this.emptyGrid.length;i++) { //psaxnw ola ta kelia sto grid gia na brw pio pathse o xrhsths
-
 			var x = this.emptyGrid[i].x;
 			var y = this.emptyGrid[i].y;
-			var block = this.blockSize;
 			var value = this.emptyGrid[i].value;
 			var width = this.emptyGrid[i].w;
 			var height = this.emptyGrid[i].h;
-			var rowSize = this.maxRowNumberSize;
-			var columnSize = this.maxColumnNumberSize;
-			var rowLength = this.correctGrid[0].length;
-			var columnLength = this.correctGrid.length;
 			var xPos = ((x - (rowSize * block)) / block) * Math.floor(((rowSize * block) / rowLength)) - 2;
 			var yPos = ((y - (columnSize * block)) / block) * Math.floor(((columnSize * block) / columnLength)) - 2;
 
