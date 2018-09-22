@@ -335,11 +335,24 @@ for (let i = 0; i < multiplayerTools.length; i++) {
   });
 }
 
-function resetTools() {
-	let currentTool = document.getElementsByClassName("active");
-	let tools = document.getElementsByClassName("tool");
-	currentTool[0].className = currentTool[0].className.replace(" active", "");
-	tools[0].className += " active";
+function resetTools(toolContainer) {
+	let singleplayer = document.getElementById("singleplayer-tools");
+	let multiplayer = document.getElementById("multiplayer-tools");
+	let currentTool;
+	let tools;
+
+	if(toolContainer === "singleplayer") {
+		currentTool = singleplayer.getElementsByClassName("active");
+		tools = singleplayer.getElementsByClassName("tool");
+		currentTool[0].className = currentTool[0].className.replace(" active", "");
+		tools[0].className += " active";
+	}else {
+		currentTool = multiplayer.getElementsByClassName("active");
+		tools = multiplayer.getElementsByClassName("tool");
+		currentTool[0].className = currentTool[0].className.replace(" active", "");
+		tools[0].className += " active";
+	}
+
 }
 
 
