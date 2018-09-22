@@ -75,26 +75,16 @@ $("#close").click(function() {
 	$('#menu').show();
 });
 
-
-
-
-
-
-
 //Mulitplayer
 const sock = io();
 
 $('#multiplayer').click(function() {
+	
 	$('#menu').hide();
 	$('#game-lobbie').show();
 	sock.emit('multiplayer', "Player join");
 
-	sock.on('multiplayer', (text) => {
-		if(text === "Opponent found!") {
-			createMultiplayerLevel();
-			// $("#container-tools").show();
-		}
-	});
+	
 });
 
 $('#exit').click(function() {

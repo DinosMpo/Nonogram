@@ -13,7 +13,17 @@ sock.on('end-turn', () => {
 	$('#waiting-screen').show();
 });
 
+sock.on('multiplayer', (text) => {
+	if(text === "Opponent found!") {
+		$('#msg').text("Player found!");
+		createMultiplayerLevel();
+	}
+});
 
+sock.on('turn', (text) => {
+	turn = true;
+	console.log(text);
+});
 
 sock.on('update', (data) => {
 	if(data.dataType === "fill cell") {
@@ -240,7 +250,6 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 
 	if(this.fillCellChoice == "default") {
 		for(var i=0;i<this.emptyGrid.length;i++) { //psaxnw ola ta kelia sto grid gia na brw pio pathse o xrhsths
-
 			var x = this.emptyGrid[i].x;
 			var y = this.emptyGrid[i].y;
 			var block = this.blockSize;
@@ -435,4 +444,3 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 		}
 	}
 }
-
