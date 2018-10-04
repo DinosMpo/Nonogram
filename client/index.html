@@ -30,6 +30,14 @@
 					<h1>Wait your turn..</h1>
 				</div>
 
+				<div id="player-left" class="black-screen">
+					<div id="player-left-popup">
+						<h3 id="player-left-info"></h3>
+						<img src="img/exit.png">
+						<p id="exit-to-menu">Exit to menu</p>
+					</div>
+				</div>
+
 				<!-- <div id="game-menu">
 					
 				</div> -->
@@ -160,12 +168,14 @@
 					<div id="close">X</div>
 				</div>
 
+				<div id="clients-count"></div>
+				
 			</div>
+
 		</div>
 
 		<script src="js/jquery-3.1.1.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
-
 		<script src="js/nonogram.js"></script>
 		<script src="js/nonogram.drawing.js"></script>
 		<script src="js/store.js"></script>

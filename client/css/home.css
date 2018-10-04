@@ -262,3 +262,14 @@ body {
   height: 35px;
   cursor: pointer;
 }
+
+#clients-count {
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-weight: bold;
+  font-size: 20px;
+  fonr-family: "Arial";
+  z-index: : 1;
+}

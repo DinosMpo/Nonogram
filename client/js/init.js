@@ -38,6 +38,7 @@ function createLevel(level, stage) {
 
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	$("#clients-count").hide();
 	
 }
 
@@ -72,6 +73,7 @@ function createMultiplayerLevel() {
 		}
 
 		resetTools("multiplayer");
+		$("#clients-count").hide();
 
 	}, 3000);
 

@@ -25,6 +25,9 @@ sock.on('turn', (text) => {
 	console.log(text);
 });
 
+sock.on('broadcast', (data) => {
+	$('#clients-count').text(data.description);
+});
 sock.on('update', (data) => {
 	if(data.dataType === "fill cell") {
 		if(data.fillCellChoice === "default") {
