@@ -1,11 +1,36 @@
 //Multiplayer
+class NonogramMultiplayer {
+	constructor(p1, p2, room) {
+		this.player1 = p1;
+		this.player2 = p2;
+		this.roomId = room;
+
+		this.turn = null;
+		this.nonogram = null;
+		this.choice = null;
+	}
+}
+
+let gameRoom;
+let multiplayerGame;
+
+//-----Events for multiplayer
+sock.on('message', (text) => {
+	console.log(text);
+});
+
 sock.on('can play', () => {
-	turn = true;
 	wait = false;
+	turn = true;
 	$("#waiting-screen").hide();
 });
 
+// sock.on('turn', (text) => {
+// 	turn = true;
+// });
+
 sock.on('correct', () => {
+	$('#waiting-screen').hide();
 	$("#correct").show();
 });
 
@@ -13,19 +38,35 @@ sock.on('end-turn', () => {
 	$('#waiting-screen').show();
 });
 
-sock.on('multiplayer', (text) => {
-	if(text === "Opponent found!") {
-		$('#msg').text("Player found!");
-		createMultiplayerLevel();
-	}
+sock.on('room', (room) => {
+	gameRoom = 'room-'+room;
 });
 
-sock.on('turn', (text) => {
-	turn = true;
+sock.on('multiplayer', (game) => {
+	$('#msg').text("Player found!");
+	multiplayerGame = new NonogramMultiplayer(game.player1, game.player2, game.room);
+	createMultiplayerLevel();
+});
+
+sock.on('event', function(text) {
 	console.log(text);
 });
 
+sock.on('broadcast', (data) => {
+	$('#clients-count').text(data.description);
+});
+
+sock.on('exit-multiplayer', (data) => {
+	if($("#waiting-screen").show()) {
+		$("#waiting-screen").hide();
+	}
+	$('#player-left-info').text(data);
+	$('#player-left').show();
+
+});
+
 sock.on('update', (data) => {
+	console.log('eeeeeee eee eeeee');
 	if(data.dataType === "fill cell") {
 		if(data.fillCellChoice === "default") {
 			nonogram.emptyGrid[data.cell].value = data.value;
@@ -151,6 +192,20 @@ sock.on('update', (data) => {
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
+$('#exit-to-menu').click( () => {
+	$("#player-left").hide();
+	$("#container-tools").hide();
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	container.style.transform = "none";
+	container.style.left = "0%";
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+	canvas.style.border = "none";
+	state = "menu";
+	$("#menu").show();
+	$("#clients-count").show();
+});
+
 Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	ctx.lineWidth = 3;
 	for(var i=0; i<this.rowNumbersGrid.length; i++) {
@@ -166,16 +221,12 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 				ctx.strokeStyle = "black";
 				this.rowNumbersGrid[i].value = 1;
 
-				var data = {
+				var gameData = {
 					dataType: 		"fill cell row numbers grid",
 					cell: 			i,
-					value: 			1
+					value: 			1,
+					room: 			gameRoom
 				};
-
-				sock.emit('empty grid', data);
-				sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-				sock.emit('turn');//allagh gurou
-				turn = false;
 			}else{
 				ctx.fillStyle = "#e0e0d1";
 				ctx.fillRect(this.rowNumbersGrid[i].x+2, this.rowNumbersGrid[i].y+2, this.rowNumbersGrid[i].w-3, this.rowNumbersGrid[i].h-3);
@@ -186,18 +237,22 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 							(this.rowNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
 				this.rowNumbersGrid[i].value = 0;
 
-				var data = {
+				var gameData = {
 					dataType: 		"fill cell row numbers grid",
 					cell: 			i,
-					value: 			0
+					value: 			0,
+					room: 			gameRoom
 				};
-
-				sock.emit('empty grid', data);
-				sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-				sock.emit('turn');//allagh gurou
-				turn = false;
+				// io.to(gameData.room).emit('empty grid', gameData);
+				// // sock.emit('empty grid', gameData);
+				// io.to(gameData.room).emit('nonogram', nonogram);
+				// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+				// io.to(gameData.room).emit('turn');
+				// // sock.emit('turn');//allagh gurou
+				// turn = false;
 			}
-			break;
+			return gameData;
+			// break;
 		}
 	}
 
@@ -213,16 +268,20 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 				ctx.strokeStyle = "black";
 				this.columnNumbersGrid[i].value = 1;
 
-				var data = {
+				var gameData = {
 					dataType: 		"fill cell column numbers grid",
 					cell: 			i,
-					value: 			1
+					value: 			1,
+					room: 			gameRoom
 				};
 
-				sock.emit('empty grid', data);
-				sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-				sock.emit('turn');//allagh gurou
-				turn = false;
+				// io.to(gameData.room).emit('empty grid', gameData);
+				// // sock.emit('empty grid', gameData);
+				// io.to(gameData.room).emit('nonogram', nonogram);
+				// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+				// io.to(gameData.room).emit('turn');
+				// // sock.emit('turn');//allagh gurou
+				// turn = false;
 			}else{
 				ctx.fillStyle = "#e0e0d1";
 				ctx.fillRect(this.columnNumbersGrid[i].x+2, this.columnNumbersGrid[i].y+2, this.columnNumbersGrid[i].w-3, this.columnNumbersGrid[i].h-3);
@@ -233,18 +292,23 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 							(this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
 				this.columnNumbersGrid[i].value = 0;
 
-				var data = {
+				var gameData = {
 					dataType: 		"fill cell column numbers grid",
 					cell: 			i,
-					value: 			0
+					value: 			0,
+					room: 			gameRoom
 				};
 
-				sock.emit('empty grid', data);
-				sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-				sock.emit('turn');//allagh gurou
-				turn = false;
+				// io.to(gameData.room).emit('empty grid', gameData);
+				// // sock.emit('empty grid', gameData);
+				// io.to(gameData.room).emit('nonogram', nonogram);
+				// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+				// io.to(gameData.room).emit('turn');
+				// // sock.emit('turn');//allagh gurou
+				// turn = false;
 			}
-			break;
+			return gameData;
+			// break;
 		}
 	}
 
@@ -264,24 +328,26 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 			var yPos = ((y - (columnSize * block)) / block) * Math.floor(((columnSize * block) / columnLength)) - 2;
 
 			if(mouseX >= x && mouseY >= y && mouseX <= (x + block) && mouseY <= (y + block)) {//elegxo an path8hke to sugkekrimeno keli.An path8hke ti value eixe?
-
 				if(value == 0) {
 					this.emptyGrid[i].value = 1;
 					ctx.fillStyle = 'black';
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
 
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "default",
 						cell: 			i,
-						value: 			1
+						value: 			1,
+						room: 			gameRoom
 					};
-					
-					sock.emit('empty grid', data);//to empty grid 8a prepei na to kanw update?
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 			    }else if(value == 1) { //fill the cell with a X
 			    	this.emptyGrid[i].value = 2;
 			    	ctx.fillStyle = "white";
@@ -295,35 +361,43 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.stroke();
 					ctx.closePath();
 
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "default",
 						cell: 			i,
-						value: 			2
+						value: 			2,
+						room: 			gameRoom
 					};
 					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 				}else { //Clear the cell
 					this.emptyGrid[i].value = 0;
 					ctx.fillStyle = "white";
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
 
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "default",
 						cell: 			i,
-						value: 			0
-					};
-					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+						value: 			0,
+						room: 			gameRoom
+					};			
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 				}
+				return gameData;
 			}
 		}
 	}else if(this.fillCellChoice == "black") {
@@ -349,35 +423,42 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
 					// this.fillCurrentChoice(this.emptyGrid[i]);
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "black",
 						cell: 			i,
-						value: 			1
+						value: 			1,
+						room: 			gameRoom
 					};
-					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 			    }else{
 					this.emptyGrid[i].value = 0;
 					ctx.fillStyle = "white";
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
 					// this.fillCurrentChoice(this.emptyGrid[i]);
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "black",
 						cell: 			i,
-						value: 			0
+						value: 			0,
+						room: 			gameRoom
 					};
-					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 				}
+				return gameData;
 			}
 		}
 	}else if(this.fillCellChoice == "x") {
@@ -411,35 +492,42 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.closePath();
 					this.fillCurrentChoice(this.emptyGrid[i]);
 					// this.fillCurrentChoice(this.emptyGrid[i]);
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "x",
 						cell: 			i,
-						value: 			2
+						value: 			2,
+						room: 			gameRoom
 					};
-					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 			    }else{
 					this.emptyGrid[i].value = 0;
 					ctx.fillStyle = "white";
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
 					// this.fillCurrentChoice(this.emptyGrid[i]);
-					var data = {
+					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "x",
 						cell: 			i,
-						value: 			0
+						value: 			0,
+						room: 			gameRoom
 					};
-					
-					sock.emit('empty grid', data);
-					sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
-					sock.emit('turn');//allagh gurou
-					turn = false;
+					// io.to(gameData.room).emit('empty grid', gameData);
+					// // sock.emit('empty grid', gameData);
+					// io.to(gameData.room).emit('nonogram', nonogram);
+					// // sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+					// io.to(gameData.room).emit('turn');
+					// // sock.emit('turn');//allagh gurou
+					// turn = false;
 				}
+				return gameData;
 			}
 		}
 	}

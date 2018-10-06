@@ -57,6 +57,7 @@ $("#continueGame").click(function(){
 	state = "menu";
 	$("#correct").hide();
 	$("#levels").show();
+	$("#clients-count").show();
 });
 
 for(let i=0; i<allStages.length; i++) {
@@ -73,26 +74,22 @@ $('#how-to-play').click(function() {
 $("#close").click(function() {
 	$(this).parent().hide();
 	$('#menu').show();
+	$("#clients-count").show();
 });
 
 //Mulitplayer
 const sock = io();
 
 $('#multiplayer').click(function() {
-	
 	$('#menu').hide();
 	$('#game-lobbie').show();
 	sock.emit('multiplayer', "Player join");
-
-	
 });
 
 $('#exit').click(function() {
 	$('#menu').show();
+	$("#clients-count").show();
 	$('#game-lobbie').hide();
 	sock.emit('exit', 'Player left the lobby');
 });
 
-sock.on('message', (text) => {
-	console.log(text);
-});
