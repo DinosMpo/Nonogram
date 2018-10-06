@@ -1,3 +1,4 @@
+//Controls
 $(canvas).mousedown(function(event) {
 	startPointMouseX = event.offsetX ;
 	startPointMouseY = event.offsetY ;
@@ -9,11 +10,18 @@ $(canvas).mousedown(function(event) {
 		nonogram.findProgress();
 	}else if(state === "multiplayer") {
 		if(turn === true) {
-			nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
+			var gameData = nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
+			sock.emit('empty grid', gameData);
+			// sock.emit('nonogram', nonogram);
+			// sock.emit('turn');
+			// sock.emit('empty grid', gameData);
+			// sock.emit('nonogram', nonogram);// stelnw thn katastash tou nonogram ston server
+			// sock.emit('turn');//allagh gurou
+			turn = false;
 			$("#info-current-progress").text("");
 			$("#info-current-progress").text(nonogram.findProgress() + "%");
 			if(nonogram.checkProgress()) {
-				sock.emit('correct');
+				sock.emit('correct' , multiplayerGame);
 			}else{
 				$("#correct").hide();
 				sock.emit('end-turn');
