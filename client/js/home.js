@@ -68,6 +68,11 @@ function Rect(x, y, w, h, dx, color, stroke) {
 		this.y += this.dx;	
 		this.draw();
 	}
+
+	this.relocate = function(x, y) {
+		this.x = x;
+		this.y = y;
+	}
 }
 
 //X shape class
@@ -95,13 +100,16 @@ function xRect(x, y, w, h, dx, textSize) {
 		this.y += this.dx;
 		this.draw();
 	}
+
+	this.relocate = function() {
+		this.x = x;
+		this.y = y;
+	}
 }
 
 let blackRectArray = [];
 let whiteRectArray = [];
 let xRectArray = [];
-
-Math.floor(Math.random() * 6) + 1;
 
 //Create 30 black rects
 for(let i=0; i<30; i++){
@@ -137,9 +145,6 @@ for(let i=0; i<30; i++){
 	xRectArray.push(new xRect(x, y, size, size, dx, textSize));
 }
 
-var img = new Image();
-img.src = "img/nono222.png";
-
 function animate() {
 	if(state === "menu") {
 		ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -153,11 +158,33 @@ function animate() {
 	}
 }
 
+var img = new Image();
+img.src = "img/nono222.png";
 let intro = new introScreen();
-
 setInterval(animate, 1000/50);
 
-// $(window).resize( () => {
-// 	console.log('dsdsdsd');
-// 	intro.draw();
-// });
+
+//Window resize
+$(window).resize( () => {
+	if(state === 'menu') {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		intro = new introScreen();
+		for(let i=0; i<30; i++) {
+			blackRectArray[i].relocate(Math.random() * (innerWidth - blackRectArray[i].w * 2) + blackRectArray[i].w, Math.random() * (innerHeight - blackRectArray[i].w * 2) + blackRectArray[i].w);
+			whiteRectArray[i].relocate(Math.random() * (innerWidth - whiteRectArray[i].w * 2) + whiteRectArray[i].w, Math.random() * (innerHeight - whiteRectArray[i].w * 2) + whiteRectArray[i].w);
+			xRectArray[i].relocate(Math.random() * (innerWidth - xRectArray[i].w * 2) + xRectArray[i].w, Math.random() * (innerHeight - xRectArray[i].w * 2) + xRectArray[i].w);
+		}
+		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
+		intro.draw();
+	}else if(state === 'level') {
+
+		nonogram.relocate();
+		nonogram.findUserChoices();
+		nonogram.continueProgress(retrieve(currentStage));
+		
+		// canvas.width = nonogram.width;
+		// canvas.height = nonogram.height;
+
+	}
+});
