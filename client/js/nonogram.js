@@ -24,7 +24,7 @@ function Nonogram(correctGrid) {
 	this.width = 0;
 	this.height = 0;
 	this.blockSize =0; // Mege8os tou block/cell
-	this.correctGrid = correctGrid; // gt to exw balei auto?
+	this.correctGrid = correctGrid;
 	this.emptyGrid = []; // Adeio nonogram , tou xrhsth
 	this.rowNumbers = [];
 	this.columnNumbers = [];
@@ -34,7 +34,7 @@ function Nonogram(correctGrid) {
 	this.columnNumbersGrid = [];
 	this.correct = false;
 	this.userChoices = [];// einai gia to store
-	this.fillCellChoice = "default"; //Auto 8a xrhsimepsei gia ta tools
+	this.fillCellChoice = "default";
 	this.currentChoice = {};
 	this.previousChoice = {
 		active: false
@@ -107,7 +107,7 @@ function Nonogram(correctGrid) {
 	}
 
 	let windowWidth = window.innerWidth;
-	let windowHeight = window.innerHeight ;
+	let windowHeight = window.innerHeight;
 	let size;
 	let maxSize;
 
@@ -160,8 +160,6 @@ function Nonogram(correctGrid) {
 			ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
 		}
 	}
-
-	
 
 	//Elegxei ti exei kanei o xrhsths mexri twra
 	this.checkProgress = function() {
@@ -232,6 +230,107 @@ function Nonogram(correctGrid) {
 				ctx.stroke();
 				ctx.closePath();
 			}
+		}
+	}
+
+	this.relocate = function() {
+		//Find window size
+		windowWidth = window.innerWidth;
+		windowHeight = window.innerHeight;
+		if(windowWidth > windowHeight) {
+			size = windowHeight - 30;
+		}else{
+			size = windowWidth;
+		}
+		//Calculate blocksize
+		this.blockSize = Math.floor((size / maxSize) - 1);
+		//Size of nonogram
+		this.width = (this.correctGrid[0].length + this.maxRowNumberSize) * this.blockSize;
+		this.height = (this.correctGrid.length + this.maxColumnNumberSize) * this.blockSize;
+		//Make size of canvas equals nonograms
+		canvas.width = this.width;
+		canvas.height = this.height;
+
+		//Draw the grid
+		ctx.fillStyle = "white";
+		ctx.lineWidth = 1;
+		ctx.fillRect(0, 0, this.width, this.height);
+		ctx.beginPath();
+		ctx.fillStyle = "#e0e0d1";
+		ctx.fillRect(0, this.maxColumnNumberSize * this.blockSize, this.maxRowNumberSize * this.blockSize, this.height);
+		ctx.fillRect(this.maxRowNumberSize * this.blockSize, 0, this.width, this.maxColumnNumberSize * this.blockSize);
+		ctx.fillStyle = "black";
+		ctx.closePath();
+		for (var i = (this.maxColumnNumberSize ) * this.blockSize; i < this.height; i += this.blockSize ) {
+			ctx.beginPath();
+			ctx.moveTo(0,i);
+			ctx.lineTo(this.width,i);
+			ctx.stroke(); // Mporei na mhn xreiazetai
+			ctx.closePath();
+		}
+		for ( var y = (this.maxRowNumberSize ) * this.blockSize; y < this.width; y += this.blockSize ) { //100 ; 100 < 250 ; 100 += 50
+			ctx.beginPath(); // Auth h grammh nomizw den xreiazetai giati xrhsimopoiei thn apo panw
+			ctx.moveTo(y,0);
+			ctx.lineTo(y, this.height);
+			ctx.stroke();
+			ctx.closePath();
+		}
+		for ( let i = 0; i < this.maxColumnNumberSize; i++ ) { //Gia ka8e grammh
+			ctx.beginPath();
+			ctx.moveTo((this.maxRowNumberSize ) * this.blockSize ,(i+1)*this.blockSize);
+			ctx.lineTo(this.width, (i+1)*this.blockSize);
+			ctx.stroke();
+			ctx.closePath();
+		}
+		for ( let i = 0; i < this.maxRowNumberSize; i++ ) { //Gia ka8e sthlh
+			ctx.beginPath();
+			ctx.moveTo( (i+1)*this.blockSize , (this.maxColumnNumberSize ) * this.blockSize);
+			ctx.lineTo( (i+1)*this.blockSize , this.height);
+			ctx.stroke();
+			ctx.closePath();
+		}
+		var indexCells = 0;
+		for (var i = (this.maxColumnNumberSize ) * this.blockSize; i < this.height; i += this.blockSize ) {
+			for ( var y = (this.maxRowNumberSize ) * this.blockSize; y < this.width; y += this.blockSize ) {
+				// this.emptyGrid.push(new Cell(this.blockSize, this.blockSize, y, i, 0));
+				this.emptyGrid[indexCells].w = this.blockSize;
+				this.emptyGrid[indexCells].h = this.blockSize;
+				this.emptyGrid[indexCells].x = y;
+				this.emptyGrid[indexCells].y = i;
+				indexCells++;
+			}
+		}
+
+		//Numbers of every row
+		var indexRow = 0;
+		for (var i = 0; i < this.rowNumbers.length; i ++) {
+			for ( var y = 0; y < this.rowNumbers[i].length; y ++) {
+				this.rowNumbersGrid[indexRow].w = this.blockSize;
+				this.rowNumbersGrid[indexRow].h = this.blockSize;
+				this.rowNumbersGrid[indexRow].x = (y * this.blockSize);
+				this.rowNumbersGrid[indexRow].y = ( (this.maxColumnNumberSize) * this.blockSize) + (i * this.blockSize);
+				// this.rowNumbersGrid[i*y].number = this.rowNumbers[i][y];
+				indexRow++;
+			}
+		}
+		for (var i = 0; i < this.rowNumbersGrid.length; i ++) {
+			ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
+			ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.rowNumbersGrid[i].y) + (this.blockSize / 2) + 5);
+		}
+		//Numbers of every column
+		var indexColumn = 0;
+		for (var i = 0; i < this.columnNumbers.length; i ++) {
+			for ( var y = 0; y < this.columnNumbers[i].length; y ++) {
+				this.columnNumbersGrid[indexColumn].w = this.blockSize;
+				this.columnNumbersGrid[indexColumn].h = this.blockSize;
+				this.columnNumbersGrid[indexColumn].x = ((this.maxRowNumberSize) * this.blockSize) + (i * this.blockSize);
+				this.columnNumbersGrid[indexColumn].y = (y * this.blockSize);
+				indexColumn++;
+			}
+		}
+		for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
+			ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
+			ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
 		}
 	}
 }

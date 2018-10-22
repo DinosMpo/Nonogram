@@ -215,37 +215,36 @@ body {
 #instructions {
   display: none;
   position: absolute;
-  text-align: center;
-  background: white;
-  border: 1px solid black;
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
   width: 50%;
   height: 50%;
   background: linear-gradient(to bottom right, #e0e0d1, #e0e0d1, #999966);
-  /*font-weight: bold;*/
+  /*background: white;*/
   font-size: 20px;
+  border: 1px solid black;
   border-radius: 30px;
   
 }
 
 #instructions h3 {
   margin: 20px;
+  text-align: center;
 }
 
 #instructions p {
   margin: 0px 30px 30px 30px;
-  text-align: center;
+  /*text-align: center;*/
   /*background: white;*/
   display: block;
 }
 
 #wrapper {
   overflow-y: auto;
-  /*position: relative;*/
-  width: 100%;
+  width: 90%;
   height: 100%;
+  margin: 0 auto;
 }
 
 #close {
@@ -260,7 +259,9 @@ body {
   font-family: "Arial";
   width: 35px;
   height: 35px;
+  text-align: center;
   cursor: pointer;
+  color: white;
 }
 
 #clients-count {
