@@ -66,6 +66,7 @@ $(canvas).on('touchstart', function(event) {
 	startPointTouchY = event.touches[0].clientY;
 	if(state === 'level') {
 		isDown = true;
+
 		nonogram.fillCels(startPointTouchX, startPointTouchY);
 		nonogram.findUserChoices(); // gt to exw edw auto?
 		store(currentStage, nonogram.userChoices);
@@ -90,6 +91,7 @@ $(canvas).on('touchstart', function(event) {
 $(canvas).on('touchend', function() {
 	if(state === "level") {
 		isDown = false;
+
 		if(nonogram.checkProgress()) {
 			$("#correct").show();
 			store("correct-" + currentStage, 1);
@@ -110,7 +112,7 @@ $(canvas).on('touchmove', function(event) {
 	event.preventDefault();
 	if(isDown){
 		var touchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
-		var touchY = Math.floor(event.touches[0].clientY - ((window.innerHeight - canvas.height) / 2));
+		var touchY = Math.floor(event.touches[0].clientY);
 		nonogram.fillMultiCells(touchX, touchY, startPointTouchX, startPointTouchY);
 	}
 });
