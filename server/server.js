@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const NonogramMultiplayerGame = require('./game');
+
 const app = express();
 const clientPath = __dirname + '/../client';
 console.log('Serving static from ' + clientPath);
@@ -14,6 +15,7 @@ const io = socketio(server);
 let waitingPlayer = null;
 let clients = 0;
 let roomno = 1;
+
 //otan kapoios mpainei sto site
 io.on('connection', (sock) => {
 	//when a user connects to the server
@@ -21,6 +23,7 @@ io.on('connection', (sock) => {
 	clients ++;
 	console.log('Someone connected');	
 	sock.emit('message', 'Hi you are connected'); // i don't used
+	
 	sock.join('all');
 
 	//i don't used it right now i don't have to
