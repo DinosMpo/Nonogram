@@ -1,3 +1,64 @@
+//oi metablhtes gia to zoom && drag
+let originX = 0;
+let originY = 0;
+let originWidth = 0;
+let originHeight = 0;
+let dragged = 0;
+let dragStart = {x:0,y:0};
+let scaleFactor = 1;
+let translatePos = {x: 0,y: 0};
+//diaxeirish otan ginetai scroll
+function handleScroll(event) {
+	if(event.deltaY == -3) { //zoom in
+		if(scaleFactor < 2.5) {
+			scaleFactor += 0.1;
+			translatePos.x = mouseX;
+			translatePos.y = mouseY;
+			zoom(scaleFactor, translatePos);
+			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
+			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
+		}
+	}else if(event.deltaY == 3) { //zoom out
+		if(scaleFactor > 1) {
+			scaleFactor -= 0.1;
+			translatePos.x = mouseX;
+			translatePos.y = mouseY;
+			zoom(scaleFactor, translatePos);
+			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
+			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
+		}
+	}
+}
+
+//diaxeirish gia to zoom
+function zoom(scaleFactor, translatePos) {
+	clearCanvas();
+	ctx.save();
+	ctx.translate(translatePos.x, translatePos.y);
+	ctx.scale(scaleFactor,scaleFactor);
+	ctx.translate(-translatePos.x, -translatePos.y); // giati eprepe na bazoume to anti8eto ? den douleue opws h8ela to zoom
+	// redraw();
+	nonogram.drawGrid();
+	nonogram.fillRowNumbers();
+	nonogram.fillColumnNumbers();
+
+	ctx.restore();
+
+	// otan to zoom den einai sto level 1 na fainontai ta controls
+	// if(scaleFactor !== 1) {
+	// 	$(topControl).show();
+	// 	$(leftControl).show();
+	// 	$(rightControl).show();
+	// 	$(bottomControl).show();
+	// }else{
+	// 	$(topControl).hide();
+	// 	$(leftControl).hide();
+	// 	$(rightControl).hide();
+	// 	$(bottomControl).hide();
+	// }
+}
+
+
 //Controls
 $(canvas).mousedown(function(event) {
 	startPointMouseX = event.offsetX;
@@ -58,7 +119,14 @@ $(canvas).mousemove(function(event){
 	}
 });
 
-//---- for mobile events
+//------ Zoom
+canvas.addEventListener('wheel', function(event) {
+	if(state === "level") {
+		handleScroll(event);
+	}
+},false);
+
+//---- Mobile Events
 $(canvas).on('touchstart', function(event) {
 	event.preventDefault();
 	startPointTouchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
