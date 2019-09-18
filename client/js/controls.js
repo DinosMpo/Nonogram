@@ -30,6 +30,8 @@ function handleScroll(event) {
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
+			originX = translatePos.x;
+			originY = translatePos.y;
 		}
 	}else if(event.deltaY == 3) { //zoom out
 		if(scaleFactor > 1) {
@@ -39,6 +41,8 @@ function handleScroll(event) {
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
+			originX = translatePos.x;
+			originY = translatePos.y;
 		}
 	}
 }
@@ -65,6 +69,7 @@ function zoom(scaleFactor, translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
+	nonogram.continueProgress(retrieve(currentStage));
 	ctx.restore();
 	//otan to zoom den einai sto level 1 na fainontai ta controls
 	if(scaleFactor !== 1) {
@@ -90,6 +95,7 @@ function drag(translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
+	nonogram.continueProgress(retrieve(currentStage));
 	// redraw();
 	ctx.restore();
 }
@@ -174,7 +180,11 @@ $(canvas).mousedown(function(event) {
 			console.log('4');
 		}else{
 			isDown = true;
-			nonogram.fillCels(startPointMouseX, startPointMouseY);
+			ctx.save();
+			ctx.translate(originX,originY);
+			ctx.scale(scaleFactor,scaleFactor);
+			nonogram.fillCels((startPointMouseX-originX)/scaleFactor, (startPointMouseY-originY)/scaleFactor);
+			ctx.restore();
 			nonogram.findUserChoices(); // gt to exw edw auto?
 			store(currentStage, nonogram.userChoices);
 			nonogram.findProgress();
@@ -245,7 +255,11 @@ $(canvas).mousemove(function(event){
 	}
 
 	if(isDown){
-		nonogram.fillMultiCells(mouseX, mouseY, startPointMouseX, startPointMouseY);
+		ctx.save();
+		ctx.translate(originX,originY);
+		ctx.scale(scaleFactor,scaleFactor);
+		nonogram.fillMultiCells((mouseX-originX)/scaleFactor, (mouseY-originY)/scaleFactor, (startPointMouseX-originX)/scaleFactor, (startPointMouseY-originY)/scaleFactor);
+		ctx.restore();
 	}
 
 	if(activeDragControl) {
@@ -260,7 +274,7 @@ $(canvas).mousemove(function(event){
 $(canvas).mouseout(function() {
 	dragged = false;
 
-		if(activeDragControl) {	
+	if(activeDragControl) {	
 		$(topControl).show();
 		$(leftControl).show();
 		$(rightControl).show();
@@ -273,6 +287,7 @@ $(canvas).mouseout(function() {
 canvas.addEventListener('wheel', function(event) {
 	if(state === "level") {
 		handleScroll(event);
+
 	}
 },false);
 
