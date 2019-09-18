@@ -20,11 +20,11 @@ function NumberCell(w, h, x, y, value, number) {
 
 //------------------------------------------------------------------------------------
 //Nonogram Object
-function Nonogram(correctGrid) {
+function Nonogram(levelGrid) {
 	this.width = 0;
 	this.height = 0;
 	this.blockSize =0; // Mege8os tou block/cell
-	this.correctGrid = correctGrid;
+	this.levelGrid = levelGrid;
 	this.emptyGrid = []; // Adeio nonogram , tou xrhsth
 	this.rowNumbers = [];
 	this.columnNumbers = [];
@@ -43,19 +43,17 @@ function Nonogram(correctGrid) {
 	this.currentChoice.cell = [];
 	this.previousChoice.cell = [];
 
-	//Apo edw pairnw tous ari8mous gia ka8e grammh
-	for(let i=0;i<this.correctGrid.length;i++) { //correctGrid.length = einai h ka8e grammh 0 ; 0 < 5 ; 0++
+	//Από εδώ παίρνω τους αριθμούς για κάθε γραμμή
+	for(let i=0;i<this.levelGrid.length;i++) { //levelGrid.length = einai h ka8e grammh 0 ; 0 < 5 ; 0++
 		this.rowNumbers[i] = []; //enas pinakas gia ka8e grammh
 		this.rowNumbers[i][0] = 0;
 	}
 
-	for(let i = 0; i < this.correctGrid.length; i++) { // this.correctGrid.length = 5 
+	for(let i = 0; i < this.levelGrid.length; i++) { // this.levelGrid.length = 5 
 		let counter = 0;
 		let depth = 0;
-
-		for(let y = 0; y < this.correctGrid[i].length; y++) { //correctGrid[i].length einai h ka8e sthlh
-			// this.userChoices[i][y] = 0;
-			if(this.correctGrid[i][y] == 1) {
+		for(let y = 0; y < this.levelGrid[i].length; y++) { //levelGrid[i].length einai h ka8e sthlh
+			if(this.levelGrid[i][y] == 1) {
 				counter += 1;
 				this.rowNumbers[i][depth] = counter
 			}
@@ -75,18 +73,17 @@ function Nonogram(correctGrid) {
 		}
 	}
 
-	//Apo edw pairnw tous ari8mous gia ka8e sthllh
-	for(let sthlh=0;sthlh<this.correctGrid[0].length;sthlh++) {
+	//Από εδώ παίρνω τους αριθμούς για κάθε στήλη
+	for(let sthlh=0;sthlh<this.levelGrid[0].length;sthlh++) {
 		this.columnNumbers[sthlh] = [];
 		this.columnNumbers[sthlh][0] = 0;
 	}
 
-	for(let sthlh=0;sthlh<this.correctGrid[0].length;sthlh++) {
+	for(let sthlh=0;sthlh<this.levelGrid[0].length;sthlh++) {
 		let counter = 0;
 		let depth = 0;
-
-		for(let grammh=0;grammh<this.correctGrid.length;grammh++) {
-			if(this.correctGrid[grammh][sthlh]==1) {
+		for(let grammh=0;grammh<this.levelGrid.length;grammh++) {
+			if(this.levelGrid[grammh][sthlh]==1) {
 				counter += 1;
 				this.columnNumbers[sthlh][depth] = counter;
 			}
@@ -118,58 +115,50 @@ function Nonogram(correctGrid) {
 	}
 
 	if(this.maxRowNumberSize > this.maxColumnNumberSize) {
-		maxSize = this.maxRowNumberSize + this.correctGrid.length;
+		maxSize = this.maxRowNumberSize + this.levelGrid.length;
 	}else{
-		maxSize = this.maxColumnNumberSize  + this.correctGrid.length;
+		maxSize = this.maxColumnNumberSize  + this.levelGrid.length;
 	}
 
 	this.blockSize = Math.floor((size / maxSize) - 1);
+	this.width = (this.levelGrid[0].length + this.maxRowNumberSize) * this.blockSize;
+	this.height = (this.levelGrid.length + this.maxColumnNumberSize) * this.blockSize;
 
-	this.width = (this.correctGrid[0].length + this.maxRowNumberSize) * this.blockSize;
-	this.height = (this.correctGrid.length + this.maxColumnNumberSize) * this.blockSize;
-
-
-	this.fillRowNumbers = function() {
-		for (var i = 0; i < this.rowNumbers.length; i ++) {
-			for ( var y = 0; y < this.rowNumbers[i].length; y ++) {
-				this.rowNumbersGrid.push(new NumberCell(
-				this.blockSize, 
-				this.blockSize, 
-				(y * this.blockSize), 
-				( (this.maxColumnNumberSize) * this.blockSize) + (i * this.blockSize), 
-				0,  
-				this.rowNumbers[i][y]));
-			}
-		}
-
-		for (var i = 0; i < this.rowNumbersGrid.length; i ++) {
-			ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-			ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.rowNumbersGrid[i].y) + (this.blockSize / 2) + 5);
+	for (let i = (this.maxColumnNumberSize ) * this.blockSize; i < this.height; i += this.blockSize ) { //100 ; 100 < 250 ; 100 += 50
+		for ( let y = (this.maxRowNumberSize ) * this.blockSize; y < this.width; y += this.blockSize ) { //100 ; 100 < 250 ; 100 += 50
+			this.emptyGrid.push(new Cell(this.blockSize, this.blockSize, y, i, 0)); // βάζω ένα κουτάκη για κάθε κουτάκη στον πίνακα
 		}
 	}
 
-	this.fillColumnNumbers = function() {
-		for (var i = 0; i < this.columnNumbers.length; i ++) {
-			for ( var y = 0; y < this.columnNumbers[i].length; y ++) {
-				this.columnNumbersGrid.push(new NumberCell(this.blockSize, this.blockSize, ((this.maxRowNumberSize) * this.blockSize) + (i * this.blockSize), (y * this.blockSize), 0, this.columnNumbers[i][y]));
-			}
-		}
-
-		for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
-			ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-			ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
+	//Create row numbers cels
+	for (var i = 0; i < this.rowNumbers.length; i ++) {
+		for ( var y = 0; y < this.rowNumbers[i].length; y ++) {
+			this.rowNumbersGrid.push(new NumberCell(
+			this.blockSize, 
+			this.blockSize, 
+			(y * this.blockSize), 
+			( (this.maxColumnNumberSize) * this.blockSize) + (i * this.blockSize), 
+			0,  
+			this.rowNumbers[i][y]));
 		}
 	}
 
-	//Elegxei ti exei kanei o xrhsths mexri twra
+	//Create column numbers cels
+	for (var i = 0; i < this.columnNumbers.length; i ++) {
+		for ( var y = 0; y < this.columnNumbers[i].length; y ++) {
+			this.columnNumbersGrid.push(new NumberCell(this.blockSize, this.blockSize, ((this.maxRowNumberSize) * this.blockSize) + (i * this.blockSize), (y * this.blockSize), 0, this.columnNumbers[i][y]));
+		}
+	}
+
+	//Ελέγχει τι έχει κάνει ο χρήστης μέχρι τώρα
 	this.checkProgress = function() {
 		var index = 0;
-		for(var i=0;i<this.correctGrid.length;i++) {
-			for(var y=0;y<this.correctGrid[i].length;y++) {
-				if(this.correctGrid[i][y] == 1 && this.emptyGrid[index].value == 1) {
+		for(var i=0;i<this.levelGrid.length;i++) {
+			for(var y=0;y<this.levelGrid[i].length;y++) {
+				if(this.levelGrid[i][y] == 1 && this.emptyGrid[index].value == 1) {
 					this.correct = true;
 				}
-				else if(this.correctGrid[i][y] == 0 && (this.emptyGrid[index].value == 0 || this.emptyGrid[index].value == 2)){
+				else if(this.levelGrid[i][y] == 0 && (this.emptyGrid[index].value == 0 || this.emptyGrid[index].value == 2)){
 					this.correct = true;
 				}
 				else{
@@ -179,7 +168,6 @@ function Nonogram(correctGrid) {
 				index ++;
 			}
 		}
-
 		if(this.correct == true) {
 			return true;
 		}
@@ -193,7 +181,6 @@ function Nonogram(correctGrid) {
 			}
 		}
 		progress = (progress * 100) / this.emptyGrid.length; //25/100 * 1/x = 25*x / 1*100 = 25*x / 100 = x = 100/25 = 4
-		// console.log(progress);
 		return Math.floor(progress);
 	}
 
@@ -213,11 +200,11 @@ function Nonogram(correctGrid) {
 			if(this.emptyGrid[i].value === 1){
 				//fil the cell black
 				ctx.fillStyle = 'black';
-				ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
+				ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 4, this.emptyGrid[i].h - 4);
 				this.drawPreview(this.emptyGrid[i]);
 			}else if(this.emptyGrid[i].value === 2) {
 				ctx.fillStyle = "white";
-				ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 3, this.emptyGrid[i].h - 3);
+				ctx.fillRect(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2, this.emptyGrid[i].w - 4, this.emptyGrid[i].h - 4);
 				this.drawPreview(this.emptyGrid[i]);
 				ctx.font = (this.blockSize) + "px Arial";
 				ctx.fillStyle = "black";
@@ -233,6 +220,7 @@ function Nonogram(correctGrid) {
 		}
 	}
 
+	//Auth thn sunarthsh thn exw gia otan ginete window resize
 	this.relocate = function() {
 		//Find window size
 		windowWidth = window.innerWidth;
@@ -245,8 +233,8 @@ function Nonogram(correctGrid) {
 		//Calculate blocksize
 		this.blockSize = Math.floor((size / maxSize) - 1);
 		//Size of nonogram
-		this.width = (this.correctGrid[0].length + this.maxRowNumberSize) * this.blockSize;
-		this.height = (this.correctGrid.length + this.maxColumnNumberSize) * this.blockSize;
+		this.width = (this.levelGrid[0].length + this.maxRowNumberSize) * this.blockSize;
+		this.height = (this.levelGrid.length + this.maxColumnNumberSize) * this.blockSize;
 		//Make size of canvas equals nonograms
 		canvas.width = this.width;
 		canvas.height = this.height;
@@ -331,6 +319,25 @@ function Nonogram(correctGrid) {
 		for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
 			ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
 			ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
+		}
+	}
+
+	//Αυτή η συνάρτηση ξανά φτιάχνει τις συντεταγμένες των κελιών
+	this.recalibrate = function(originX,originY,originW,originH,scaleFactor) {
+		//πρέπει το κάθε κελί να προσαρμόζεται στο υπάρχων translate και scale
+		this.emptyGrid = [];
+		this.rowNumbers = [];
+		this.columnNumbers = [];
+
+		for(let i = 0; i < this.emptyGrid.length; i++) {
+			for(let y = 0; y < this.emptyGrid[0].length; y++) {
+				this.emptyGrid[i][y].x = (this.emptyGrid[i][y].x + originX)*scaleFactor;
+				this.emptyGrid[i][y].y = (this.emptyGrid[i][y].y + originY)*scaleFactor;
+				this.emptyGrid[i][y].w = (this.emptyGrid[i][y].w + originW)*scaleFactor;
+				this.emptyGrid[i][y].h = (this.emptyGrid[i][y].h + originH)*scaleFactor;
+				
+
+			}
 		}
 	}
 }

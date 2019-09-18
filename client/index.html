@@ -20,7 +20,12 @@
 				
 				<!-- Canvas -->
 				<canvas id="canvas"></canvas>
-
+				<!-- Drag tools -->
+				<div id="top"><img src="img/left_right.png"></div>
+				<div id="left"><img src="img/top_down.png"></div>
+				<div id="right"><img src="img/top_down.png"></div>
+				<div id="bottom"><img src="img/left_right.png"></div>			
+				<!-- Wait your turn message -->
 				<div id="waiting-screen" class="black-screen">
 					<h1>Wait your turn..</h1>
 				</div>
@@ -48,11 +53,9 @@
 					</div> -->
 
 					<div id="info-right">
-
 						<div id="info-progress">
 							<span id="info-current-progress">0%</span>
 						</div>
-
 					</div>
 
 					<ul id="tools"></ul>
@@ -166,19 +169,21 @@
 				</div>
 
 				<div id="clients-count"></div>
-				
 			</div>
-
 		</div>
 
 		<script src="js/jquery-3.1.1.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+
 		<script src="js/nonogram.js"></script>
 		<script src="js/nonogram.drawing.js"></script>
+
 		<script src="js/store.js"></script>
 		<script src="js/stages.js"></script>
+
 		<script src="js/main-menu.js"></script>
 		<script src="js/home.js"></script>
+
 		<script src="js/nonogram.multiplayer.js"></script>
 		<script src="js/controls.js"></script>
 		<script src="js/init.js"></script>

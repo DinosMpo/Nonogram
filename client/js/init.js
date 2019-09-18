@@ -6,6 +6,7 @@ let currentLevel = "none";
 let turn = false;
 let wait = false;
 
+
 function createLevel(level, stage) {
 	state = "level"; //to xrhsomopoiw gia na stamataw to animation
 	currentStage = stage;
@@ -17,15 +18,16 @@ function createLevel(level, stage) {
 	canvas.height = nonogram.height;
 	
 	canvas.style.border = "1px solid black";
-	ctx.clearRect(0, 0, innerWidth, innerHeight);
+	// ctx.clearRect(0, 0, innerWidth, innerHeight);
+	clearCanvas();
 	if(!localStorage.getItem(currentStage)) {
 		nonogram.drawGrid();
 	}else{
 		nonogram.drawGrid();
 		nonogram.continueProgress(retrieve(currentStage));
 	}
-	nonogram.fillRowNumbers();
-	nonogram.fillColumnNumbers();
+	nonogram.drawRowNumbers();
+	nonogram.drawColumnNumbers();
 	$("#multiplayer-tools").hide();
 	$("#singleplayer-tools").show();
 
@@ -65,8 +67,8 @@ function createMultiplayerLevel() {
 		ctx.clearRect(0, 0, innerWidth, innerHeight);
 
 		nonogram.drawGrid();
-		nonogram.fillRowNumbers();
-		nonogram.fillColumnNumbers();
+		nonogram.drawRowNumbers();
+		nonogram.drawColumnNumbers();
 
 		if(turn === false) {
 			$("#waiting-screen").show();

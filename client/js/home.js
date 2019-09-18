@@ -145,9 +145,14 @@ for(let i=0; i<30; i++){
 	xRectArray.push(new xRect(x, y, size, size, dx, textSize));
 }
 
+function clearCanvas() {
+	ctx.clearRect(0,0,canvas.width,canvas.height);	
+}
+
 function animate() {
 	if(state === "menu") {
-		ctx.clearRect(0, 0, innerWidth, innerHeight);
+		// ctx.clearRect(0, 0, innerWidth, innerHeight);
+		clearCanvas();
 		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
 		intro.draw();
 		for(var i = 0; i < blackRectArray.length; i++) {
@@ -178,13 +183,8 @@ $(window).resize( () => {
 		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
 		intro.draw();
 	}else if(state === 'level') {
-
 		nonogram.relocate();
 		nonogram.findUserChoices();
 		nonogram.continueProgress(retrieve(currentStage));
-		
-		// canvas.width = nonogram.width;
-		// canvas.height = nonogram.height;
-
 	}
 });
