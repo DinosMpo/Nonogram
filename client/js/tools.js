@@ -140,8 +140,8 @@ $(".clear").click(function() {
 
 	ctx.clearRect(0,0,canvas.width, canvas.height);
 	nonogram.drawGrid();
-	nonogram.fillRowNumbers();
-	nonogram.fillColumnNumbers();
+	nonogram.drawRowNumbers();
+	nonogram.drawColumnNumbers();
 	nonogram.findUserChoices();
 	store(currentStage, nonogram.userChoices);
 	store("correct-" + currentStage, 0);
@@ -152,135 +152,135 @@ $(".clear").click(function() {
 
 //For the help tool
 $(".help").click(function() {
-	for(let i=0; i<nonogram.correctGrid.length; i++) {
-		for(let y=0; y<nonogram.correctGrid[i].length; y++) {
-			if(nonogram.correctGrid[i][y] === 1 && nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value === 2) { //ama exei balei x se shmeio pou 8a eprepe na uparxei mauro keli 
-				nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value = 1;
+	for(let i=0; i<nonogram.levelGrid.length; i++) {
+		for(let y=0; y<nonogram.levelGrid[i].length; y++) {
+			if(nonogram.levelGrid[i][y] === 1 && nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].value === 2) { //ama exei balei x se shmeio pou 8a eprepe na uparxei mauro keli 
+				nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].value = 1;
 				nonogram.findUserChoices();
 				store(currentStage, nonogram.userChoices);
 				ctx.strokeStyle = "green";
 				ctx.lineWidth   = 4;
-				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 				ctx.strokeStyle = "black";
 				setTimeout( function() {
 						ctx.fillStyle = "white";
-						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 						ctx.lineWidth   = 4;
 						ctx.strokeStyle = "green";
-						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 
 				}, 400);
 
 				setTimeout( function() {
 					ctx.fillStyle = "black";
-					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 					ctx.lineWidth   = 4;
 					ctx.strokeStyle = "green";
-					ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+					ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					ctx.strokeStyle = "black";
 				}, 1400 );
 
 				setTimeout( function() {
 						ctx.fillStyle = "white";
-						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 						ctx.lineWidth   = 4;
 						ctx.strokeStyle = "green";
-						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 						ctx.strokeStyle = "black";
 				}, 2400);
 
 				setTimeout( function() {
 					ctx.fillStyle = "black";
-					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 					// ctx.lineWidth   = 4;
 					// ctx.strokeStyle = "green";
-					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					// ctx.strokeStyle = "black";
 				}, 3400 );
-				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y]);
+				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y]);
 
 				ctx.strokeStyle = "black";
 
 				return;
-			}else if(nonogram.correctGrid[i][y] === 0 && nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value === 1) {
-				nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].value = 2;
+			}else if(nonogram.levelGrid[i][y] === 0 && nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].value === 1) {
+				nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].value = 2;
 				nonogram.findUserChoices();
 				store(currentStage, nonogram.userChoices);
 				ctx.strokeStyle = "green";
 				ctx.lineWidth   = 4;
-				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+				ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 				ctx.strokeStyle = "black";
 				setTimeout( function() {
 						ctx.fillStyle = "white";
-						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 						ctx.lineWidth   = 4;
 						ctx.strokeStyle = "green";
-						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 						ctx.strokeStyle = "black";
 				}, 400);
 
 				setTimeout( function() {
 					ctx.strokeStyle = "black";
 					ctx.beginPath();
-					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 4);
-					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + nonogram.blockSize - 4);
-					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 4);
-					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + nonogram.blockSize - 4);
+					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 4);
+					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + nonogram.blockSize - 4);
+					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 4);
+					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + nonogram.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
 					ctx.lineWidth   = 4;
 					ctx.strokeStyle = "green";
-					ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+					ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					ctx.strokeStyle = "black";
 				}, 1400 );
 
 				setTimeout( function() {
 						ctx.fillStyle = "white";
-						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-										nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+						ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+										nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 						ctx.lineWidth   = 4;
 						ctx.strokeStyle = "green";
-						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+						ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 						ctx.strokeStyle = "black";
 				}, 2400);
 
 				setTimeout( function() {
 					ctx.fillStyle = "white";
-					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 2, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].w - 3, 
-									nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].h - 3);
+					ctx.fillRect(	nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 2, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].w - 3, 
+									nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].h - 3);
 					ctx.strokeStyle = "black";
 					ctx.beginPath();
-					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 4);
-					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + nonogram.blockSize - 4);
-					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + 4);
-					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y + nonogram.blockSize - 4);
+					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 4);
+					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + nonogram.blockSize - 4);
+					ctx.moveTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + nonogram.blockSize - 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + 4);
+					ctx.lineTo(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x + 4, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y + nonogram.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
 					// ctx.lineWidth   = 4;
 					// ctx.strokeStyle = "green";
-					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
+					// ctx.strokeRect(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].x+5, nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y].y+5, nonogram.blockSize-10, nonogram.blockSize-10);
 					// ctx.strokeStyle = "black";
 				}, 3400 );
-				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.correctGrid[0].length)+y]);
+				nonogram.drawPreview(nonogram.emptyGrid[(i*nonogram.levelGrid[0].length)+y]);
 
 				ctx.strokeStyle = "black";
 
