@@ -21,7 +21,6 @@ function createSinglePlayerTools() {
 	}
 
 	for(let i=0; i<singlePlayerExtraTools.length; i++) {
-		console.log(i);
 		var li = document.createElement('li');
 		li.classList.add("extra-tool");
 		var div = document.createElement('div');

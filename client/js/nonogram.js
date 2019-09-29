@@ -39,7 +39,6 @@ function Nonogram(levelGrid) {
 	this.previousChoice = {
 		active: false
 	};
-
 	this.currentChoice.cell = [];
 	this.previousChoice.cell = [];
 
@@ -49,17 +48,17 @@ function Nonogram(levelGrid) {
 		this.rowNumbers[i][0] = 0;
 	}
 
-	for(let i = 0; i < this.levelGrid.length; i++) { // this.levelGrid.length = 5 
+	for(let row = 0; row < this.levelGrid.length; row++) { // this.levelGrid.length = 5 
 		let counter = 0;
 		let depth = 0;
-		for(let y = 0; y < this.levelGrid[i].length; y++) { //levelGrid[i].length einai h ka8e sthlh
-			if(this.levelGrid[i][y] == 1) {
+		for(let y = 0; y < this.levelGrid[row].length; y++) { //levelGrid[row].length einai h ka8e sthlh
+			if(this.levelGrid[row][y] == 1) {
 				counter += 1;
-				this.rowNumbers[i][depth] = counter
+				this.rowNumbers[row][depth] = counter
 			}
 			else{
 				if(counter != 0) {
-					this.rowNumbers[i][depth] = counter;
+					this.rowNumbers[row][depth] = counter;
 					counter = 0;
 					depth++;
 				}
@@ -74,22 +73,22 @@ function Nonogram(levelGrid) {
 	}
 
 	//Από εδώ παίρνω τους αριθμούς για κάθε στήλη
-	for(let sthlh=0;sthlh<this.levelGrid[0].length;sthlh++) {
-		this.columnNumbers[sthlh] = [];
-		this.columnNumbers[sthlh][0] = 0;
+	for(let i=0;i<this.levelGrid[0].length;i++) {
+		this.columnNumbers[i] = [];
+		this.columnNumbers[i][0] = 0;
 	}
 
-	for(let sthlh=0;sthlh<this.levelGrid[0].length;sthlh++) {
+	for(let column=0;column<this.levelGrid[0].length;column++) {
 		let counter = 0;
 		let depth = 0;
-		for(let grammh=0;grammh<this.levelGrid.length;grammh++) {
-			if(this.levelGrid[grammh][sthlh]==1) {
+		for(let row=0;row<this.levelGrid.length;row++) {
+			if(this.levelGrid[row][column]==1) {
 				counter += 1;
-				this.columnNumbers[sthlh][depth] = counter;
+				this.columnNumbers[column][depth] = counter;
 			}
 			else{
 				if(counter != 0) {
-					this.columnNumbers[sthlh][depth] = counter;
+					this.columnNumbers[column][depth] = counter;
 					counter = 0;
 					depth++;
 				}
@@ -120,7 +119,7 @@ function Nonogram(levelGrid) {
 		maxSize = this.maxColumnNumberSize  + this.levelGrid.length;
 	}
 
-	this.blockSize = Math.floor((size / maxSize) - 1);
+	this.blockSize = Math.floor((size / maxSize))-1; // το -1 νομιζω οτι ειναι για να μην ξεπερναει ο canvas το μεγεθος του παραθυρου και για να μην βγαινει το scroll γι αυτον το λογο 
 	this.width = (this.levelGrid[0].length + this.maxRowNumberSize) * this.blockSize;
 	this.height = (this.levelGrid.length + this.maxColumnNumberSize) * this.blockSize;
 
@@ -210,10 +209,10 @@ function Nonogram(levelGrid) {
 				ctx.fillStyle = "black";
 				ctx.beginPath();
 				ctx.lineWidth = 3;
-				ctx.moveTo(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + 2);
-				ctx.lineTo(this.emptyGrid[i].x + this.blockSize - 2, this.emptyGrid[i].y + this.blockSize - 2);
-				ctx.moveTo(this.emptyGrid[i].x + this.blockSize - 2, this.emptyGrid[i].y + 2);
-				ctx.lineTo(this.emptyGrid[i].x + 2, this.emptyGrid[i].y + this.blockSize - 2);
+				ctx.moveTo(this.emptyGrid[i].x + 6, this.emptyGrid[i].y + 6);
+				ctx.lineTo(this.emptyGrid[i].x + this.blockSize - 6, this.emptyGrid[i].y + this.blockSize - 6);
+				ctx.moveTo(this.emptyGrid[i].x + this.blockSize - 6, this.emptyGrid[i].y + 6);
+				ctx.lineTo(this.emptyGrid[i].x + 6, this.emptyGrid[i].y + this.blockSize - 6);
 				ctx.stroke();
 				ctx.closePath();
 			}
