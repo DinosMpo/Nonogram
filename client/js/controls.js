@@ -429,7 +429,11 @@ $(window).resize( () => {
 	}else if(state === 'level') {
 		nonogram.relocate();
 		nonogram.findUserChoices();
+		ctx.save();
+		ctx.translate(originX,originY);
+		ctx.scale(scaleFactor,scaleFactor);
 		nonogram.continueProgress(retrieve(currentStage));
+		ctx.restore();
 		limitBottom = nonogram.height-myLimit;
 		limitRight = nonogram.width-myLimit;
 	}
