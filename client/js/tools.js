@@ -20,7 +20,7 @@ function createSinglePlayerTools() {
 		singleplayer.appendChild(li);
 	}
 
-	for(let i=0; i<singlePlayerExtraTools.length; i++) {
+	for(let i=0; i<singlePlayerExtraTools.length; i++) {   
 		var li = document.createElement('li');
 		li.classList.add("extra-tool");
 		var div = document.createElement('div');
