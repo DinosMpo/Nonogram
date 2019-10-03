@@ -11,25 +11,19 @@
 //   document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
 // }
 
-
-
 function store(level, progress) {
 	// Check browser support
 	if (typeof(Storage) !== "undefined") {
-
 		if(!localStorage.getItem(level)){	//ama den uparxei auto to level tote dhmiourghseto alliws apo8hkeuse to progress tou level
-    	// Store
-	  	localStorage.setItem(level, progress);
-    }else{
-    	localStorage[level] = progress;
-    }
-    
+	    	// Store
+		  	localStorage.setItem(level, progress);
+	    }else{
+	    	localStorage[level] = progress;
+	    }
 	  // Store
 	  // localStorage.setItem(level, progress);
-
 	  // Retrieve
 	  // document.getElementById("result").innerHTML = localStorage.getItem("lastname");
-
 	} else {
 	  alert("Sorry, your browser does not support Web Storage...");
 	}

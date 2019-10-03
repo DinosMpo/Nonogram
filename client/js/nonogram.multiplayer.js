@@ -110,12 +110,12 @@ sock.on('update', (data) => {
 				ctx.fillStyle = 'black';
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
-				nonogram.fillCurrentChoice(nonogram.emptyGrid[data.cell]);
+				nonogram.strokeCurrentChoice(nonogram.emptyGrid[data.cell]);
 		    }else{
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
-				nonogram.fillCurrentChoice(nonogram.emptyGrid[data.cell]);
+				nonogram.strokeCurrentChoice(nonogram.emptyGrid[data.cell]);
 			}
 
 		}else if(data.fillCellChoice === "x") {
@@ -141,7 +141,7 @@ sock.on('update', (data) => {
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 				nonogram.drawPreview(nonogram.emptyGrid[data.cell]);
-				nonogram.fillCurrentChoice(nonogram.emptyGrid[data.cell]);
+				nonogram.strokeCurrentChoice(nonogram.emptyGrid[data.cell]);
 			}
 
 		}
@@ -422,7 +422,7 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.fillStyle = 'black';
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
-					// this.fillCurrentChoice(this.emptyGrid[i]);
+					// this.strokeCurrentChoice(this.emptyGrid[i]);
 					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "black",
@@ -442,7 +442,7 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.fillStyle = "white";
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
-					// this.fillCurrentChoice(this.emptyGrid[i]);
+					// this.strokeCurrentChoice(this.emptyGrid[i]);
 					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "black",
@@ -490,8 +490,8 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.lineTo(this.emptyGrid[i].x + 4, this.emptyGrid[i].y + this.blockSize - 4);
 					ctx.stroke();
 					ctx.closePath();
-					this.fillCurrentChoice(this.emptyGrid[i]);
-					// this.fillCurrentChoice(this.emptyGrid[i]);
+					this.strokeCurrentChoice(this.emptyGrid[i]);
+					// this.strokeCurrentChoice(this.emptyGrid[i]);
 					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "x",
@@ -511,7 +511,7 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 					ctx.fillStyle = "white";
 					ctx.fillRect(x + 2, y + 2, width - 3, height - 3);
 					this.drawPreview(this.emptyGrid[i]);
-					// this.fillCurrentChoice(this.emptyGrid[i]);
+					// this.strokeCurrentChoice(this.emptyGrid[i]);
 					var gameData = {
 						dataType: 		"fill cell",
 						fillCellChoice: "x",

@@ -100,13 +100,12 @@ function drag(translatePos) {
 	ctx.restore();
 }
 
-
 function dragControl() {
 	translatePos.x = mouseX-dragStart.x;
 	translatePos.y = mouseY-dragStart.y;
 	//auta einai ta oria gia na mhn afhnei aspra kena ston canvas
 	//limitTop>translatePos.y && limitLeft>translatePos.x && limitRight<(translatePos.x+(scaleFactor*canvas.width)) && limitBottom<(translatePos.y+(scaleFactor*canvas.height))
-	if(limitTop>translatePos.y && limitLeft>translatePos.x && limitRight<(translatePos.x+(scaleFactor*canvas.width)) && limitBottom<(translatePos.y+(scaleFactor*canvas.height))) {
+	if((limitTop>translatePos.y) && (limitLeft>translatePos.x) && (limitRight<(translatePos.x+(scaleFactor*canvas.width))) && (limitBottom<(translatePos.y+(scaleFactor*canvas.height)))) {
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height)); //prepei na apo8hkeuw kai to width kai height
 	}else if(limitTop<=translatePos.y && limitLeft<=translatePos.x) { //an ksepernaei to panw kai to aristero orio
@@ -155,6 +154,7 @@ function dragControl() {
 
 //Controls
 $(canvas).mousedown(function(event) {
+	//Ειναι οι συντεταγμένες για το που εκανε click στον canvas. Το χρειαζομαστε και για το multicels
 	startPointMouseX = event.offsetX || (event.pageX - canvas.offsetLeft);
 	startPointMouseY = event.offsetY || (event.pageY - canvas.offsetTop);
 	if(state === "level") {
@@ -162,22 +162,22 @@ $(canvas).mousedown(function(event) {
 			dragStart.x = startPointMouseX - translatePos.x;
 			dragStart.y = startPointMouseY - translatePos.y;
 			dragged = true;
-			console.log('1');
+			// console.log('1');
 		}else if(startPointMouseY<originY) {
 			dragStart.x = startPointMouseX - translatePos.x;
 			dragStart.y = startPointMouseY - translatePos.y;
 			dragged = true;
-			console.log('2');
+			// console.log('2');
 		}else if(startPointMouseX>originWidth) {
 			dragStart.x = startPointMouseX - translatePos.x;
 			dragStart.y = startPointMouseY - translatePos.y;
 			dragged = true;
-			console.log('3');			
+			// console.log('3');			
 		}else if(startPointMouseY>originHeight) {
 			dragStart.x = startPointMouseX - translatePos.x;
 			dragStart.y = startPointMouseY - translatePos.y;
 			dragged = true;
-			console.log('4');
+			// console.log('4');
 		}else{
 			isDown = true;
 			ctx.save();
@@ -185,10 +185,10 @@ $(canvas).mousedown(function(event) {
 			ctx.scale(scaleFactor,scaleFactor);
 			nonogram.fillCels((startPointMouseX-originX)/scaleFactor, (startPointMouseY-originY)/scaleFactor);
 			ctx.restore();
-			nonogram.findUserChoices(); // gt to exw edw auto?
+			nonogram.findUserChoices(); // gt to exw edw auto? το έχω για να αποθηκεύω το progress του χρήστη
 			store(currentStage, nonogram.userChoices);
 			nonogram.findProgress();
-			console.log('5');
+			// console.log('5');
 		}
 	}else if(state === "multiplayer") {
 		if(turn === true) {
@@ -253,7 +253,6 @@ $(canvas).mousemove(function(event){
 		$(rightControl).hide();
 		$(bottomControl).hide();
 	}
-
 	if(isDown){
 		ctx.save();
 		ctx.translate(originX,originY);
@@ -261,7 +260,6 @@ $(canvas).mousemove(function(event){
 		nonogram.fillMultiCells((mouseX-originX)/scaleFactor, (mouseY-originY)/scaleFactor, (startPointMouseX-originX)/scaleFactor, (startPointMouseY-originY)/scaleFactor);
 		ctx.restore();
 	}
-
 	if(activeDragControl) {
 		$(topControl).hide();
 		$(leftControl).hide();
@@ -273,7 +271,6 @@ $(canvas).mousemove(function(event){
 
 $(canvas).mouseout(function() {
 	dragged = false;
-
 	if(activeDragControl) {	
 		$(topControl).show();
 		$(leftControl).show();
@@ -287,7 +284,6 @@ $(canvas).mouseout(function() {
 canvas.addEventListener('wheel', function(event) {
 	if(state === "level") {
 		handleScroll(event);
-
 	}
 },false);
 
@@ -296,7 +292,6 @@ canvas.addEventListener("mouseover", function(evt) {
 	if(activeDragControl) {
 		lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
 		lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
-
 		if(isNaN(translatePos.x)) {
 			translatePos.x = 0;
 			translatePos.y = 0;
@@ -415,5 +410,31 @@ $(canvas).on('touchmove', function(event) {
 		var touchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
 		var touchY = Math.floor(event.touches[0].clientY);
 		nonogram.fillMultiCells(touchX, touchY, startPointTouchX, startPointTouchY);
+	}
+});
+
+//Window resize
+$(window).resize( () => {
+	if(state === 'menu') {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		intro = new introScreen();
+		for(let i=0; i<30; i++) {
+			blackRectArray[i].relocate(Math.random() * (innerWidth - blackRectArray[i].w * 2) + blackRectArray[i].w, Math.random() * (innerHeight - blackRectArray[i].w * 2) + blackRectArray[i].w);
+			whiteRectArray[i].relocate(Math.random() * (innerWidth - whiteRectArray[i].w * 2) + whiteRectArray[i].w, Math.random() * (innerHeight - whiteRectArray[i].w * 2) + whiteRectArray[i].w);
+			xRectArray[i].relocate(Math.random() * (innerWidth - xRectArray[i].w * 2) + xRectArray[i].w, Math.random() * (innerHeight - xRectArray[i].w * 2) + xRectArray[i].w);
+		}
+		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
+		intro.draw();
+	}else if(state === 'level') {
+		nonogram.relocate();
+		nonogram.findUserChoices();
+		ctx.save();
+		ctx.translate(originX,originY);
+		ctx.scale(scaleFactor,scaleFactor);
+		nonogram.continueProgress(retrieve(currentStage));
+		ctx.restore();
+		limitBottom = nonogram.height-myLimit;
+		limitRight = nonogram.width-myLimit;
 	}
 });

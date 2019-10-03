@@ -13,10 +13,8 @@ function createLevel(level, stage) {
 	nonogram = new Nonogram(level);
 	container.style.transform = "translateX(-50%)";
 	container.style.left = "50%";
-
 	canvas.width = nonogram.width;
 	canvas.height = nonogram.height;
-	
 	canvas.style.border = "1px solid black";
 	// ctx.clearRect(0, 0, innerWidth, innerHeight);
 	clearCanvas();
@@ -43,6 +41,9 @@ function createLevel(level, stage) {
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 	$("#clients-count").hide();
+
+	limitBottom = nonogram.height-myLimit;
+	limitRight = nonogram.width-myLimit;
 }
 
 function createMultiplayerLevel() {
