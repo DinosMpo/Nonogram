@@ -3,9 +3,9 @@ Nonogram.prototype.drawGrid = function() {
 	ctx.fillStyle = "white";
 	ctx.fillRect(0, 0, this.width, this.height);
 	ctx.fillStyle = "#e0e0d1"; //mpez
-	//gia ths sthles
+	//για τις στήλες
 	ctx.fillRect(0, this.maxColumnNumberSize * this.blockSize, this.maxRowNumberSize * this.blockSize, this.height-(this.maxColumnNumberSize * this.blockSize));
-	//gia ths grammes
+	//για τις γραμμές
 	ctx.fillRect(this.maxRowNumberSize * this.blockSize, 0, this.width-(this.maxRowNumberSize * this.blockSize), this.maxColumnNumberSize * this.blockSize);
 	ctx.fillStyle = "black";
 	ctx.beginPath();
@@ -54,18 +54,11 @@ Nonogram.prototype.strokeCurrentChoice = function(cell) {
 		ctx.beginPath();
 		for(let i=0; i<this.previousChoice.cell.length; i++) {
 			if(this.previousChoice.cell[i].value === 1) {
-				ctx.fillStyle = 'black';
-				ctx.fillRect(this.previousChoice.cell[i].x+2, this.previousChoice.cell[i].y+2, this.previousChoice.cell[i].w-4, this.previousChoice.cell[i].h-4);
+				this.drawWhiteCell(this.previousChoice.cell[i]);
+				this.drawBlackCell(this.previousChoice.cell[i]);
 			}else if(this.previousChoice.cell[i].value === 2) {
-				ctx.fillStyle = "white";
-				ctx.fillRect(this.previousChoice.cell[i].x + 2, this.previousChoice.cell[i].y + 2, this.previousChoice.cell[i].w - 4, this.previousChoice.cell[i].h - 4);
-				// ctx.beginPath();
-				ctx.moveTo(this.previousChoice.cell[i].x + 4, this.previousChoice.cell[i].y + 4);
-				ctx.lineTo(this.previousChoice.cell[i].x + this.blockSize - 4, this.previousChoice.cell[i].y + this.blockSize - 4);
-				ctx.moveTo(this.previousChoice.cell[i].x + this.blockSize - 4, this.previousChoice.cell[i].y + 4);
-				ctx.lineTo(this.previousChoice.cell[i].x + 4, this.previousChoice.cell[i].y + this.blockSize - 4);
-				// ctx.stroke();
-				// ctx.closePath();
+				this.drawWhiteCell(this.previousChoice.cell[i]);
+				this.drawXCell(this.previousChoice.cell[i]);
 			}else{
 				ctx.fillStyle = "white";
 				ctx.fillRect(this.previousChoice.cell[i].x + 2, this.previousChoice.cell[i].y + 2, this.previousChoice.cell[i].w - 4, this.previousChoice.cell[i].h - 4);
@@ -117,7 +110,7 @@ Nonogram.prototype.drawPreview = function(cell) {
 }
 
 //Draw the cell black
-let drawBlackCellValue = 10;
+let drawBlackCellValue = 4;
 Nonogram.prototype.drawBlackCell = function(cell) {
 	ctx.fillStyle = 'black';
 	ctx.fillRect(cell.x + drawBlackCellValue, cell.y + drawBlackCellValue, cell.w - (drawBlackCellValue * 2), cell.h - (drawBlackCellValue * 2));
@@ -351,4 +344,3 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 		}
 	}
 }
-
