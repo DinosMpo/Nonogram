@@ -22,7 +22,7 @@ function createLevel(level, stage) {
 		nonogram.drawGrid();
 	}else{
 		nonogram.drawGrid();
-		nonogram.continueProgress(retrieve(currentStage));
+		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 	}
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();

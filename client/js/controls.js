@@ -69,7 +69,7 @@ function zoom(scaleFactor, translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
-	nonogram.continueProgress(retrieve(currentStage));
+	nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 	ctx.restore();
 	//otan to zoom den einai sto level 1 na fainontai ta controls
 	if(scaleFactor !== 1) {
@@ -95,7 +95,7 @@ function drag(translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
-	nonogram.continueProgress(retrieve(currentStage));
+	nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 	// redraw();
 	ctx.restore();
 }
@@ -186,7 +186,9 @@ $(canvas).mousedown(function(event) {
 			nonogram.fillCels((startPointMouseX-originX)/scaleFactor, (startPointMouseY-originY)/scaleFactor);
 			ctx.restore();
 			nonogram.findUserChoices(); // gt to exw edw auto? το έχω για να αποθηκεύω το progress του χρήστη
-			store(currentStage, nonogram.userChoices);
+			store(currentStage, nonogram.userChoices.levelGrid);
+			store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+			store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
 			nonogram.findProgress();
 			// console.log('5');
 		}
@@ -237,7 +239,7 @@ $(canvas).mouseup(function(){
 			$(".correct-" + currentStage).hide();
 		}
 		nonogram.findUserChoices();
-		store(currentStage, nonogram.userChoices);	
+		store(currentStage, nonogram.userChoices.levelGrid);	
 		$("#info-current-progress").text("");
 		$("#info-current-progress").text(nonogram.findProgress() + "%");
 	}
@@ -277,6 +279,11 @@ $(canvas).mouseout(function() {
 		$(rightControl).show();
 		$(bottomControl).show();
 		activeDragControl = null;
+	}
+	if(isDown){
+		console.log('eafasa');
+		nonogram.findUserChoices();
+		store(currentStage, nonogram.userChoices.levelGrid);
 	}
 });
 
@@ -365,7 +372,7 @@ $(canvas).on('touchstart', function(event) {
 
 		nonogram.fillCels(startPointTouchX, startPointTouchY);
 		nonogram.findUserChoices(); // gt to exw edw auto?
-		store(currentStage, nonogram.userChoices);
+		store(currentStage, nonogram.userChoices.levelGrid);
 		nonogram.findProgress();
 	}else if(state === 'multiplayer') {
 		if(turn === true) {
@@ -398,7 +405,7 @@ $(canvas).on('touchend', function() {
 			$(".correct-" + currentStage).hide();
 		}
 		nonogram.findUserChoices();
-		store(currentStage, nonogram.userChoices);	
+		store(currentStage, nonogram.userChoices.levelGrid);	
 		$("#info-current-progress").text("");
 		$("#info-current-progress").text(nonogram.findProgress() + "%");
 	}
@@ -432,7 +439,7 @@ $(window).resize( () => {
 		ctx.save();
 		ctx.translate(originX,originY);
 		ctx.scale(scaleFactor,scaleFactor);
-		nonogram.continueProgress(retrieve(currentStage));
+		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 		ctx.restore();
 		limitBottom = nonogram.height-myLimit;
 		limitRight = nonogram.width-myLimit;
