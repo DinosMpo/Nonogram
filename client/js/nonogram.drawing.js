@@ -8,6 +8,7 @@ Nonogram.prototype.drawGrid = function() {
 	//για τις γραμμές
 	ctx.fillRect(this.maxRowNumberSize * this.blockSize, 0, this.width-(this.maxRowNumberSize * this.blockSize), this.maxColumnNumberSize * this.blockSize);
 	ctx.fillStyle = "black";
+	ctx.strokeStyle = "black";
 	ctx.beginPath();
 	ctx.lineWidth = 1;
 	for (let i = (this.maxColumnNumberSize ) * this.blockSize; i < this.height; i += this.blockSize ) {
@@ -35,6 +36,7 @@ Nonogram.prototype.drawGrid = function() {
 }
 
 Nonogram.prototype.drawRowNumbers = function() {
+	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.rowNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
 		ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.rowNumbersGrid[i].y) + (this.blockSize / 2) + 5);
@@ -42,6 +44,7 @@ Nonogram.prototype.drawRowNumbers = function() {
 }
 
 Nonogram.prototype.drawColumnNumbers = function() {
+	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
 		ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
@@ -127,6 +130,7 @@ Nonogram.prototype.drawWhiteCell = function(cell) {
 let drawXCellValue = 6;
 Nonogram.prototype.drawXCell = function(cell) {
 	ctx.strokeStyle = "black";
+	ctx.lineWidth = 4;
 	ctx.beginPath();
 	ctx.moveTo(cell.x + drawXCellValue, cell.y + drawXCellValue);
 	ctx.lineTo(cell.x + this.blockSize - drawXCellValue, cell.y + this.blockSize - drawXCellValue);
