@@ -33,7 +33,10 @@ function Nonogram(levelGrid) {
 	this.rowNumbersGrid = [];
 	this.columnNumbersGrid = [];
 	this.correct = false;
-	this.userChoices = [];// einai gia to store
+	this.userChoices = {};// einai gia to store
+	this.userChoices.levelGrid = [];
+	this.userChoices.rowNumbersGrid = [];
+	this.userChoices.columnNumbersGrid = [];
 	this.fillCellChoice = "default";
 	this.currentChoice = {};
 	this.previousChoice = {
@@ -185,27 +188,65 @@ function Nonogram(levelGrid) {
 
 	this.findUserChoices = function() {
 		for(let i = 0; i < this.emptyGrid.length; i++) {
-			this.userChoices[i] = this.emptyGrid[i].value;
+			this.userChoices.levelGrid[i] = this.emptyGrid[i].value;
+		}
+
+		for(let i=0; i<this.rowNumbersGrid.length; i++) {
+			this.userChoices.rowNumbersGrid[i] = this.rowNumbersGrid[i].value;
+		}
+		
+		for(let i=0; i<this.columnNumbersGrid.length; i++) {
+			this.userChoices.columnNumbersGrid[i] = this.columnNumbersGrid[i].value;
 		}
 	}
 
-	this.continueProgress = function(level) {
-		this.userChoices = level;
+	this.continueProgress = function(levelGrid, rowNumbersGrid, columnNumbersGrid) {
+		this.userChoices.levelGrid = levelGrid;
+		this.userChoices.rowNumbersGrid = rowNumbersGrid;
+		this.userChoices.columnNumbersGrid = columnNumbersGrid;
+		//Οι επιλογές του level grid
 		for(let i=0; i < this.emptyGrid.length; i++) {
-			this.emptyGrid[i].value = this.userChoices[i];
+			this.emptyGrid[i].value = this.userChoices.levelGrid[i];
 		}
-
+		//Οι επιλογές του row grid
+		for(let i=0; i<this.rowNumbersGrid.length; i++) {
+			this.rowNumbersGrid[i].value = this.userChoices.rowNumbersGrid[i];
+		}
+		//Οι επιλογές του column grid
+		for(let i=0; i<this.columnNumbersGrid.length; i++) {
+			this.columnNumbersGrid[i].value = this.userChoices.columnNumbersGrid[i];
+		}
+		//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά
 		for(let i=0; i<this.emptyGrid.length; i++) {
 			if(this.emptyGrid[i].value === 1){
 				//fil the cell black
 				this.drawBlackCell(this.emptyGrid[i]);
 				this.drawPreview(this.emptyGrid[i]);
 			}else if(this.emptyGrid[i].value === 2) {
-				this.drawWhiteCell(this.emptyGrid[i]);
-				this.drawPreview(this.emptyGrid[i]);
+				// this.drawWhiteCell(this.emptyGrid[i]);
 				this.drawXCell(this.emptyGrid[i]);
+				this.drawPreview(this.emptyGrid[i]);
 			}
 		}
+		//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά των αριθμών
+		ctx.beginPath();
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = 3;
+		for(let i=0; i<this.rowNumbersGrid.length; i++) {
+			if(this.rowNumbersGrid[i].value === 1) {
+				ctx.moveTo(this.rowNumbersGrid[i].x+3, (this.rowNumbersGrid[i].y + this.blockSize)-3);
+				ctx.lineTo((this.rowNumbersGrid[i].x + this.blockSize)-3, this.rowNumbersGrid[i].y+3);
+			}
+		}
+
+		for(let i=0; i<this.columnNumbersGrid.length; i++) {
+			if(this.columnNumbersGrid[i].value === 1) {	
+				ctx.moveTo(this.columnNumbersGrid[i].x+3, (this.columnNumbersGrid[i].y + this.blockSize)-3);
+				ctx.lineTo((this.columnNumbersGrid[i].x + this.blockSize)-3, this.columnNumbersGrid[i].y+3);
+			}
+		}
+		ctx.closePath();
+		ctx.stroke();
 	}
 
 	//Auth thn sunarthsh thn exw gia otan ginete window resize
