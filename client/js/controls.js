@@ -32,6 +32,7 @@ function handleScroll(event) {
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
 			originX = translatePos.x;
 			originY = translatePos.y;
+			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 		}
 	}else if(event.deltaY == 3) { //zoom out
 		if(scaleFactor > 1) {
@@ -43,6 +44,7 @@ function handleScroll(event) {
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
 			originX = translatePos.x;
 			originY = translatePos.y;
+			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 		}
 	}
 }
@@ -239,7 +241,9 @@ $(canvas).mouseup(function(){
 			$(".correct-" + currentStage).hide();
 		}
 		nonogram.findUserChoices();
-		store(currentStage, nonogram.userChoices.levelGrid);	
+		store(currentStage, nonogram.userChoices.levelGrid);
+		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);	
 		$("#info-current-progress").text("");
 		$("#info-current-progress").text(nonogram.findProgress() + "%");
 	}
@@ -284,6 +288,8 @@ $(canvas).mouseout(function() {
 		console.log('eafasa');
 		nonogram.findUserChoices();
 		store(currentStage, nonogram.userChoices.levelGrid);
+		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
 	}
 });
 
@@ -373,6 +379,8 @@ $(canvas).on('touchstart', function(event) {
 		nonogram.fillCels(startPointTouchX, startPointTouchY);
 		nonogram.findUserChoices(); // gt to exw edw auto?
 		store(currentStage, nonogram.userChoices.levelGrid);
+		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
 		nonogram.findProgress();
 	}else if(state === 'multiplayer') {
 		if(turn === true) {
@@ -405,7 +413,9 @@ $(canvas).on('touchend', function() {
 			$(".correct-" + currentStage).hide();
 		}
 		nonogram.findUserChoices();
-		store(currentStage, nonogram.userChoices.levelGrid);	
+		store(currentStage, nonogram.userChoices.levelGrid);
+		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);	
 		$("#info-current-progress").text("");
 		$("#info-current-progress").text(nonogram.findProgress() + "%");
 	}

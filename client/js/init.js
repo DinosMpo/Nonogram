@@ -16,28 +16,33 @@ function createLevel(level, stage) {
 	canvas.width = nonogram.width;
 	canvas.height = nonogram.height;
 	canvas.style.border = "1px solid black";
-	// ctx.clearRect(0, 0, innerWidth, innerHeight);
 	clearCanvas();
 	if(!localStorage.getItem(currentStage)) {
 		nonogram.drawGrid();
 	}else{
 		nonogram.drawGrid();
-		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));
 	}
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
+	
 	$("#multiplayer-tools").hide();
-	$("#singleplayer-tools").show();
+	// $("#singleplayer-tools").show();
+	if(nonogram.checkProgress()) {
+		$("#singleplayer-tools").hide();
+		$("#correct-level-tools").show();
+		$("#correct").show();
+	}else {
+		$("#singleplayer-tools").show();
+	}
 
 	resetTools("singleplayer");
-	
 	if($("#info-current-stage").text().length > 0) {
 		$("#info-current-stage").text("");
 		$("#info-current-stage").append(currentStage);
 	}else{
 		$("#info-current-stage").append(currentStage);
 	}
-
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 	$("#clients-count").hide();
