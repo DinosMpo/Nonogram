@@ -3,7 +3,6 @@ function createSinglePlayerTools() {
 	const singlePlayerTools = ['default', 'black', 'x', 'white'];
 	const singlePlayerExtraTools = ['undo', 'clear', 'help', 'home'];
 	const tools = document.getElementById("tools");
-
 	const singleplayer = document.createElement('div');
 	singleplayer.id = "singleplayer-tools";
 	tools.appendChild(singleplayer);
@@ -40,7 +39,6 @@ function createMultiPlayerTools() {
 	const multiPlayerTools = ['default', 'black', 'x', 'white'];
 	const multiPlayerExtraTools = ['home'];
 	const tools = document.getElementById("tools");
-
 	const multiplayer = document.createElement('div');
 	multiplayer.id = "multiplayer-tools";
 	tools.appendChild(multiplayer);
@@ -75,12 +73,35 @@ function createMultiPlayerTools() {
 	multiplayer.firstElementChild.classList.add("active");
 };
 
+function createCorrectLevelTools() {
+	//Tools creation
+	const correctLevelTools = ['restart'];
+	const tools = document.getElementById("tools");
+	const correctSinglePlayerLevel = document.createElement('div');
+	correctSinglePlayerLevel.id = "correct-level-tools";
+	tools.appendChild(correctSinglePlayerLevel);
+
+	for(let i=0; i<correctLevelTools.length; i++) {
+		let li = document.createElement('li');
+		li.classList.add('correct-tool');
+		let div = document.createElement('div');
+		div.id = correctLevelTools[i];
+		div.innerHTML = correctLevelTools[i].toUpperCase();
+		li.appendChild(div);
+		correctSinglePlayerLevel.appendChild(li);
+	}
+
+
+};
+
 // Singleplayer tools
 createSinglePlayerTools();
 
 //Multiplayer tools
 createMultiPlayerTools();
 
+//Correct level tools
+createCorrectLevelTools()
 
 //For the default tool
 $(".default").parent().click(function(){
@@ -142,9 +163,11 @@ $(".clear").click(function() {
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
 	nonogram.findUserChoices();
-	store(currentStage, nonogram.userChoices);
-	store("correct-" + currentStage, 0);
-	$(".correct-" + currentStage).hide();
+	store(currentStage, nonogram.userChoices.levelGrid);
+	store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+	store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
+	// store("correct-" + currentStage, 0);
+	// $(".correct-" + currentStage).hide();
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
@@ -305,6 +328,37 @@ $(".home").click(function(){
 	state = "menu";
 	$("#menu").show();
 	$("#clients-count").show();	
+});
+
+//Restart button
+$('#restart').click(function() {
+	for(let i=0; i<nonogram.emptyGrid.length; i++) {
+		nonogram.emptyGrid[i].value = 0;
+	}
+
+	for(let i=0; i<nonogram.rowNumbersGrid.length; i++) {
+		nonogram.rowNumbersGrid[i].value = 0;
+	}
+
+	for(let i=0; i<nonogram.columnNumbersGrid.length; i++) {
+		nonogram.columnNumbersGrid[i].value = 0;
+	}
+
+	ctx.clearRect(0,0,canvas.width, canvas.height);
+	nonogram.drawGrid();
+	nonogram.drawRowNumbers();
+	nonogram.drawColumnNumbers();
+	nonogram.findUserChoices();
+	store(currentStage, nonogram.userChoices.levelGrid);
+	store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+	store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
+	store("correct-" + currentStage, 0);
+	$("#correct-level-tools").hide();
+	$("#singleplayer-tools").show();
+	$("#correct").hide();
+	$(".correct-" + currentStage).hide();
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
 });
 
 //exit-multiplayer class
