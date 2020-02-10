@@ -19,12 +19,18 @@ function createLevel(level, stage) {
 	clearCanvas();
 	if(!localStorage.getItem(currentStage)) {
 		nonogram.drawGrid();
+		nonogram.drawRowNumbers();
+		nonogram.drawColumnNumbers();
+		console.log("eeee");
 	}else{
 		nonogram.drawGrid();
-		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));
+		nonogram.drawRowNumbers();
+		nonogram.drawColumnNumbers();
+		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));
+		console.log("oooo");	
 	}
-	nonogram.drawRowNumbers();
-	nonogram.drawColumnNumbers();
+	// nonogram.drawRowNumbers();
+	// nonogram.drawColumnNumbers();
 	
 	$("#multiplayer-tools").hide();
 	// $("#singleplayer-tools").show();

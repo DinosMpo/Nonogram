@@ -21,8 +21,8 @@ let rightControl = document.getElementById('right');
 let bottomControl = document.getElementById('bottom');
 
 //diaxeirish otan ginetai scroll
-function handleScroll(event) {
-	if(event.deltaY == -3) { //zoom in
+function handleScroll(value) {
+	if(value == -3 || value == -100) { //zoom in
 		if(scaleFactor < 2.5) {
 			scaleFactor += 0.1;
 			translatePos.x = mouseX;
@@ -33,8 +33,10 @@ function handleScroll(event) {
 			originX = translatePos.x;
 			originY = translatePos.y;
 			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+			console.log('x:' + originX);
+			console.log('y:' + originY);
 		}
-	}else if(event.deltaY == 3) { //zoom out
+	}else if(value == 3 || value == 100) { //zoom out
 		if(scaleFactor > 1) {
 			scaleFactor -= 0.1;
 			translatePos.x = mouseX;
@@ -42,9 +44,11 @@ function handleScroll(event) {
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
-			originX = translatePos.x;
+			originX = translatePos.x; //autes oi 2 grammes kwdika prepei na einai askopes
 			originY = translatePos.y;
 			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+			console.log('x:' + originX);
+			console.log('y:' + originY);
 		}
 	}
 }
@@ -71,21 +75,58 @@ function zoom(scaleFactor, translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
-	nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+	//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά
+	for(let i=0; i<nonogram.emptyGrid.length; i++) {
+		if(nonogram.emptyGrid[i].value === 1){
+			//fil the cell black
+			nonogram.drawBlackCell(nonogram.emptyGrid[i]);
+			nonogram.drawPreview(nonogram.emptyGrid[i]);
+		}else if(nonogram.emptyGrid[i].value === 2) {
+			// nonogram.drawWhiteCell(nonogram.emptyGrid[i]);
+			nonogram.drawXCell(nonogram.emptyGrid[i]);
+			nonogram.drawPreview(nonogram.emptyGrid[i]);
+		}
+	}
+	//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά των αριθμών
+	ctx.beginPath();
+	ctx.strokeStyle = "red";
+	ctx.lineWidth = 3;
+	for(let i=0; i<nonogram.rowNumbersGrid.length; i++) {
+		if(nonogram.rowNumbersGrid[i].value === 1) {
+			ctx.moveTo(nonogram.rowNumbersGrid[i].x+3, (nonogram.rowNumbersGrid[i].y + nonogram.blockSize)-3);
+			ctx.lineTo((nonogram.rowNumbersGrid[i].x + nonogram.blockSize)-3, nonogram.rowNumbersGrid[i].y+3);
+		}
+	}
+
+	for(let i=0; i<nonogram.columnNumbersGrid.length; i++) {
+		if(nonogram.columnNumbersGrid[i].value === 1) {	
+			ctx.moveTo(nonogram.columnNumbersGrid[i].x+3, (nonogram.columnNumbersGrid[i].y + nonogram.blockSize)-3);
+			ctx.lineTo((nonogram.columnNumbersGrid[i].x + nonogram.blockSize)-3, nonogram.columnNumbersGrid[i].y+3);
+		}
+	}
+	ctx.closePath();
+	ctx.stroke();
 	ctx.restore();
 	//otan to zoom den einai sto level 1 na fainontai ta controls
-	if(scaleFactor !== 1) {
+	// if(scaleFactor !== 1) {
+	// 	$(topControl).show();
+	// 	$(leftControl).show();
+	// 	$(rightControl).show();
+	// 	$(bottomControl).show();
+	// }else{
+	// 	$(topControl).hide();
+	// 	$(leftControl).hide();
+	// 	$(rightControl).hide();
+	// 	$(bottomControl).hide();
+	// }
+
+
+}
+
 		$(topControl).show();
 		$(leftControl).show();
 		$(rightControl).show();
 		$(bottomControl).show();
-	}else{
-		$(topControl).hide();
-		$(leftControl).hide();
-		$(rightControl).hide();
-		$(bottomControl).hide();
-	}
-}
 
 //o kwdikas gia to drag
 function drag(translatePos) {
@@ -97,55 +138,73 @@ function drag(translatePos) {
 	nonogram.drawGrid();
 	nonogram.drawRowNumbers();
 	nonogram.drawColumnNumbers();
-	nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+	nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 	// redraw();
 	ctx.restore();
 }
 
-function dragControl() {
-	translatePos.x = mouseX-dragStart.x;
-	translatePos.y = mouseY-dragStart.y;
+function dragControl(x,y) {
+	translatePos.x = x;
+	translatePos.y = y;
 	//auta einai ta oria gia na mhn afhnei aspra kena ston canvas
 	//limitTop>translatePos.y && limitLeft>translatePos.x && limitRight<(translatePos.x+(scaleFactor*canvas.width)) && limitBottom<(translatePos.y+(scaleFactor*canvas.height))
 	if((limitTop>translatePos.y) && (limitLeft>translatePos.x) && (limitRight<(translatePos.x+(scaleFactor*canvas.width))) && (limitBottom<(translatePos.y+(scaleFactor*canvas.height)))) {
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height)); //prepei na apo8hkeuw kai to width kai height
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitTop<=translatePos.y && limitLeft<=translatePos.x) { //an ksepernaei to panw kai to aristero orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitTop<=translatePos.y && limitRight>=(translatePos.x+(scaleFactor*limitRight))) { //an ksepernaei to panw kai to deksio orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitRight>=(translatePos.x+(scaleFactor*limitRight)) && limitBottom>=(translatePos.y+(scaleFactor*limitBottom))) { //an ksepernaei to deksio kai to katw orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitBottom>=(translatePos.y+(scaleFactor*limitBottom)) && limitLeft<=translatePos.x) { //an ksepernaei to katw kai to aristero orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitTop<=translatePos.y) { //an ksepernaei mono to panw orio
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitLeft<=translatePos.x) { //an ksepernaei to aristero orio
 		translatePos.x = originX;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitRight>=(translatePos.x+(scaleFactor*canvas.width))) { //an ksepernaei to deksio orio
 		translatePos.x = originX;//-((scaleFactor*canvas.width)-canvas.width)/scaleFactor;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}else if(limitBottom>=(translatePos.y+(scaleFactor*limitBottom))) { //an ksepernaei to katw orio
 		translatePos.y = originY;
 		drag(translatePos);
 		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
+		console.log('x:' + originX);
+		console.log('y:' + originY);
 	}
 	else{
 		//gia na mhn apo8hkeuei ti suntetagmenes tou drag otan den ginete drag
@@ -216,7 +275,6 @@ $(canvas).mousedown(function(event) {
 	}
 });
 
-//------------ Under development gia na kanw ton xrhsth na epilegei polla koutakia
 $(canvas).mouseup(function(){
 	if(state === "level") {
 		isDown = false;
@@ -225,8 +283,8 @@ $(canvas).mouseup(function(){
 			$(leftControl).show();
 			$(rightControl).show();
 			$(bottomControl).show();
+			dragged = false;
 		}
-		dragged = false;
 
 		if(activeDragControl) {
 			activeDragControl = null;
@@ -253,7 +311,7 @@ $(canvas).mousemove(function(event){
 	mouseX = event.offsetX ; //- c.canvas.offsetLeft
 	mouseY = event.offsetY ; //- c.canvas.offsetTop
 	if(dragged){
-		dragControl();
+		dragControl(mouseX-dragStart.x, mouseY-dragStart.y);
 		$(topControl).hide();
 		$(leftControl).hide();
 		$(rightControl).hide();
@@ -271,8 +329,10 @@ $(canvas).mousemove(function(event){
 		$(leftControl).hide();
 		$(rightControl).hide();
 		$(bottomControl).hide();
-		dragControl();
+		dragControl(mouseX-dragStart.x, mouseY-dragStart.y);
 	}
+	console.log("x: " + mouseX);
+	console.log("y: " + mouseY);
 });
 
 $(canvas).mouseout(function() {
@@ -285,7 +345,6 @@ $(canvas).mouseout(function() {
 		activeDragControl = null;
 	}
 	if(isDown){
-		console.log('eafasa');
 		nonogram.findUserChoices();
 		store(currentStage, nonogram.userChoices.levelGrid);
 		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
@@ -293,14 +352,6 @@ $(canvas).mouseout(function() {
 	}
 });
 
-//------ Zoom
-canvas.addEventListener('wheel', function(event) {
-	if(state === "level") {
-		handleScroll(event);
-	}
-},false);
-
-// Drag Controls
 canvas.addEventListener("mouseover", function(evt) {
 	if(activeDragControl) {
 		lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
@@ -313,122 +364,45 @@ canvas.addEventListener("mouseover", function(evt) {
 		dragStart.y = lastY - translatePos.y;
 		dragged = true;
 	}
+
 },false);
 
-topControl.addEventListener('mousemove', function(event) {
-	mouseX = event.offsetX || (event.pageX - topControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - topControl.offsetTop);
-});
+//------ Zoom
+//-- Implemantation for firefox
+// canvas.addEventListener('wheel', function(event) {
+// 	if(state === "level" || state === "multiplayer") {
+// 		handleScroll(event);
+// 	}
+// },false);
+//-- Implemantation for chrome IE
+// canvas.addEventListener('DOMMouseScroll', function(event) {
+// 	// if(state === "level" || state === "multiplayer") {
+// 	// 	handleScroll(event);
+// 	// }
+// 	alert("e");
+// },false);
 
-topControl.addEventListener('mousedown', function(event) {
-	event.preventDefault();
-	mouseX = event.offsetX || (event.pageX - topControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - topControl.offsetTop);
-	$(this).hide();
-	activeDragControl = "top";
-});
-
-leftControl.addEventListener('mousemove', function(event) {
-	mouseX = event.offsetX || (event.pageX - leftControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - leftControl.offsetTop);	
-});
-
-leftControl.addEventListener('mousedown', function(event) {
-	event.preventDefault();
-	mouseX = event.offsetX || (event.pageX - leftControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - leftControl.offsetTop);
-	$(this).hide();
-	activeDragControl = " left";
-});
-
-rightControl.addEventListener('mousemove', function(event) {
-	mouseX = event.offsetX || (event.pageX - rightControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - rightControl.offsetTop);
-});
-
-rightControl.addEventListener('mousedown', function(event) {
-	event.preventDefault();
-	mouseX = event.offsetX || (event.pageX - rightControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - rightControl.offsetTop);
-	$(this).hide();
-	activeDragControl = "right";
-});
-
-bottomControl.addEventListener('mousemove', function(event) {
-	mouseX = event.offsetX || (event.pageX - bottomControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - bottomControl.offsetTop);
-});
-
-bottomControl.addEventListener('mousedown', function(event) {
-	event.preventDefault();
-	mouseX = event.offsetX || (event.pageX - bottomControl.offsetLeft);
-	mouseY = event.offsetY || (event.pageY - bottomControl.offsetTop);
-	$(this).hide();
-	activeDragControl = "bottom";
-});
-
-//---- Mobile Events
-$(canvas).on('touchstart', function(event) {
-	event.preventDefault();
-	startPointTouchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
-	// startPointTouchY = Math.floor(event.touches[0].clientY - ((window.innerHeight - canvas.height) / 2));
-	startPointTouchY = event.touches[0].clientY;
-	if(state === 'level') {
-		isDown = true;
-
-		nonogram.fillCels(startPointTouchX, startPointTouchY);
-		nonogram.findUserChoices(); // gt to exw edw auto?
-		store(currentStage, nonogram.userChoices.levelGrid);
-		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
-		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
-		nonogram.findProgress();
-	}else if(state === 'multiplayer') {
-		if(turn === true) {
-			var gameData = nonogram.multiplayerFillCels(startPointTouchX, startPointTouchY);
-			sock.emit('empty grid', gameData);
-			turn = false;
-			$("#info-current-progress").text("");
-			$("#info-current-progress").text(nonogram.findProgress() + "%");
-			if(nonogram.checkProgress()) {
-				sock.emit('correct' , multiplayerGame);
-			}else{
-				$("#correct").hide();
-				sock.emit('end-turn');
-			}
-		}
+$(canvas).bind('mousewheel', function(event) {
+	if(state === "level" || state === "multiplayer") {
+		handleScroll(event.originalEvent.deltaY);
 	}
+	console.log(event.originalEvent.deltaY);
 });
 
-$(canvas).on('touchend', function() {
-	if(state === "level") {
-		isDown = false;
-
-		if(nonogram.checkProgress()) {
-			$("#correct").show();
-			store("correct-" + currentStage, 1);
-			$(".correct-" + currentStage).show();
-		}else{
-			$("#correct").hide();
-			store("correct-" + currentStage, 0);
-			$(".correct-" + currentStage).hide();
-		}
-		nonogram.findUserChoices();
-		store(currentStage, nonogram.userChoices.levelGrid);
-		store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
-		store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);	
-		$("#info-current-progress").text("");
-		$("#info-current-progress").text(nonogram.findProgress() + "%");
+$(canvas).bind('DOMMouseScroll', function(event) {
+	if(state === "level" || state === "multiplayer") {
+		handleScroll(event.detail);
 	}
+	console.log(event.detail);
 });
 
-$(canvas).on('touchmove', function(event) {
-	event.preventDefault();
-	if(isDown){
-		var touchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
-		var touchY = Math.floor(event.touches[0].clientY);
-		nonogram.fillMultiCells(touchX, touchY, startPointTouchX, startPointTouchY);
-	}
-});
+// canvas.addEventListener("onwheel" in document ? "wheel" : "mousewheel", function(e) {
+// 	e.wheel = e.deltaY ? -e.deltaY : e.wheelDelta/40;
+// 	// custom code
+// 	if(state === "level" || state === "multiplayer") {
+// 		handleScroll(e);
+// 	}
+// });
 
 //Window resize
 $(window).resize( () => {
@@ -449,7 +423,7 @@ $(window).resize( () => {
 		ctx.save();
 		ctx.translate(originX,originY);
 		ctx.scale(scaleFactor,scaleFactor);
-		nonogram.continueProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 		ctx.restore();
 		limitBottom = nonogram.height-myLimit;
 		limitRight = nonogram.width-myLimit;
