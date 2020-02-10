@@ -200,7 +200,7 @@ function Nonogram(levelGrid) {
 		}
 	}
 
-	this.continueProgress = function(levelGrid, rowNumbersGrid, columnNumbersGrid) {
+	this.retrieveProgress = function(levelGrid, rowNumbersGrid, columnNumbersGrid) {
 		this.userChoices.levelGrid = levelGrid;
 		this.userChoices.rowNumbersGrid = rowNumbersGrid;
 		this.userChoices.columnNumbersGrid = columnNumbersGrid;
