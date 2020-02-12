@@ -141,8 +141,12 @@ $(canvas).on('touchmove', function(event) {
 			$(bottomControl).hide();
 			body.style.background = 'red';
 		}
-		if(isDown){
-			nonogram.fillMultiCells(touchX, touchY, startPointTouchX, startPointTouchY);
+		if(isDown && evCache.length == 1){
+			ctx.save();
+			ctx.translate(originX,originY);
+			ctx.scale(scaleFactor,scaleFactor);
+			nonogram.fillMultiCells((touchX-originX)/scaleFactor, (touchY-originY)/scaleFactor, (startPointTouchX-originX)/scaleFactor, (startPointTouchY-originY)/scaleFactor);
+			ctx.restore();
 		}
 	}else if(state === "multiplayer") {
 		// touch_zoom_handler(event);
