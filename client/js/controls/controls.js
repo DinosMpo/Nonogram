@@ -22,33 +22,49 @@ let bottomControl = document.getElementById('bottom');
 
 //diaxeirish otan ginetai scroll
 function handleScroll(value) {
+	// if(originX >= 0) {
+	// 	translatePos.x = mouseX - originX;
+	// }else{
+	// 	translatePos.x = mouseX + Math.abs(originX);
+	// }
+
+	// if(originY >= 0) {
+	// 	translatePos.y = mouseY - originY;
+	// }else{
+	// 	translatePos.y = mouseY + Math.abs(originY);
+	// }
+
 	if(value == -3 || value == -100) { //zoom in
 		if(scaleFactor < 2.5) {
 			scaleFactor += 0.1;
+			// translatePos.x = (mouseX-originX)/scaleFactor;
+			// translatePos.y = (mouseY-originY)/scaleFactor;
 			translatePos.x = mouseX;
 			translatePos.y = mouseY;
+			// translatePos.x *= scaleFactor;
+			// translatePos.y *= scaleFactor;
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
 			originX = translatePos.x;
 			originY = translatePos.y;
 			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
-			console.log('x:' + originX);
-			console.log('y:' + originY);
 		}
 	}else if(value == 3 || value == 100) { //zoom out
 		if(scaleFactor > 1) {
 			scaleFactor -= 0.1;
+			// translatePos.x = (mouseX-originX)/scaleFactor;
+			// translatePos.y = (mouseY-originY)/scaleFactor;
 			translatePos.x = mouseX;
 			translatePos.y = mouseY;
+			// translatePos.x *= scaleFactor;
+			// translatePos.y *= scaleFactor;
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
 			originX = translatePos.x; //autes oi 2 grammes kwdika prepei na einai askopes
 			originY = translatePos.y;
 			trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
-			console.log('x:' + originX);
-			console.log('y:' + originY);
 		}
 	}
 }
@@ -108,25 +124,23 @@ function zoom(scaleFactor, translatePos) {
 	ctx.stroke();
 	ctx.restore();
 	//otan to zoom den einai sto level 1 na fainontai ta controls
-	// if(scaleFactor !== 1) {
-	// 	$(topControl).show();
-	// 	$(leftControl).show();
-	// 	$(rightControl).show();
-	// 	$(bottomControl).show();
-	// }else{
-	// 	$(topControl).hide();
-	// 	$(leftControl).hide();
-	// 	$(rightControl).hide();
-	// 	$(bottomControl).hide();
-	// }
-
-
-}
-
+	if(scaleFactor !== 1) {
 		$(topControl).show();
 		$(leftControl).show();
 		$(rightControl).show();
 		$(bottomControl).show();
+	}else{
+		$(topControl).hide();
+		$(leftControl).hide();
+		$(rightControl).hide();
+		$(bottomControl).hide();
+	}
+}
+
+		// $(topControl).show();
+		// $(leftControl).show();
+		// $(rightControl).show();
+		// $(bottomControl).show();
 
 //o kwdikas gia to drag
 function drag(translatePos) {
