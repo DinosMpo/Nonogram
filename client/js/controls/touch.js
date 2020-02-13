@@ -165,8 +165,8 @@ function touch_zoom_handler(event) {
 	// If two pointers are down, check for pinch gestures
 	if (evCache.length == 2) {
 		// Calculate the distance between the two pointers
-		var curDiffX = Math.floor(evCache[0].clientX - evCache[1].clientX);
-		var curDiffY = Math.floor(evCache[0].clientY - evCache[1].clientY);
+		var curDiffX = Math.abs(evCache[0].clientX - evCache[1].clientX);
+		var curDiffY = Math.abs(evCache[0].clientY - evCache[1].clientY);
 		if (prevDiff > 0) {
 			if (curDiffX > prevDiff) {
 				// The distance between the two pointers has increased
@@ -175,13 +175,13 @@ function touch_zoom_handler(event) {
 				if(scaleFactor < 2.5) {
 					scaleFactor += 0.1;
 					//na to analusw
-					translatePos.x = Math.floor(evCache[0].clientX + (curDiffX/2));
-					translatePos.y = Math.floor(evCache[0].clientY + (curDiffY/2));
+					// translatePos.x = Math.floor(evCache[0].clientX + (curDiffX/2));
+					// translatePos.y = Math.floor(evCache[0].clientY + (curDiffY/2));
+					translatePos.x = ((Math.abs(evCache[0].clientX + evCache[1].clientX)/2) - originX)/scaleFactor;
+					translatePos.y = ((Math.abs(evCache[0].clientY + evCache[1].clientY)/2) - originY)/scaleFactor;
 					zoom(scaleFactor, translatePos);
-
 					translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 					translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
-
 					originX = translatePos.x;
 					originY = translatePos.y;
 					trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
@@ -193,8 +193,10 @@ function touch_zoom_handler(event) {
 				body.style.background = 'red';
 				if(scaleFactor > 1) {
 					scaleFactor -= 0.1;
-					translatePos.x = Math.floor(evCache[0].clientX + (curDiffX/2));
-					translatePos.y = Math.floor(evCache[0].clientY + (curDiffY/2));
+					// translatePos.x = Math.floor(evCache[0].clientX + (curDiffX/2));
+					// translatePos.y = Math.floor(evCache[0].clientY + (curDiffY/2));
+					translatePos.x = Math.floor(evCache[0].clientX + evCache[1].clientX)/2;
+					translatePos.y = Math.floor(evCache[0].clientY + evCache[1].clientY)/2;
 					zoom(scaleFactor, translatePos);
 					translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 					translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
