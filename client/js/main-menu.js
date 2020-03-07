@@ -51,6 +51,9 @@ $("#continueGame").click(function(){
 
 	container.style.transform = "none";
 	container.style.left = "0%";
+	container.style.top = "0%";
+
+
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 	canvas.style.border = "none";

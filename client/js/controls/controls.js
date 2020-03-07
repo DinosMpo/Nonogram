@@ -412,14 +412,16 @@ $(window).resize( () => {
 		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
 		intro.draw();
 	}else if(state === 'level') {
-		nonogram.relocate();
-		nonogram.findUserChoices();
-		ctx.save();
-		ctx.translate(originX,originY);
-		ctx.scale(scaleFactor,scaleFactor);
-		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
-		ctx.restore();
-		limitBottom = nonogram.height-myLimit;
-		limitRight = nonogram.width-myLimit;
+		if(window.innerHeight > 0 && window.innerWidth > 0) {
+			nonogram.relocate();
+			nonogram.findUserChoices();
+			ctx.save();
+			ctx.translate(originX,originY);
+			ctx.scale(scaleFactor,scaleFactor);
+			nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+			ctx.restore();
+			limitBottom = nonogram.height-myLimit;
+			limitRight = nonogram.width-myLimit;
+		}
 	}
 });
