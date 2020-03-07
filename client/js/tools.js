@@ -90,8 +90,6 @@ function createCorrectLevelTools() {
 		li.appendChild(div);
 		correctSinglePlayerLevel.appendChild(li);
 	}
-
-
 };
 
 // Singleplayer tools
@@ -101,7 +99,7 @@ createSinglePlayerTools();
 createMultiPlayerTools();
 
 //Correct level tools
-createCorrectLevelTools()
+// createCorrectLevelTools();
 
 //For the default tool
 $(".default").parent().click(function(){
@@ -322,6 +320,7 @@ $(".home").click(function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	container.style.transform = "none";
 	container.style.left = "0%";
+	container.style.top = "0%";
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 	canvas.style.border = "none";
