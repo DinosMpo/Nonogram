@@ -11,8 +11,9 @@ function createLevel(level, stage) {
 	state = "level"; //to xrhsomopoiw gia na stamataw to animation
 	currentStage = stage;
 	nonogram = new Nonogram(level);
-	container.style.transform = "translateX(-50%)";
-	container.style.left = "50%";
+	container.style.left = "50%";	
+	container.style.top = "50%";
+	container.style.transform = "translate(-50%, -50%)";
 	canvas.width = nonogram.width;
 	canvas.height = nonogram.height;
 	canvas.style.border = "1px solid black";
@@ -21,13 +22,11 @@ function createLevel(level, stage) {
 		nonogram.drawGrid();
 		nonogram.drawRowNumbers();
 		nonogram.drawColumnNumbers();
-		console.log("eeee");
 	}else{
 		nonogram.drawGrid();
 		nonogram.drawRowNumbers();
 		nonogram.drawColumnNumbers();
-		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));
-		console.log("oooo");	
+		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));	
 	}
 	// nonogram.drawRowNumbers();
 	// nonogram.drawColumnNumbers();
@@ -36,8 +35,8 @@ function createLevel(level, stage) {
 	// $("#singleplayer-tools").show();
 	if(nonogram.checkProgress()) {
 		$("#singleplayer-tools").hide();
-		$("#correct-level-tools").show();
 		$("#correct").show();
+		$("#correct-level-tools").show();
 	}else {
 		$("#singleplayer-tools").show();
 	}

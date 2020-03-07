@@ -4,11 +4,12 @@
 		<title>Nonogram</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+
 		<link rel="stylesheet" type="text/css" href="css/home.css">
 		<link rel="stylesheet" type="text/css" href="css/levels.css">
 		<link rel="stylesheet" type="text/css" href="css/tools.css">
 		<link rel="stylesheet" type="text/css" href="css/multiplayer.css">
+		<link rel="stylesheet" type="text/css" href="css/responsive.css">
 		<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 		
 	</head>
@@ -18,50 +19,38 @@
 			
 			<div id = "container">
 				
-				<!-- Canvas -->
-				<canvas id="canvas"></canvas>
-				<!-- Drag tools -->
-				<div id="top"><img src="img/left_right.png"></div>
-				<div id="left"><img src="img/top_down.png"></div>
-				<div id="right"><img src="img/top_down.png"></div>
-				<div id="bottom"><img src="img/left_right.png"></div>			
-				<!-- Wait your turn message -->
-				<div id="waiting-screen" class="black-screen">
-					<h1>Wait your turn..</h1>
-				</div>
-
-				<div id="player-left" class="black-screen">
-					<div id="player-left-popup">
-						<h3 id="player-left-info"></h3>
-						<img src="img/exit.png">
-						<p id="exit-to-menu">Exit to menu</p>
+				<div id="game">
+					<!-- Canvas -->
+					<canvas id="canvas"></canvas>
+					<!-- Drag tools -->
+					<div id="top"><img src="img/left_right.png"></div>
+					<div id="left"><img src="img/top_down.png"></div>
+					<div id="right"><img src="img/top_down.png"></div>
+					<div id="bottom"><img src="img/left_right.png"></div>			
+					<!-- Wait your turn message -->
+					<div id="waiting-screen" class="black-screen">
+						<h1>Wait your turn..</h1>
 					</div>
-				</div>
 
-				<!-- <div id="game-menu">
-					
-				</div> -->
-
-				<!-- Tools -->
-				<div id="container-tools">
-					<!-- <div id="info-left">
-
-						<div id="info-stage">
-							<span id="info-current-stage"></span>
-						</div>
-
-					</div> -->
-
-					<div id="info-right">
-						<div id="info-progress">
-							<span id="info-current-progress">0%</span>
+					<div id="player-left" class="black-screen">
+						<div id="player-left-popup">
+							<h3 id="player-left-info"></h3>
+							<img src="img/exit.png">
+							<p id="exit-to-menu">Exit to menu</p>
 						</div>
 					</div>
 
-					<ul id="tools"></ul>
-					
+					<!-- Tools -->
+					<div id="container-tools">
+						<ul id="tools"></ul>
+						<div id="info-right">
+							<div id="info-progress">
+								<span id="info-current-progress">0%</span>
+							</div>
+						</div>
+					</div>
 				</div>
-				
+
 				<!-- Menu -->
 				<div id="menu">
 					<ul>
@@ -126,6 +115,7 @@
 					<div id="correct-popup">
 						<h2>Correct !</h2>
 						<img src="img/green-button.png" style="width:60px; height:60px; margin: 0 auto;">
+						<p id="restart">Restart</p>
 						<p id="continueGame">Exit</p>
 					</div>
 				</div>

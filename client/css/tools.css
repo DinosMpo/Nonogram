@@ -1,10 +1,13 @@
 #container-tools {
   display: none;
-  position: absolute;
-  width: 100%;
+  position: relative;
+  /*width: 100%;*/
+  max-width: 296px;
+  min-width: 296px;
   text-align: center;
   margin: 0 auto;
   background-color: #e0e0d1;
+  min-height: 32.5px;
 }
 
 #tools {
@@ -12,7 +15,7 @@
   list-style-type: none;
   padding: 0;
   margin: 0 auto;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 #singleplayer-tools {
@@ -35,7 +38,7 @@
   width: 27px;
   height: 27px;
   cursor: pointer;
-  box-shadow: 3px 3px 2px grey;
+  /*box-shadow: 3px 3px 2px grey;*/
   background: linear-gradient(to bottom right, #e0e0d1, #999966);
 }
 
@@ -111,17 +114,12 @@
 }
 
 #info-right {
-  display: block;
-  position: absolute;
+  display: inline-block;
+/*  position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 37px;
-  margin: 5px;
-  right: 0;
-  /*margin-left: 10px;*/
-  /*left: 50%;*/
-  /*transform: translateX(-50%) translateY(-50%);*/
-  /*background-color: black;*/
+  right: 0;*/
+  float: right;
 }
 
 #info-stage {
@@ -132,9 +130,10 @@
 }
 
 #info-progress {
-  width: 65px;
+  width: 60px;
+  height: 25px;
   font-family: 'Press Start 2P';
-  padding: 3px;
+  padding: 2px;
   background-color: black;
   color: #ffcc00;
   text-align: right;
@@ -176,7 +175,7 @@
 }
 
 #bottom {
-  bottom: 10px;
+  bottom: 40px;
   right: 45%;
   width: 26px;
   height: 25px;
