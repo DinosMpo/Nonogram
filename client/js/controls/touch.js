@@ -11,7 +11,7 @@ $(canvas).on('touchstart', function(event) {
 	body.style.background = 'pink';
 	// gt to xw kanei etsi?
 	startPointTouchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
-	startPointTouchY = Math.floor(event.touches[0].clientY);
+	startPointTouchY = Math.floor(event.touches[0].clientY - ((window.innerHeight - canvas.height) / 2));
 	// startPointTouchY = Math.floor(event.touches[0].clientY - ((window.innerHeight - canvas.height) / 2));
 	// console.log('touch co ordinate: ');
 	// console.log(Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2)));
@@ -117,7 +117,7 @@ $(canvas).on('touchend', function(event) {
 $(canvas).on('touchmove', function(event) {
 	event.preventDefault();
 	var touchX = Math.floor(event.touches[0].clientX - ((window.innerWidth - canvas.width) / 2));
-	var touchY = Math.floor(event.touches[0].clientY);
+	var touchY = Math.floor(event.touches[0].clientY - ((window.innerHeight - canvas.height) / 2));
 	// body.style.background = 'yellow';
 	if(state ==="level") {
 		//edw 8a 8elei mia if gia na mhn trexei h sunarthsh otan den ginetai to gesture tou zoom
