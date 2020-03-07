@@ -111,7 +111,11 @@ function Nonogram(levelGrid) {
 	let maxSize;
 
 	if(windowWidth > windowHeight) {
-		size = windowHeight - 30;
+		if(windowHeight > 359) {
+			size = windowHeight - 50;
+		}else{
+			size = windowHeight;
+		}
 	}else{
 		size = windowWidth;
 	}
@@ -255,7 +259,11 @@ function Nonogram(levelGrid) {
 		windowWidth = window.innerWidth;
 		windowHeight = window.innerHeight;
 		if(windowWidth > windowHeight) {
-			size = windowHeight - 30;
+			if(windowHeight > 359) {
+				size = windowHeight - 50;
+			}else{
+				size = windowHeight;
+			}
 		}else{
 			size = windowWidth;
 		}
