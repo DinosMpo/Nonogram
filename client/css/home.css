@@ -44,24 +44,22 @@ body {
 }
 
 #menu {
+  display: inline-block;
   position: absolute;
-  /*bottom: -200;*/
+  text-align: center;
+  font-weight: bold;
   bottom: 15%;
   left: 50%;
-  text-align: center;
-  display: inline-block;
   transform: translateX(-50%);
-  font-weight: bold;
 }
 
 #menu ul {
+  display: block;
   list-style-type: none;
   padding: 0;
-  display: block;
 }
 
 #menu li {
-  /*background: yellow;*/
   background: linear-gradient(to bottom right, grey, white, grey);
   border: 1px solid black;
   margin-bottom: 5px;

@@ -1,0 +1,175 @@
+@media screen and (max-width: 700px) and (orientation: landscape) {
+	
+}
+
+@media only screen and (max-width: 700px) {
+
+	body {
+		background-color: blue;
+	}
+
+	div#container-tools{
+		text-align: left;
+	}
+
+	#menu li {
+		width: 180px;
+	}
+
+}
+
+@media only screen and (max-width: 323px) {
+	#info-progress {
+		width: 43px;
+		font-family: 'Arial';
+	}
+}
+
+@media only screen and (max-height: 414px) {
+
+	body {
+		background: yellow;
+	}
+
+	#menu {
+		bottom: 10%;
+	}
+
+	#menu li {
+		width: 150px;
+		height: 28px;
+		padding-top: 6px;
+	}
+
+	#levels {
+		width: 190px;
+		top: 25%;
+	}
+
+	#levels h3 {
+		padding: 10px;
+	}
+
+	#close-levels {
+		padding: 7px;
+	}
+
+	.level {
+		padding: 8px;
+	}
+
+	#stages {
+		top: 25%;
+		width: 190px;
+	}
+
+	#stage {
+		padding: 8px;
+	}
+
+	#instructions {
+		top: 10%;
+		width: 85%;
+		height: 78%;
+	}
+
+	#instructions h3 {
+		margin: 15px;
+	}
+
+	#instructions p {
+		margin: 0px 10px 10px 10px;
+	}
+
+	div#container-tools{
+		text-align: left;
+	}
+
+	/*div#container-tools{
+		text-align: left;
+	}
+
+	#menu li {
+		width: 180px;
+	}*/
+
+}
+
+@media only screen and (max-height: 350px) {
+
+	#info-progress {
+		width: 43px;
+	}
+
+	#stages {
+		top: 11%;
+		width: 190px;
+	}
+}
+
+@media only screen and (max-height: 325px) {
+	
+	#info-progress {
+		width: 30px;
+		font-family: 'Arial';
+	}
+}
+
+/*@media only screen and (orientation: portrait) {
+	body {
+		background: grey;
+	}
+
+	#container {
+		/*background: #e0e0d1;*/
+	}
+
+	#canvas {
+		display: block;
+	}
+
+	#container-tools {
+		/*left: 0px;*/
+		/*display: inline-block;
+		float: right;
+		position: relative;*/
+		position: absolute;
+		width: 100%;
+		left: 0px;
+	}
+}
+*/
+/*@media only screen and (orientation: landscape) {
+	body {
+		background: red;
+	}*/
+
+	/*#canvas {
+		display: inline-block;
+	}
+
+	#container-tools {
+		left: 0px;
+		display: inline;
+		float: right;
+		position: relative;
+		width: ;
+	}
+
+	#tools {
+		display: block;
+		overflow: hidden;
+	}
+
+	.tool {
+		float: right;
+	}
+
+	.extra-tool {
+		float: none;
+	}
+}*/
+
+/*@media only screen and () {
+
+}*/

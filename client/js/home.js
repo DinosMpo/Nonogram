@@ -17,7 +17,7 @@ function introScreen() {
 						[1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0,1,1,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,0,1]
 	],
 
-	this.blockSize = (canvas.width - 60) / this.textLogo[0].length;
+	this.blockSize = (canvas.width-30) / this.textLogo[0].length;
 
 	this.draw = function() {
 		ctx.fillStyle = "black";
@@ -26,11 +26,11 @@ function introScreen() {
 				if(this.textLogo[i][y] === 1){
 					ctx.beginPath();
 					
-					ctx.fillRect(y*this.blockSize + 20, i*this.blockSize + 100, this.blockSize, this.blockSize);
+					ctx.fillRect(y*this.blockSize + 15, i*this.blockSize + 15, this.blockSize, this.blockSize);
 
 					ctx.strokeStyle = "red";
 			    	ctx.lineWidth   = 2;
-			    	ctx.strokeRect(y*this.blockSize + 20, i*this.blockSize + 100, this.blockSize, this.blockSize);
+			    	ctx.strokeRect(y*this.blockSize + 15, i*this.blockSize + 15, this.blockSize, this.blockSize);
 				}
 			}
 		}
@@ -164,8 +164,45 @@ function animate() {
 }
 
 var img = new Image();
-img.src = "img/nono222.png";
+
+if(window.innerHeight >= 753) {
+	if(window.innerWidth >= 999) {
+		img.src = "img/nono_1000X753.png";
+	}else if(window.innerWidth < 999 && window.innerWidth >= 719) {
+		img.src = "img/nono_720X542.png";
+	}else if(window.innerWidth < 719 && window.innerWidth >= 480) {
+		img.src = "img/nono_480X361.png";
+	}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+		img.src = "img/nono_360X271.png";
+	}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+		img.src = "img/nono_304X229.png";
+	}
+}else if(window.innerHeight < 753 && window.innerHeight >= 543) {
+	if(window.innerWidth >= 719) {
+		img.src = "img/nono_720X542.png";
+	}else if(window.innerWidth < 719 && window.innerWidth >= 480) {
+		img.src = "img/nono_480X361.png";
+	}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+		img.src = "img/nono_360X271.png";
+	}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+		img.src = "img/nono_304X229.png";
+	}
+}else if(window.innerHeight < 543 && window.innerHeight >= 360) {
+	if(window.innerWidth >= 480) {
+		img.src = "img/nono_480X361.png";
+	}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+		img.src = "img/nono_360X271.png";
+	}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+		img.src = "img/nono_304X229.png";
+	}
+}else if(window.innerHeight < 360) {
+	if(window.innerWidth >= 360) {
+		img.src = "img/nono_360X271.png";
+	}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+		img.src = "img/nono_304X229.png";
+	}
+}
+
+// img.src = "img/nono3.png";
 let intro = new introScreen();
 setInterval(animate, 1000/50);
-
-

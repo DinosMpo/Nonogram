@@ -404,13 +404,50 @@ $(window).resize( () => {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 		intro = new introScreen();
+		if(window.innerHeight >= 753) {
+			if(window.innerWidth >= 999) {
+				img.src = "img/nono_1000X753.png";
+			}else if(window.innerWidth < 999 && window.innerWidth >= 719) {
+				img.src = "img/nono_720X542.png";
+			}else if(window.innerWidth < 719 && window.innerWidth >= 480) {
+				img.src = "img/nono_480X361.png";
+			}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+				img.src = "img/nono_360X271.png";
+			}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+				img.src = "img/nono_304X229.png";
+			}
+		}else if(window.innerHeight < 753 && window.innerHeight >= 543) {
+			if(window.innerWidth >= 719) {
+				img.src = "img/nono_720X542.png";
+			}else if(window.innerWidth < 719 && window.innerWidth >= 480) {
+				img.src = "img/nono_480X361.png";
+			}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+				img.src = "img/nono_360X271.png";
+			}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+				img.src = "img/nono_304X229.png";
+			}
+		}else if(window.innerHeight < 543 && window.innerHeight >= 360) {
+			if(window.innerWidth >= 480) {
+				img.src = "img/nono_480X361.png";
+			}else if(window.innerWidth < 480 && window.innerWidth >= 360) {
+				img.src = "img/nono_360X271.png";
+			}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+				img.src = "img/nono_304X229.png";
+			}
+		}else if(window.innerHeight < 360) {
+			if(window.innerWidth >= 360) {
+				img.src = "img/nono_360X271.png";
+			}else if(window.innerWidth < 360 && window.innerWidth >= 304) {
+				img.src = "img/nono_304X229.png";
+			}
+		}
+		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
+		intro.draw();
 		for(let i=0; i<30; i++) {
 			blackRectArray[i].relocate(Math.random() * (innerWidth - blackRectArray[i].w * 2) + blackRectArray[i].w, Math.random() * (innerHeight - blackRectArray[i].w * 2) + blackRectArray[i].w);
 			whiteRectArray[i].relocate(Math.random() * (innerWidth - whiteRectArray[i].w * 2) + whiteRectArray[i].w, Math.random() * (innerHeight - whiteRectArray[i].w * 2) + whiteRectArray[i].w);
 			xRectArray[i].relocate(Math.random() * (innerWidth - xRectArray[i].w * 2) + xRectArray[i].w, Math.random() * (innerHeight - xRectArray[i].w * 2) + xRectArray[i].w);
 		}
-		ctx.drawImage(img, (innerWidth/2)-(img.width/2), (innerHeight/2)-(img.height/2));
-		intro.draw();
 	}else if(state === 'level') {
 		if(window.innerHeight > 0 && window.innerWidth > 0) {
 			nonogram.relocate();
