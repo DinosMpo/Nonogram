@@ -188,22 +188,34 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				if(this.emptyGrid[i].value == 0) { //fill the cell black
+					this.cellChoices.update();
+					this.cellChoices.pastCells.push({cell: i, value: 0});
 					this.emptyGrid[i].value = 1;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawBlackCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 1});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 		    	}else if(this.emptyGrid[i].value == 1) { //fill the cell with a X
+					this.cellChoices.update();
+					this.cellChoices.pastCells.push({cell: i, value: 1});
 			    	this.emptyGrid[i].value = 2;
 			    	this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawXCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 2});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 				}else { //Clear the cell
+					this.cellChoices.update();
+					this.cellChoices.pastCells.push({cell: i, value: 2});
 					this.emptyGrid[i].value = 0;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 0});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 				}
 				break;
 			}
@@ -212,16 +224,28 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				if(this.emptyGrid[i].value !== 1) {
+					this.cellChoices.update();
+					if(this.emptyGrid[i].value == 0) {
+						this.cellChoices.pastCells.push({cell: i, value: 0});
+					}else{
+						this.cellChoices.pastCells.push({cell: i, value: 2});
+					}
 					this.emptyGrid[i].value = 1;//fil the cell black
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawBlackCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 1});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 			    }else{
+					this.cellChoices.update();
+			    	this.cellChoices.pastCells.push({cell: i, value: 1});
 					this.emptyGrid[i].value = 0;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 0});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 				}
 				break;
 			}
@@ -230,16 +254,28 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				if(this.emptyGrid[i].value !== 2) {
+					this.cellChoices.update();
+					if(this.emptyGrid[i].value == 0) {
+						this.cellChoices.pastCells.push({cell: i, value: 0});
+					}else{
+						this.cellChoices.pastCells.push({cell: i, value: 1});
+					}
 					this.emptyGrid[i].value = 2;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
 					this.drawXCell(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 2});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 		    	}else{
+					this.cellChoices.update();
+			    	this.cellChoices.pastCells.push({cell: i, value: 2});
 		    		this.emptyGrid[i].value = 0;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 0});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 		    	}
 		    	break;
 	  		}
@@ -248,10 +284,18 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
 				if(this.emptyGrid[i].value !== 0) {
+					this.cellChoices.update();
+					if(this.emptyGrid[i].value == 1) {
+						this.cellChoices.pastCells.push({cell: i, value: 1});
+					}else{
+						this.cellChoices.pastCells.push({cell: i, value: 2});
+					}
 					this.emptyGrid[i].value = 0;
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
+					this.cellChoices.newCells.push({cell: i, value: 0});
 					this.strokeCurrentChoice(this.emptyGrid[i]);
+					this.cellChoices.index ++;
 			    }
 			    break;
 		 	}
