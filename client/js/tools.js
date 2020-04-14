@@ -142,6 +142,50 @@ $(".white").parent().click(function(){
 	}
 });
 
+//For the undo tool
+$(".undo").parent().click(function(){
+	// console.log(nonogram.cellChoices.index-1);
+	if(nonogram.cellChoices.index == 0) {
+		console.log("fffffff");
+		return;
+	}
+	let index = nonogram.cellChoices.index-1;
+	let cell = nonogram.cellChoices.pastCells[index].cell;
+	// nonogram.cellChoices.update();
+	if(nonogram.cellChoices.pastCells[index].value == 0) {
+		//white cell
+		nonogram.emptyGrid[cell].value = 0;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}else if(nonogram.cellChoices.pastCells[index].value == 1) {
+		//black cell
+		nonogram.emptyGrid[cell].value = 1;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawBlackCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}else if(nonogram.cellChoices.pastCells[index].value == 2) {
+		//x cell
+		nonogram.emptyGrid[cell].value = 2;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawXCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}
+	nonogram.findUserChoices(); // gt to exw edw auto? το έχω για να αποθηκεύω το progress του χρήστη
+	store(currentStage, nonogram.userChoices.levelGrid);
+	store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+	store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
+	nonogram.findProgress();
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	
+});
+
 //For the clear tool
 $(".clear").click(function() {
 	for(let i=0; i<nonogram.emptyGrid.length; i++) {
