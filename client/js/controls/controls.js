@@ -137,11 +137,6 @@ function zoom(scaleFactor, translatePos) {
 	}
 }
 
-		// $(topControl).show();
-		// $(leftControl).show();
-		// $(rightControl).show();
-		// $(bottomControl).show();
-
 //o kwdikas gia to drag
 function drag(translatePos) {
 	clearCanvas();
@@ -389,14 +384,6 @@ $(canvas).bind('DOMMouseScroll', function(event) {
 	}
 	console.log(event.detail);
 });
-
-// canvas.addEventListener("onwheel" in document ? "wheel" : "mousewheel", function(e) {
-// 	e.wheel = e.deltaY ? -e.deltaY : e.wheelDelta/40;
-// 	// custom code
-// 	if(state === "level" || state === "multiplayer") {
-// 		handleScroll(e);
-// 	}
-// });
 
 //Window resize
 $(window).resize( () => {
