@@ -322,7 +322,10 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 				//Αν βρίσκεται ακόμα στο ίδιο κελί βγαίνει απο την συνάρτηση
 				if(this.emptyGrid[i].x == x && this.emptyGrid[i].y == y) {
 					return;
+				}else if(this.emptyGrid[i].x == this.currentChoice.cell.x && this.emptyGrid[i].y == this.currentChoice.cell.y) {
+					return;
 				}
+				this.cellChoices.pastCells.push({cell: i, value: this.emptyGrid[i].value});
 				this.emptyGrid[i].value = startCellValue;
 				if(startCellValue == 1) {
 					this.drawWhiteCell(this.emptyGrid[i]);
@@ -331,11 +334,11 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					//αποθηκεύουμε την τωρινή επιλογή κελιού και ταυτόχρονα γίνεται και η τελευταία μας επιλογή
 					this.currentChoice.cell = this.emptyGrid[i];
 					this.previousChoice.cell.push(this.emptyGrid[i]);
-
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
-				
+					this.cellChoices.newCells.push({cell: i, value: 1});
+					this.cellChoices.index ++;
 				}else if(startCellValue == 2) {
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
@@ -345,6 +348,8 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					this.cellChoices.newCells.push({cell: i, value: 2});
+					this.cellChoices.index ++;
 				}else{
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
@@ -353,6 +358,8 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					this.cellChoices.newCells.push({cell: i, value: 0});
+					this.cellChoices.index ++;
 				}
 			}
 		}
@@ -360,6 +367,13 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 	if(mouseY > y && (mouseY < y + this.blockSize)) { //Για κάθε γραμμή
 		for(var i=0;i<this.emptyGrid.length;i++) {
 			if(mouseX >= this.emptyGrid[i].x && mouseY >= this.emptyGrid[i].y && mouseX <= (this.emptyGrid[i].x + this.blockSize) && mouseY <= (this.emptyGrid[i].y + this.blockSize)) {
+				//Αν βρίσκεται ακόμα στο ίδιο κελί βγαίνει απο την συνάρτηση
+				if(this.emptyGrid[i].x == x && this.emptyGrid[i].y == y) {
+					return;
+				}else if(this.emptyGrid[i].x == this.currentChoice.cell.x && this.emptyGrid[i].y == this.currentChoice.cell.y) {
+					return;
+				}
+				this.cellChoices.pastCells.push({cell: i, value: this.emptyGrid[i].value});
 				this.emptyGrid[i].value = startCellValue;
 				if(startCellValue == 1) {
 					this.drawWhiteCell(this.emptyGrid[i]);
@@ -370,6 +384,8 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					this.cellChoices.newCells.push({cell: i, value: 1});
+					this.cellChoices.index ++;
 				}else if(startCellValue == 2) {
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
@@ -379,6 +395,8 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					this.cellChoices.newCells.push({cell: i, value: 2});
+					this.cellChoices.index ++;
 				}else{
 					this.drawWhiteCell(this.emptyGrid[i]);
 					this.drawPreview(this.emptyGrid[i]);
@@ -387,6 +405,8 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 					ctx.strokeStyle = "red";
 					ctx.lineWidth   = 4;
 					ctx.strokeRect(this.currentChoice.cell.x+5, this.currentChoice.cell.y+5, this.blockSize-10, this.blockSize-10);
+					this.cellChoices.newCells.push({cell: i, value: 0});
+					this.cellChoices.index ++;
 				}
 			}
 		}
