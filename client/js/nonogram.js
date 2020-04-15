@@ -38,6 +38,27 @@ function Nonogram(levelGrid) {
 	this.userChoices.rowNumbersGrid = [];
 	this.userChoices.columnNumbersGrid = [];
 	this.fillCellChoice = "default";
+	// implemantaion for redo
+	this.cellChoices = {
+		pastCells: [],
+		newCells : [],
+		index    : 0,
+		update   : function() {
+			if(this.index < this.pastCells.length) {
+				// console.log("1");
+				let limit = this.pastCells.length;
+				for(let i=this.index; i<limit; i++) {
+					this.pastCells.pop();
+					this.newCells.pop();
+					console.log("i:" + i + ", pastCells.length:" + this.pastCells.length);
+				}
+				this.index = this.pastCells.length;
+			}else{
+				console.log("2");
+			}
+		}
+	};
+
 	this.currentChoice = {};
 	this.previousChoice = {
 		active: false

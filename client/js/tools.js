@@ -1,7 +1,7 @@
 function createSinglePlayerTools() {
 	//Tools creation
 	const singlePlayerTools = ['default', 'black', 'x', 'white'];
-	const singlePlayerExtraTools = ['undo', 'clear', 'help', 'home'];
+	const singlePlayerExtraTools = ['undo', 'redo', 'clear', 'help', 'home'];
 	const tools = document.getElementById("tools");
 	const singleplayer = document.createElement('div');
 	singleplayer.id = "singleplayer-tools";
@@ -142,6 +142,88 @@ $(".white").parent().click(function(){
 	}
 });
 
+//For the undo tool
+$(".undo").parent().click(function(){
+	if(nonogram.cellChoices.index == 0) {
+		return;
+	}
+	let index = nonogram.cellChoices.index-1;
+	let cell = nonogram.cellChoices.pastCells[index].cell;
+	if(nonogram.cellChoices.pastCells[index].value == 0) {
+		//white cell
+		nonogram.emptyGrid[cell].value = 0;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}else if(nonogram.cellChoices.pastCells[index].value == 1) {
+		//black cell
+		nonogram.emptyGrid[cell].value = 1;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawBlackCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}else if(nonogram.cellChoices.pastCells[index].value == 2) {
+		//x cell
+		nonogram.emptyGrid[cell].value = 2;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawXCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index --;
+	}
+	nonogram.findUserChoices();
+	store(currentStage, nonogram.userChoices.levelGrid);
+	store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+	store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
+	nonogram.findProgress();
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	
+});
+
+$(".redo").parent(). click(function(){
+	if(nonogram.cellChoices.index == nonogram.cellChoices.newCells.length) {
+		return;
+	}
+	
+	let index;
+	index = nonogram.cellChoices.index;
+	let cell = nonogram.cellChoices.newCells[index].cell;
+	if(nonogram.cellChoices.newCells[index].value == 0) {
+		//white cell
+		nonogram.emptyGrid[cell].value = 0;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index ++;
+	}else if(nonogram.cellChoices.newCells[index].value == 1) {
+		//black cell
+		nonogram.emptyGrid[cell].value = 1;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawBlackCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index ++;
+	}else if(nonogram.cellChoices.newCells[index].value == 2) {
+		//x cell
+		nonogram.emptyGrid[cell].value = 2;
+		nonogram.drawWhiteCell(nonogram.emptyGrid[cell]);
+		nonogram.drawXCell(nonogram.emptyGrid[cell]);
+		nonogram.drawPreview(nonogram.emptyGrid[cell]);
+		nonogram.strokeCurrentChoice(nonogram.emptyGrid[cell]);
+		nonogram.cellChoices.index ++;
+	}
+	nonogram.findUserChoices();
+	store(currentStage, nonogram.userChoices.levelGrid);
+	store('rowNumbersGrid-'+currentStage, nonogram.userChoices.rowNumbersGrid);
+	store('columnNumbersGrid-'+currentStage, nonogram.userChoices.columnNumbersGrid);
+	nonogram.findProgress();
+	$("#info-current-progress").text("");
+	$("#info-current-progress").text(nonogram.findProgress() + "%");
+});
+
 //For the clear tool
 $(".clear").click(function() {
 	for(let i=0; i<nonogram.emptyGrid.length; i++) {
@@ -168,6 +250,8 @@ $(".clear").click(function() {
 	// $(".correct-" + currentStage).hide();
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	nonogram.cellChoices.index = 0;
+	nonogram.cellChoices.update();
 });
 
 //For the help tool

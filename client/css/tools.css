@@ -2,8 +2,8 @@
   display: none;
   position: relative;
   /*width: 100%;*/
-  max-width: 296px;
-  min-width: 296px;
+  max-width: 326px;
+  min-width: 326px;
   text-align: center;
   margin: 0 auto;
   background-color: #e0e0d1;
@@ -85,6 +85,12 @@
 }
 
 .undo {
+  width: 15px;
+  height: 15px;
+  margin: 5px 5px 5px 5px;
+}
+
+.redo {
   width: 15px;
   height: 15px;
   margin: 5px 5px 5px 5px;
