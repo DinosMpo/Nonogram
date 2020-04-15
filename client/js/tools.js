@@ -250,6 +250,8 @@ $(".clear").click(function() {
 	// $(".correct-" + currentStage).hide();
 	$("#info-current-progress").text("");
 	$("#info-current-progress").text(nonogram.findProgress() + "%");
+	nonogram.cellChoices.index = 0;
+	nonogram.cellChoices.update();
 });
 
 //For the help tool
