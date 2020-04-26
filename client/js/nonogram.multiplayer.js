@@ -74,18 +74,18 @@ sock.on('update', (data) => {
 			if(nonogram.emptyGrid[data.cell].value === 1) {
 				ctx.fillStyle = 'black';
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
-				ctx.fillRect(((nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.correctGrid[0].length)) - 2, 
-							 ((nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.correctGrid.length)) - 2, 
-							 Math.floor((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.correctGrid[0].length), 
-							 Math.floor((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.correctGrid.length));
+				ctx.fillRect(((nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.levelGrid[0].length)) - 2, 
+							 ((nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.levelGrid.length)) - 2, 
+							 Math.floor((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.levelGrid[0].length), 
+							 Math.floor((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.levelGrid.length));
 			}else if(nonogram.emptyGrid[data.cell].value === 2) {
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 
-				ctx.fillRect( (( nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize )) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length)) - 2,
-										 (( nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize )) / nonogram.blockSize ) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length)) - 2, 
-										 Math.floor(( nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length), 
-										 Math.floor(( nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length));
+				ctx.fillRect( (( nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize )) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.levelGrid[0].length)) - 2,
+										 (( nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize )) / nonogram.blockSize ) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.levelGrid.length)) - 2, 
+										 Math.floor(( nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.levelGrid[0].length), 
+										 Math.floor(( nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.levelGrid.length));
 				
 				ctx.beginPath();
 				ctx.moveTo(nonogram.emptyGrid[data.cell].x + 4, nonogram.emptyGrid[data.cell].y + 4);
@@ -98,10 +98,10 @@ sock.on('update', (data) => {
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 
-				ctx.fillRect( ((nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.correctGrid[0].length)) - 2,
-										 ((nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.correctGrid.length)) - 2, 
-										 Math.floor((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.correctGrid[0].length), 
-										 Math.floor((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.correctGrid.length));
+				ctx.fillRect( ((nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.levelGrid[0].length)) - 2,
+										 ((nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize)) / nonogram.blockSize) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.levelGrid.length)) - 2, 
+										 Math.floor((nonogram.maxRowNumberSize * nonogram.blockSize) / nonogram.levelGrid[0].length), 
+										 Math.floor((nonogram.maxColumnNumberSize * nonogram.blockSize) / nonogram.levelGrid.length));
 			}
 		}else if(data.fillCellChoice === "black") {
 			nonogram.emptyGrid[data.cell].value = data.value;
@@ -125,10 +125,10 @@ sock.on('update', (data) => {
 				ctx.fillStyle = "white";
 				ctx.fillRect(nonogram.emptyGrid[data.cell].x + 2, nonogram.emptyGrid[data.cell].y + 2, nonogram.emptyGrid[data.cell].w - 3, nonogram.emptyGrid[data.cell].h - 3);
 
-				ctx.fillRect( (( nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize )) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length)) - 2,
-										 (( nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize )) / nonogram.blockSize ) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length)) - 2, 
-										 Math.floor(( nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.correctGrid[0].length), 
-										 Math.floor(( nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.correctGrid.length));
+				ctx.fillRect( (( nonogram.emptyGrid[data.cell].x - (nonogram.maxRowNumberSize * nonogram.blockSize )) / nonogram.blockSize) * Math.floor(((nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.levelGrid[0].length)) - 2,
+										 (( nonogram.emptyGrid[data.cell].y - (nonogram.maxColumnNumberSize * nonogram.blockSize )) / nonogram.blockSize ) * Math.floor(((nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.levelGrid.length)) - 2, 
+										 Math.floor(( nonogram.maxRowNumberSize * nonogram.blockSize ) / nonogram.levelGrid[0].length), 
+										 Math.floor(( nonogram.maxColumnNumberSize * nonogram.blockSize ) / nonogram.levelGrid.length));
 				
 				ctx.beginPath();
 				ctx.moveTo(nonogram.emptyGrid[data.cell].x + 4, nonogram.emptyGrid[data.cell].y + 4);
@@ -322,8 +322,8 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 			var height = this.emptyGrid[i].h;
 			var rowSize = this.maxRowNumberSize;
 			var columnSize = this.maxColumnNumberSize;
-			var rowLength = this.correctGrid[0].length;
-			var columnLength = this.correctGrid.length;
+			var rowLength = this.levelGrid[0].length;
+			var columnLength = this.levelGrid.length;
 			var xPos = ((x - (rowSize * block)) / block) * Math.floor(((rowSize * block) / rowLength)) - 2;
 			var yPos = ((y - (columnSize * block)) / block) * Math.floor(((columnSize * block) / columnLength)) - 2;
 
@@ -410,8 +410,8 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 			var height = this.emptyGrid[i].h;
 			var rowSize = this.maxRowNumberSize;
 			var columnSize = this.maxColumnNumberSize;
-			var rowLength = this.correctGrid[0].length;
-			var columnLength = this.correctGrid.length;
+			var rowLength = this.levelGrid[0].length;
+			var columnLength = this.levelGrid.length;
 			var xPos = ((x - (rowSize * block)) / block) * Math.floor(((rowSize * block) / rowLength)) - 2;
 			var yPos = ((y - (columnSize * block)) / block) * Math.floor(((columnSize * block) / columnLength)) - 2;
 
@@ -464,8 +464,8 @@ Nonogram.prototype.multiplayerFillCels = function(mouseX, mouseY) {
 	}else if(this.fillCellChoice == "x") {
 
 		var block = this.blockSize;
-		var columnSize = this.maxColumnNumberSize, columnLength = this.correctGrid.length;
-		var rowLength = this.correctGrid[0].length, rowSize = this.maxRowNumberSize;
+		var columnSize = this.maxColumnNumberSize, columnLength = this.levelGrid.length;
+		var rowLength = this.levelGrid[0].length, rowSize = this.maxRowNumberSize;
 		
 		for(var i=0;i<this.emptyGrid.length;i++) { //psaxnw ola ta kelia sto grid gia na brw pio pathse o xrhsths
 			var value = this.emptyGrid[i].value;
