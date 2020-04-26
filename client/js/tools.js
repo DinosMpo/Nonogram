@@ -473,7 +473,7 @@ for (let i = 0; i < singleplayerTools.length; i++) {
 
 let multiplayer = document.getElementById("multiplayer-tools");
 let multiplayerTools = multiplayer.getElementsByClassName("tool");
-console.log(multiplayerTools);
+// console.log(multiplayerTools);
 
 for (let i = 0; i < multiplayerTools.length; i++) {
   multiplayerTools[i].addEventListener("click", function() {
