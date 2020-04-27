@@ -29,7 +29,7 @@ Nonogram.prototype.drawGrid = function() {
 	}
 	//Ενα περίγραμμα γύρω από το nonogram
 	ctx.fillStyle = 'black';
-	ctx.lineWidth = 2;
+	ctx.lineWidth = 1;
 	ctx.strokeRect(-1,-1,this.width+1,this.height+1);
 	ctx.stroke();
 	ctx.closePath();
@@ -88,7 +88,7 @@ Nonogram.prototype.drawPreview = function(cell) {
 	let size;
 
 	if(widthPreview == heightPreview) {
-		size = widthPreview;
+		size = widthPreview-1;
 		x = (Math.floor(((cell.x) - size) / this.blockSize) * Math.floor(size / this.levelGrid[0].length));
 		y = (Math.floor(((cell.y) - size) / this.blockSize) * Math.floor(size / this.levelGrid.length));
 	}else if(widthPreview > heightPreview){
