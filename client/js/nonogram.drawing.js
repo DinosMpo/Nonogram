@@ -39,7 +39,9 @@ Nonogram.prototype.drawRowNumbers = function() {
 	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.rowNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-		ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.rowNumbersGrid[i].y) + (this.blockSize / 2) + 5);
+		ctx.fillText( this.rowNumbersGrid[i].number,
+			(this.rowNumbersGrid[i].x) + (this.blockSize/3),
+			(this.rowNumbersGrid[i].y) + ((this.blockSize+8)/2));
 	}
 }
 
@@ -47,7 +49,9 @@ Nonogram.prototype.drawColumnNumbers = function() {
 	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-		ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
+		ctx.fillText(this.columnNumbersGrid[i].number,
+			(this.columnNumbersGrid[i].x) + (this.blockSize/3),
+			(this.columnNumbersGrid[i].y) + ((this.blockSize+8)/2));
 	}
 }
 
