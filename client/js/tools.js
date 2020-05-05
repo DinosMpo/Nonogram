@@ -1,7 +1,7 @@
 function createSinglePlayerTools() {
 	//Tools creation
 	const singlePlayerTools = ['default', 'black', 'x', 'white'];
-	const singlePlayerExtraTools = ['undo', 'redo', 'clear', 'help', 'home'];
+	const singlePlayerExtraTools = ['redo_undo', 'clear', 'help', 'home'];
 	const tools = document.getElementById("tools");
 	const singleplayer = document.createElement('div');
 	singleplayer.id = "singleplayer-tools";
@@ -30,6 +30,22 @@ function createSinglePlayerTools() {
 		li.appendChild(div);
 		singleplayer.appendChild(li);
 	}
+
+	let expandRedoUndoTool = ["undo", "redo"];
+	let redo_undo_tool = document.getElementsByClassName("redo_undo")[0];
+	let expand_redo_undo = document.createElement('div');
+	expand_redo_undo.className = 'expand';
+	for(let i=0; i<expandRedoUndoTool.length; i++) {
+		let div = document.createElement('div');
+		div.className = expandRedoUndoTool[i];
+		let img = document.createElement('img');
+		img.src = "img/" + expandRedoUndoTool[i] + ".png";
+		div.appendChild(img);
+		// let li = document.createElement('li');
+		// redo_undo_tool.parent().appendChild();
+		expand_redo_undo.appendChild(div)
+	}
+	redo_undo_tool.parentNode.appendChild(expand_redo_undo);
 
 	singleplayer.firstElementChild.classList.add("active");
 };
@@ -102,7 +118,7 @@ createMultiPlayerTools();
 // createCorrectLevelTools();
 
 //For the default tool
-$(".default").parent().click(function(){
+$(".default").click(function(){
 	if(nonogram.fillCellChoice !== "default") {
 		nonogram.fillCellChoice = "default";
 		// $("#black").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -110,7 +126,7 @@ $(".default").parent().click(function(){
 });
 
 //For the black tool
-$(".black").parent().click(function(){
+$(".black").click(function(){
 	if(nonogram.fillCellChoice !== "black") {
 		nonogram.fillCellChoice = "black";
 		// $("#black").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -121,7 +137,7 @@ $(".black").parent().click(function(){
 });
 
 //For the x tool
-$(".x").parent().click(function(){
+$(".x").click(function(){
 	if(nonogram.fillCellChoice !== "x") {
 		nonogram.fillCellChoice = "x";
 		// $("#x").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -132,7 +148,7 @@ $(".x").parent().click(function(){
 });
 
 //For the white tool
-$(".white").parent().click(function(){
+$(".white").click(function(){
 	if(nonogram.fillCellChoice !== "white") {
 		nonogram.fillCellChoice = "white";
 		// $("#white").parent().css({"background": "linear-gradient(to bottom right, grey, #999966)"});
@@ -142,8 +158,19 @@ $(".white").parent().click(function(){
 	}
 });
 
+//For the redo undo tool
+$(".redo_undo").click(function(){
+	if($(".expand").is(":hidden")) {
+		$(".redo_undo").css({"background": "linear-gradient(to bottom right, grey, #999966)"});
+		$(".expand").show();
+	}else{
+		$(".expand").hide();
+		$(".redo_undo").css({"background": "linear-gradient(to bottom right, #e0e0d1, #999966)"});
+	}
+});
+
 //For the undo tool
-$(".undo").parent().click(function(){
+$(".undo").click(function(){
 	if(nonogram.cellChoices.index == 0) {
 		return;
 	}
@@ -183,7 +210,7 @@ $(".undo").parent().click(function(){
 	
 });
 
-$(".redo").parent(). click(function(){
+$(".redo").click(function(){
 	if(nonogram.cellChoices.index == nonogram.cellChoices.newCells.length) {
 		return;
 	}

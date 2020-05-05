@@ -39,9 +39,7 @@ Nonogram.prototype.drawRowNumbers = function() {
 	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.rowNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-		ctx.fillText( this.rowNumbersGrid[i].number,
-			(this.rowNumbersGrid[i].x) + (this.blockSize/3),
-			(this.rowNumbersGrid[i].y) + ((this.blockSize+8)/2));
+		ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize/3), (this.rowNumbersGrid[i].y) + ((this.blockSize+8)/2));
 	}
 }
 
@@ -49,9 +47,7 @@ Nonogram.prototype.drawColumnNumbers = function() {
 	ctx.fillStyle = 'black';
 	for (var i = 0; i < this.columnNumbersGrid.length; i ++) {
 		ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-		ctx.fillText(this.columnNumbersGrid[i].number,
-			(this.columnNumbersGrid[i].x) + (this.blockSize/3),
-			(this.columnNumbersGrid[i].y) + ((this.blockSize+8)/2));
+		ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize/3), (this.columnNumbersGrid[i].y) + ((this.blockSize+8)/2));
 	}
 }
 
@@ -161,7 +157,7 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 				ctx.fillRect(this.rowNumbersGrid[i].x+2, this.rowNumbersGrid[i].y+2, this.rowNumbersGrid[i].w-3, this.rowNumbersGrid[i].h-3);
 				ctx.fillStyle = "black";
 				ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-				ctx.fillText(this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x)+(this.blockSize/2)-7, (this.rowNumbersGrid[i].y)+(this.blockSize/2)+5);
+				ctx.fillText( this.rowNumbersGrid[i].number, (this.rowNumbersGrid[i].x) + (this.blockSize/3), (this.rowNumbersGrid[i].y) + ((this.blockSize+8)/2));
 				this.rowNumbersGrid[i].value = 0;
 			}
 			break;
@@ -179,7 +175,7 @@ Nonogram.prototype.fillCels = function(mouseX, mouseY) {
 				ctx.fillRect(this.columnNumbersGrid[i].x+2, this.columnNumbersGrid[i].y+2, this.columnNumbersGrid[i].w-3, this.columnNumbersGrid[i].h-3);
 				ctx.fillStyle = "black";
 				ctx.font = "bold " + (this.blockSize / 2) + "px Arial";
-				ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize / 2) - 7, (this.columnNumbersGrid[i].y) + (this.blockSize / 2)  + 5);
+				ctx.fillText(this.columnNumbersGrid[i].number, (this.columnNumbersGrid[i].x) + (this.blockSize/3), (this.columnNumbersGrid[i].y) + ((this.blockSize+8)/2));
 				this.columnNumbersGrid[i].value = 0;
 			}
 			break;
