@@ -66,8 +66,22 @@
   background: linear-gradient(to bottom, #e0e0d1 0%, #999966 29%);
 }
 
-.extra-tool:active{
+.clear:active, .help:active, .home:active{
   background: linear-gradient(to bottom right, red, grey);
+}
+
+.redo_undo:active {
+  background: linear-gradient(to bottom right, grey, grey);
+}
+
+.redo:active, .undo:active {
+  background: linear-gradient(to bottom right, red, grey);
+}
+
+.expand {
+  position: absolute;
+  bottom: 110%;
+  left: 117px;
 }
 
 .active {
@@ -75,7 +89,9 @@
 }
 
 .black, .white, .x {
-  margin: 5px 5px 5px 5px;
+  padding-top: 5px;
+  width: 100%;
+  height: 100%;
 }
 
 .x {
@@ -84,23 +100,29 @@
   font-family: "Georgia";
 }
 
-.undo {
+/*.undo {
   width: 15px;
   height: 15px;
   margin: 5px 5px 5px 5px;
-}
+}*/
 
-.redo {
+.redo, .undo {
+  display: inline;
   width: 15px;
   height: 15px;
-  margin: 5px 5px 5px 5px;
+  background: linear-gradient(to bottom, #e0e0d1 50%, #999966 100%);
+  margin-right: 1px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 25px;
 }
 
 .help {
   font-weight: bold;
   font-size: 15px;
   font-family: "Georgia";
-  margin: 5px 5px 5px 5px;
+  padding-top: 5px;
+  height: 22px;
 }
 
 #info-left {
@@ -143,6 +165,10 @@
   background-color: black;
   color: #ffcc00;
   text-align: right;
+}
+
+.expand {
+  display: none;
 }
 
 
