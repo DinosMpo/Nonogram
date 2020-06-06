@@ -246,7 +246,11 @@ $(canvas).mousedown(function(event) {
 		}
 	}else if(state === "multiplayer") {
 		if(turn === true) {
+			ctx.save();
+			ctx.translate(originX,originY);
+			ctx.scale(scaleFactor,scaleFactor);
 			var gameData = nonogram.multiplayerFillCels(startPointMouseX, startPointMouseY);
+			ctx.restore();
 			sock.emit('empty grid', gameData);
 			// sock.emit('nonogram', nonogram);
 			// sock.emit('turn');
@@ -257,9 +261,14 @@ $(canvas).mousedown(function(event) {
 			$("#info-current-progress").text("");
 			$("#info-current-progress").text(nonogram.findProgress() + "%");
 			if(nonogram.checkProgress()) {
-				sock.emit('correct' , multiplayerGame);
+				if(multiplayerStageIndex == (multiplayerLevelNames.length-1)) {
+					$('#multiplayer-finished-popup').show();
+					sock.emit('multiplayer finished');
+				}else{
+					sock.emit('correct' , multiplayerGame);
+				}
 			}else{
-				$("#correct").hide();
+				$("#correct-multiplayer").hide();
 				sock.emit('end-turn');
 			}
 		}
@@ -443,6 +452,20 @@ $(window).resize( () => {
 			ctx.translate(originX,originY);
 			ctx.scale(scaleFactor,scaleFactor);
 			nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
+			nonogram.redrawProgress();
+			ctx.restore();
+			limitBottom = nonogram.height-myLimit;
+			limitRight = nonogram.width-myLimit;
+		}
+	}else if(state === "multiplayer") {
+		if(window.innerHeight > 0 && window.innerWidth > 0) {
+			nonogram.relocate();
+			nonogram.findUserChoices();
+			ctx.save();
+			ctx.translate(originX,originY);
+			ctx.scale(scaleFactor,scaleFactor);
+			nonogram.redrawProgress();
+			nonogram.strokeTeamMateChoice();
 			ctx.restore();
 			limitBottom = nonogram.height-myLimit;
 			limitRight = nonogram.width-myLimit;
