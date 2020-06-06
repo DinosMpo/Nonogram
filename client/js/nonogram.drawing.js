@@ -80,6 +80,33 @@ Nonogram.prototype.strokeCurrentChoice = function(cell) {
 	ctx.strokeRect(cell.x+5, cell.y+5, this.blockSize-10, this.blockSize-10);
 }
 
+Nonogram.prototype.strokeTeamMateChoice = function(cell) {
+	//for the current and previous choice
+	if(this.previousTeamMateChoice.active) {
+		ctx.beginPath();
+		for(let i=0; i<this.previousTeamMateChoice.cell.length; i++) {
+			if(this.previousTeamMateChoice.cell[i].value === 1) {
+				this.drawWhiteCell(this.previousTeamMateChoice.cell[i]);
+				this.drawBlackCell(this.previousTeamMateChoice.cell[i]);
+			}else if(this.previousTeamMateChoice.cell[i].value === 2) {
+				this.drawWhiteCell(this.previousTeamMateChoice.cell[i]);
+				this.drawXCell(this.previousTeamMateChoice.cell[i]);
+			}else{
+				ctx.fillStyle = "white";
+				ctx.fillRect(this.previousTeamMateChoice.cell[i].x + 2, this.previousTeamMateChoice.cell[i].y + 2, this.previousTeamMateChoice.cell[i].w - 4, this.previousTeamMateChoice.cell[i].h - 4);
+			}
+		}
+		ctx.stroke();
+		ctx.closePath();
+		this.previousTeamMateChoice.cell = [];
+	}
+	this.previousTeamMateChoice.cell.push(cell);
+	this.previousTeamMateChoice.active = true;
+	ctx.strokeStyle = "#0099ff";
+	ctx.lineWidth   = 4;
+	ctx.strokeRect(cell.x+5, cell.y+5, this.blockSize-10, this.blockSize-10);
+}
+
 Nonogram.prototype.drawPreview = function(cell) {
 	let x = 0;
 	let y = 0;
@@ -411,4 +438,39 @@ Nonogram.prototype.fillMultiCells = function(mouseX, mouseY, startPointMouseX, s
 			}
 		}
 	}
+}
+
+//
+Nonogram.prototype.redrawProgress = function() {
+	//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά
+		for(let i=0; i<this.emptyGrid.length; i++) {
+			if(this.emptyGrid[i].value == 1){
+				//fil the cell black
+				this.drawBlackCell(this.emptyGrid[i]);
+				this.drawPreview(this.emptyGrid[i]);
+			}else if(this.emptyGrid[i].value == 2) {
+				this.drawWhiteCell(this.emptyGrid[i]);
+				this.drawXCell(this.emptyGrid[i]);
+				this.drawPreview(this.emptyGrid[i]);
+			}
+		}
+		//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά των αριθμών
+		ctx.beginPath();
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = 3;
+		for(let i=0; i<this.rowNumbersGrid.length; i++) {
+			if(this.rowNumbersGrid[i].value == 1) {
+				ctx.moveTo(this.rowNumbersGrid[i].x+3, (this.rowNumbersGrid[i].y + this.blockSize)-3);
+				ctx.lineTo((this.rowNumbersGrid[i].x + this.blockSize)-3, this.rowNumbersGrid[i].y+3);
+			}
+		}
+
+		for(let i=0; i<this.columnNumbersGrid.length; i++) {
+			if(this.columnNumbersGrid[i].value == 1) {	
+				ctx.moveTo(this.columnNumbersGrid[i].x+3, (this.columnNumbersGrid[i].y + this.blockSize)-3);
+				ctx.lineTo((this.columnNumbersGrid[i].x + this.blockSize)-3, this.columnNumbersGrid[i].y+3);
+			}
+		}
+		ctx.closePath();
+		ctx.stroke();
 }

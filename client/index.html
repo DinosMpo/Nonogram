@@ -31,7 +31,7 @@
 					<div id="waiting-screen" class="black-screen">
 						<h1>Wait your turn..</h1>
 					</div>
-
+					<!-- Player left the lobby -->
 					<div id="player-left" class="black-screen">
 						<div id="player-left-popup">
 							<h3 id="player-left-info"></h3>
@@ -110,7 +110,7 @@
 					<div class="close-levels15x15">Close</div>
 				</div>
 
-				<!-- Correct -->
+				<!-- Correct for singleplayer-->
 				<div id="correct" class="black-screen">
 					<div id="correct-popup">
 						<h2>Correct !</h2>
@@ -120,11 +120,57 @@
 					</div>
 				</div>
 
+				<!-- Correct for multiplayer-->
+				<div id="correct-multiplayer" class="black-screen">
+					<div id="correct-popup">
+						<h2>Correct !</h2>
+						<img src="img/green-button.png" style="width:60px; height:60px; margin: 0 auto;">
+						<div id="next-stage">
+							<h3>Next stage?</h3>
+							<div id="choices">
+								<div class="player-choice">
+									Player 1
+									<div id="player1-choice" class="choice"></div>
+								</div>
+								<div id="player-choice" class="player-choice">
+									Player 2
+									<div id="player2-choice" class="choice"></div>
+								</div>
+							</div>
+							<div id="votes">
+								<div id="yes" class="vote">YES</div>
+								<div id="no" class="vote">NO</div>
+							</div>
+						</div>
+
+						<p id="exit-multiplayer">Exit</p>
+					</div>
+				</div>
+
 				<!-- Game lobbie for multiplayer -->
 				<div id="game-lobbie">
 					<h3>Multiplayer</h3>
 					<span id="msg">Searching for player...</span>
 					<div id="exit">Exit</div>
+				</div>
+
+				<!-- Next stage for multiplayer -->
+				<div id="multiplayer-next-stage-popup" class="black-screen">
+					<div id="multiplayer-next-stage">
+						<h2>Creating next stage...</h2>
+						<p>Please wait</p>
+						<p id="next-stage"></p>
+					</div>
+				</div>
+
+				<!-- Multiplayer finished -->
+				<div id="multiplayer-finished-popup" class="black-screen">
+					<div id="multiplayer-finished">
+						<h1>Congratulation!!</h1>
+						<p>You finished the multiplayer!</p>
+						<p>Thanks for playing</p>
+						<div id="close-multiplayer">Exit</div>
+					</div>
 				</div>
 
 				<!-- How to play -->

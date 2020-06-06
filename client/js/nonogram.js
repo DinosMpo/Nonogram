@@ -66,6 +66,11 @@ function Nonogram(levelGrid) {
 	this.currentChoice.cell = [];
 	this.previousChoice.cell = [];
 
+	this.previousTeamMateChoice = {
+		active: false
+	};
+	this.previousTeamMateChoice.cell = [];
+
 	//Από εδώ παίρνω τους αριθμούς για κάθε γραμμή
 	for(let i=0;i<this.levelGrid.length;i++) { //levelGrid.length = einai h ka8e grammh 0 ; 0 < 5 ; 0++
 		this.rowNumbers[i] = []; //enas pinakas gia ka8e grammh
@@ -200,6 +205,29 @@ function Nonogram(levelGrid) {
 		}
 	}
 
+	//Μπορει να μην χρειαζετε το αφηνω εδω για τωρα μπας και χρειαστει
+	// this.checkMultiplayerProgress = function() {
+	// 	var index = 0;
+	// 	for(var i=0;i<this.levelGrid.length;i++) {
+	// 		for(var y=0;y<this.levelGrid[i].length;y++) {
+	// 			if(this.levelGrid[i][y] == 1 && this.emptyGrid[index].value == 1) {
+	// 				this.correct = true;
+	// 			}
+	// 			else if(this.levelGrid[i][y] == 0 && (this.emptyGrid[index].value == 0 || this.emptyGrid[index].value == 2)){
+	// 				this.correct = true;
+	// 			}
+	// 			else{
+	// 				this.correct = false;
+	// 				return false;
+	// 			}
+	// 			index ++;
+	// 		}
+	// 	}
+	// 	if(this.correct == true) {
+	// 		return true;
+	// 	}
+	// }
+
 	this.findProgress = function() {
 		let progress = 0;
 		for(let i=0; i<this.emptyGrid.length; i++) {
@@ -241,37 +269,6 @@ function Nonogram(levelGrid) {
 		for(let i=0; i<this.columnNumbersGrid.length; i++) {
 			this.columnNumbersGrid[i].value = this.userChoices.columnNumbersGrid[i];
 		}
-		//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά
-		for(let i=0; i<this.emptyGrid.length; i++) {
-			if(this.emptyGrid[i].value === 1){
-				//fil the cell black
-				this.drawBlackCell(this.emptyGrid[i]);
-				this.drawPreview(this.emptyGrid[i]);
-			}else if(this.emptyGrid[i].value === 2) {
-				// this.drawWhiteCell(this.emptyGrid[i]);
-				this.drawXCell(this.emptyGrid[i]);
-				this.drawPreview(this.emptyGrid[i]);
-			}
-		}
-		//Ζωγραφίζει τις επιλογές του χρήστη στα κελιά των αριθμών
-		ctx.beginPath();
-		ctx.strokeStyle = "red";
-		ctx.lineWidth = 3;
-		for(let i=0; i<this.rowNumbersGrid.length; i++) {
-			if(this.rowNumbersGrid[i].value === 1) {
-				ctx.moveTo(this.rowNumbersGrid[i].x+3, (this.rowNumbersGrid[i].y + this.blockSize)-3);
-				ctx.lineTo((this.rowNumbersGrid[i].x + this.blockSize)-3, this.rowNumbersGrid[i].y+3);
-			}
-		}
-
-		for(let i=0; i<this.columnNumbersGrid.length; i++) {
-			if(this.columnNumbersGrid[i].value === 1) {	
-				ctx.moveTo(this.columnNumbersGrid[i].x+3, (this.columnNumbersGrid[i].y + this.blockSize)-3);
-				ctx.lineTo((this.columnNumbersGrid[i].x + this.blockSize)-3, this.columnNumbersGrid[i].y+3);
-			}
-		}
-		ctx.closePath();
-		ctx.stroke();
 	}
 
 	//Auth thn sunarthsh thn exw gia otan ginete window resize

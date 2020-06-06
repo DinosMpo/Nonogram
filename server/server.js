@@ -54,6 +54,8 @@ io.on('connection', (sock) => {
 			game.player1 = waitingPlayer.id;
 			game.player2 = sock.id;
 			game.room 	 = inRoom;
+			waitingPlayer.emit('player', 'player1');
+			sock.emit('player', 'player2');
 			io.to("room-"+inRoom).emit('multiplayer', game);
 			waitingPlayer = null;
 			sock.emit('wait');
@@ -78,12 +80,13 @@ io.on('connection', (sock) => {
 
 	sock.on('correct', (data) => {
 		io.to("room-"+inRoom).emit('correct');
-		io.nsps['/'].sockets[data.player1].leave('room-'+inRoom);
-		io.nsps['/'].sockets[data.player2].leave('room-'+inRoom);
-		io.nsps['/'].sockets[data.player1].join('all');
-		io.nsps['/'].sockets[data.player2].join('all');
+		// io.nsps['/'].sockets[data.player1].leave('room-'+inRoom);
+		// io.nsps['/'].sockets[data.player2].leave('room-'+inRoom);
+		// io.nsps['/'].sockets[data.player1].join('all');
+		// io.nsps['/'].sockets[data.player2].join('all');
 	});
 
+	//Update the progress of the game to the players
 	sock.on('empty grid', (data) => {
 		sock.to("room-"+inRoom).broadcast.emit('update', data);
 	});
@@ -91,6 +94,17 @@ io.on('connection', (sock) => {
 	sock.on('end-turn', () => {
 		sock.emit('end-turn');
 		sock.to("room-"+inRoom).broadcast.emit('can play');
+	});
+
+	sock.on('choice', (data) => {
+		// io.to("room-"+inRoom).emit('choice', data);
+		// console.log(data);
+		// sock.to("room-"+inRoom).broadcast.emit('choice', data);
+		io.to("room-"+inRoom).emit('choice', data);
+	});
+
+	sock.on('multiplayer finished', () => {
+		sock.to("room-"+inRoom).broadcast.emit('multiplayer finished');
 	});
 
 	sock.on('exit-multiplayer', (data) => {

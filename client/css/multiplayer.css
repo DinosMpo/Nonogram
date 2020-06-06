@@ -43,7 +43,6 @@
 	transform: translateX(-50%);
 	position: absolute;
 }
-
 #player-left-popup {
 	position: absolute;
 	text-align: center;
@@ -91,4 +90,160 @@
 
 #player-left-info {
 	color: black;
+}
+
+#correct-multiplayer {
+  display: none;
+}
+
+#correct-multiplayer-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -52px;
+  margin-top: -50px;
+  text-align: center;
+  background: linear-gradient(to bottom right, #e0e0d1, white,  #999966);
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 10px;
+  box-shadow: 1px 3px 5px grey;
+}
+
+#correct-multiplayer-popup p {
+  padding: 0 auto;
+  margin: 0 auto;
+  cursor: pointer;
+  font-weight: bold;
+  background: linear-gradient(to bottom right, #e0e0d1, grey);
+  border-radius: 30px;
+  border: 1px solid black;
+}
+
+#correct-multiplayer-popup p:hover {
+  background: linear-gradient(to bottom right, #e0e0d1, white);
+}
+
+#correct-multiplayer-popup h2 {
+	position: relative;
+	margin: 0 auto;
+	padding: 0 auto;
+	text-align: center;
+}
+
+#multiplayer-next-stage-popup {
+	display: none;
+}
+
+#multiplayer-next-stage {
+	position: absolute;
+	padding: 10px;
+	/*margin-left: -52px;*/
+	margin-top: -50px;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 300px;
+	height: auto;
+	text-align: center;
+	background: linear-gradient(to bottom right, #e0e0d1, white,  #999966);
+	border: 2px solid black;
+	border-radius: 30px;
+	box-shadow: 1px 3px 5px grey;	
+}
+
+#multiplayer-next-stage-popup h2 {
+	border-bottom: 3px solid black;
+}
+
+#votes {
+	display: inline-block;
+	/*float: left;*/
+}
+
+.vote {
+	float: left;
+	margin: 5px;
+	border: 1px solid black;
+	border-radius: 30px;
+	padding: 5px;
+ 	background: linear-gradient(to bottom right, #99ccff, #3399ff, blue);
+ 	color: white;
+ 	width: 32px;
+}
+
+.vote:hover {
+	cursor: pointer;
+ 	background: linear-gradient(to bottom right, #3399ff, #3399ff, blue);
+
+}
+
+.vote:active {
+ 	background: linear-gradient(to bottom right, black, #3399ff, blue);
+ 	color: grey;
+}
+
+.player-choice {
+	display: inline-block;
+	margin: 5px;
+}
+
+.choice {
+	border: 1px solid black;
+	background-color: white;
+	width: 10px;
+	height: 10px;
+	margin: 0 auto;
+}
+
+.choice-yes {
+	background-color: green;
+}
+
+.choice-no {
+	background-color: red;
+}
+
+#multiplayer-finished-popup {
+	display: none;
+}
+
+#multiplayer-finished {
+	position: absolute;
+	padding: 10px;
+	/*margin-left: -52px;*/
+	margin-top: -100px;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 300px;
+	height: auto;
+	text-align: center;
+	background: linear-gradient(to bottom right, #e0e0d1, white,  #999966);
+	border: 2px solid black;
+	border-radius: 30px;
+	box-shadow: 1px 3px 5px grey;
+}
+
+#close-multiplayer {
+	/*padding: 0 auto;
+	margin: 0 auto;*/
+	background: linear-gradient(to bottom right, red, grey);
+	cursor: pointer;
+	font-weight: bold;
+	/*background: rgba(159,9,9,0.7);*/
+	border-radius: 20px;
+	border: 1px solid black;
+	color: white;
+	display: inline-block;
+	padding: 10px;
+}
+
+#close-multiplayer:hover {
+	background: linear-gradient(to top right, red, red, white);
+}
+
+#close-multiplayer:active {
+	background: linear-gradient(to top right, #800000, #800000, grey);
+
 }

@@ -48,12 +48,9 @@ $(".stage").click(function(){
 $("#continueGame").click(function(){
 	$("#container-tools").hide();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 	container.style.transform = "none";
 	container.style.left = "0%";
 	container.style.top = "0%";
-
-
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 	canvas.style.border = "none";
@@ -96,3 +93,46 @@ $('#exit').click(function() {
 	sock.emit('exit', 'Player left the lobby');
 });
 
+//nomizw auto to exit htan gia otan o xrhsths teleiwne thn pista kai patage exit
+$("#exit-multiplayer").click(function(){
+	$("#container-tools").hide();
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	container.style.transform = "none";
+	container.style.left = "0%";
+	container.style.top = "0%";
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+	canvas.style.border = "none";
+	state = "menu";
+	$("#correct-multiplayer").hide();
+	$("#levels").show();
+	$("#clients-count").show();
+});
+
+//exit-multiplayer class
+$(".exit-multiplayer").click(function() {
+	if(turn === false) {
+		$("#waiting-screen").hide();
+	}
+	// console.log(multiplayerGame);
+	console.log('edwwwww');
+	sock.emit('exit-multiplayer', multiplayerGame);
+	currentLevel = "none";
+	turn = false;
+	wait = false;
+});
+
+$('#close-multiplayer').click(function() {
+	$("#container-tools").hide();
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	container.style.transform = "none";
+	container.style.left = "0%";
+	container.style.top = "0%";
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+	canvas.style.border = "none";
+	state = "menu";
+	$("#multiplayer-finished-popup").hide();
+	$("#menu").show();
+	$("#clients-count").show();
+});
