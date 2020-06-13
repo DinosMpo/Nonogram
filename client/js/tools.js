@@ -443,7 +443,14 @@ $(".home").click(function(){
 	canvas.style.border = "none";
 	state = "menu";
 	$("#menu").show();
-	$("#clients-count").show();	
+	$("#clients-count").show();
+	//If drag controls was active then disable them
+	if($('#top').show()) {
+		$('#top').hide();
+		$('#bottom').hide();
+		$('#left').hide();
+		$('#right').hide();
+	}
 });
 
 //Restart button
