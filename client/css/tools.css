@@ -79,6 +79,7 @@
 }
 
 .expand {
+  display: none;
   position: absolute;
   bottom: 110%;
   left: 117px;
@@ -166,11 +167,6 @@
   color: #ffcc00;
   text-align: right;
 }
-
-.expand {
-  display: none;
-}
-
 
 #info-current-progress {
 
