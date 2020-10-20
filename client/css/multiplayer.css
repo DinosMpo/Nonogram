@@ -22,13 +22,14 @@
 	border-bottom: 3px solid black;
 }
 
-#exit {
+#exit-multiplayer-waiting-lobby {
 	cursor: pointer;
 	margin-top: 10px;
 	border-top: 3px solid black;
 }
 
-#exit:hover {
+/*den xrhsimopoieitai kapou*/
+#exit-multiplayer-waiting-lobby:hover {
 	/*background: linear-gradient(to bottom right, black, #f2f2f2, #999966);*/
 }
 

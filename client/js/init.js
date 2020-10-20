@@ -26,7 +26,8 @@ function createLevel(level, stage) {
 		nonogram.drawGrid();
 		nonogram.drawRowNumbers();
 		nonogram.drawColumnNumbers();
-		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));	
+		nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage), retrieve('columnNumbersGrid-'+currentStage));
+		nonogram.redrawProgress();
 	}
 	// nonogram.drawRowNumbers();
 	// nonogram.drawColumnNumbers();

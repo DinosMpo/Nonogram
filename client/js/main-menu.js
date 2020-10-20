@@ -86,11 +86,11 @@ $('#multiplayer').click(function() {
 	sock.emit('multiplayer', "Player join");
 });
 
-$('#exit').click(function() {
+$('#exit-multiplayer-waiting-lobby').click(function() {
 	$('#menu').show();
 	$("#clients-count").show();
 	$('#game-lobbie').hide();
-	sock.emit('exit', 'Player left the lobby');
+	sock.emit('exit multiplayer waiting lobby', 'Player left the lobby');
 });
 
 //nomizw auto to exit htan gia otan o xrhsths teleiwne thn pista kai patage exit
