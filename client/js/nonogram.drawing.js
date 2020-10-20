@@ -115,9 +115,19 @@ Nonogram.prototype.drawPreview = function(cell) {
 	let size;
 
 	if(widthPreview == heightPreview) {
-		size = widthPreview-1;
+		//To size einai to mege8os tou drawPreview
+		size = widthPreview-2; //giati?Me thn afairesh dhmiourgoume ena keno apo deksia gia na mhn einai kolhmeno deksias
+		console.log("size: "+size);
+		//To x
 		x = (Math.floor(((cell.x) - size) / this.blockSize) * Math.floor(size / this.levelGrid[0].length));
+		// console.log("cell.x: "+cell.x);
+		// console.log("((cell.x) - size) / this.blockSize: "+((cell.x) - size) / this.blockSize);
+		// console.log("Math.floor(((cell.x) - size) / this.blockSize): "+ Math.floor(((cell.x) - size) / this.blockSize));
+		// console.log('size / this.levelGrid[0].length: '+size / this.levelGrid[0].length);
+		// console.log('Math.floor(size / this.levelGrid[0].length): '+Math.floor(size / this.levelGrid[0].length));
+		// console.log("x: "+x);
 		y = (Math.floor(((cell.y) - size) / this.blockSize) * Math.floor(size / this.levelGrid.length));
+		// console.log("y: "+y);
 	}else if(widthPreview > heightPreview){
 		size = heightPreview;
 		x = Math.floor(((cell.x) - widthPreview) / this.blockSize) * Math.floor(size / this.levelGrid[0].length) + ((widthPreview/2)-(size/2));
@@ -127,15 +137,18 @@ Nonogram.prototype.drawPreview = function(cell) {
 		x = Math.floor(((cell.x) - size) / this.blockSize) * Math.floor(size / this.levelGrid[0].length) + ((widthPreview/2)-(size/2));
 		y = Math.floor(((cell.y) - heightPreview) / this.blockSize) * Math.floor(size / this.levelGrid.length) + ((heightPreview/2)-(size/2));
 	}
-	let widthCell = Math.floor(size / this.levelGrid[0].length);
-	let heightCell = Math.floor(size / this.levelGrid.length);
+	let widthCell = Math.floor(size / this.levelGrid[0].length); //328/5
+	let heightCell = Math.floor(size / this.levelGrid.length); //328/5
 
 	if(cell.value === 1) {
 		ctx.fillStyle = "black";
 		ctx.fillRect(x + Math.floor((size-(widthCell*this.levelGrid[0].length))/2), y + Math.floor((size-(heightCell*this.levelGrid.length))/2), widthCell, heightCell);
+		// ctx.fillRect(x + widthCell, y + heightCell, widthCell, heightCell);
 	}else{
 		ctx.fillStyle = "white";
 		ctx.fillRect(x + Math.floor((size-(widthCell*this.levelGrid[0].length))/2), y + Math.floor((size-(heightCell*this.levelGrid.length))/2), widthCell, heightCell);
+		// ctx.fillRect(x + widthCell, y + heightCell, widthCell, heightCell);
+
 	}
 }
 
