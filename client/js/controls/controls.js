@@ -149,6 +149,7 @@ function drag(translatePos) {
 	nonogram.drawColumnNumbers();
 	nonogram.retrieveProgress(retrieve(currentStage), retrieve('rowNumbersGrid-'+currentStage),retrieve('columnNumbersGrid-'+currentStage));
 	// redraw();
+	nonogram.redrawProgress();
 	ctx.restore();
 }
 
