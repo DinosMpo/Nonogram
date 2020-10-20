@@ -26,6 +26,7 @@ sock.on('multiplayer', (game) => {
 	$('#msg').text("Player found!");
 	multiplayerGame = new NonogramMultiplayer(game.player1, game.player2, game.room);
 	createMultiplayerLevel();
+	sock.emit('multiplayer game', multiplayerGame);
 });
 
 sock.on('can play', () => {
@@ -76,7 +77,16 @@ sock.on('exit-multiplayer', (data) => {
 	$('#container-tools').hide();
 	$('#player-left-info').text(data);
 	$('#player-left').show();
+});
 
+sock.on('player-left', (data) => {
+	if($("#waiting-screen").show()) {
+		$("#waiting-screen").hide();
+	}
+	$('#container-tools').hide();
+	$('#player-left-info').text(data);
+	$('#player-left').show();
+	sock.emit('player-left');
 });
 
 sock.on('update', (data) => {
